@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C175C61F-EE83-4480-BE22-F1018051424E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HardWares</RootNamespace>
+    <AssemblyName>HardWares</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\HardWares.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Controls, Version=2.2.5.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Controls.2.2.5\lib\AForge.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeHelper">
+      <HintPath>..\..\..\WPF控件库\编程辅助程序\CodeHelper\bin\Debug\CodeHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Controls">
+      <HintPath>..\..\..\WPF程序\Controls\Controls\bin\x86\Debug\Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="InTheHand.Net.Bluetooth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea38caa273134499, processorArchitecture=MSIL">
+      <HintPath>..\packages\InTheHand.Net.Bluetooth.4.1.44\lib\net462\InTheHand.Net.Bluetooth.dll</HintPath>
+    </Reference>
+    <Reference Include="Ivi.Visa, Version=7.2.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v2.0.50727\VISA.NET Shared Components 5.11.0\Ivi.Visa.dll</HintPath>
+    </Reference>
+    <Reference Include="LibUsbDotNet.LibUsbDotNet, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c677239abe1e02a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibUsbDotNet.2.2.29\lib\net45\LibUsbDotNet.LibUsbDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="MVSDK">
+      <HintPath>C:\Users\HUAWEI\Desktop\MVSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.Visa, Version=23.8.0.49286, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v4.0.30319\NI VISA.NET 19.0\NationalInstruments.Visa.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="uc480DotNet, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\hy911\Desktop\DCx_Camera_SDK\Develop\DotNet\signed\uc480DotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="APIS\PI\Options.cs" />
+    <Compile Include="APIS\PI\PIAPI.cs" />
+    <Compile Include="DllImporter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="USB通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
+    <Compile Include="USB通讯模块\相机（CCD）\MindVision\Camera.cs" />
+    <Compile Include="USB通讯模块\相机（CCD）\Thorlabs DCx\Camera.cs" />
+    <Compile Include="USB通讯模块\相机（CCD）\摄像头\Camera.cs" />
+    <Compile Include="USB通讯模块\纳米位移台\PI\PIController.cs" />
+    <Compile Include="串口通讯模块\其他\ClampAndAngleRotater.cs" />
+    <Compile Include="串口通讯模块\温度控制器\SRS PTC10\TemperatureController.cs" />
+    <Compile Include="APIS\PI\PIAPI2.0.cs" />
+    <Compile Include="串口通讯模块\源表\KEITHLEY 2400\PowerSource.cs" />
+    <Compile Include="串口通讯模块\角度传感器\AngleSensor.cs" />
+    <Compile Include="串口通讯模块\波源\FrequencyGenerator.cs" />
+    <Compile Include="串口通讯模块\微操作手\MicroSupport.cs" />
+    <Compile Include="串口通讯模块\示波器\汉泰\OscilloScope.cs" />
+    <Compile Include="串口通讯模块\PID\PIDControlHelper.cs" />
+    <Compile Include="串口通讯模块\步进电机\三轴步进电机（与Aurduino通讯）\MicroMover.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="串口通讯模块\旋转台\RotateMotor.cs" />
+    <Compile Include="仪器列表\温度控制器\OutputChannelBase.cs" />
+    <Compile Include="仪器列表\温度控制器\SensorChannelBase.cs" />
+    <Compile Include="仪器列表\温度控制器\SRS PTC10\Options.cs" />
+    <Compile Include="仪器列表\温度控制器\SRS PTC10\TemperatureController.cs" />
+    <Compile Include="仪器列表\温度控制器\TemperatureControllerBase.cs" />
+    <Compile Include="仪器列表\源表\KEITHLEY 2400\PowerSource.cs" />
+    <Compile Include="仪器列表\源表\KEITHLEY 2450\PowerSource.cs" />
+    <Compile Include="仪器列表\源表\MeasureGroup.cs" />
+    <Compile Include="仪器列表\源表\MeasureType.cs" />
+    <Compile Include="仪器列表\源表\PowerSourceBase.cs" />
+    <Compile Include="仪器列表\相机（CCD）\CameraBase.cs" />
+    <Compile Include="仪器列表\相机（CCD）\MindVision\Camera.cs" />
+    <Compile Include="仪器列表\相机（CCD）\Thorlabs DCx\Camera.cs" />
+    <Compile Include="仪器列表\相机（CCD）\摄像头\Camera.cs" />
+    <Compile Include="仪器列表\纳米位移台\NanoControllerBase.cs" />
+    <Compile Include="仪器列表\纳米位移台\PI\PIController.cs" />
+    <Compile Include="仪器列表\纳米位移台\PI\PIStage.cs" />
+    <Compile Include="仪器列表\纳米位移台\StageBase.cs" />
+    <Compile Include="数据处理\DataProcess.cs" />
+    <Compile Include="端口基类部分\COM串口\CANFrame.cs" />
+    <Compile Include="端口基类部分\COM串口\COMOuterInterface.cs" />
+    <Compile Include="端口基类部分\COM串口\COMInternalInterface.cs" />
+    <Compile Include="端口基类部分\COM串口\RS485Frame.cs" />
+    <Compile Include="端口基类部分\Parameter.cs" />
+    <Compile Include="端口基类部分\PortDispatcher.cs" />
+    <Compile Include="端口基类部分\PortObject.cs" />
+    <Compile Include="端口基类部分\PortType.cs" />
+    <Compile Include="端口基类部分\StaticParameter.cs" />
+    <Compile Include="端口基类部分\WinUSB端口\WinUSBInternalInterface.cs" />
+    <Compile Include="端口基类部分\WinUSB端口\WinUSBOuterInterface.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PI_GCS2_DLL.dll" />
+    <None Include="Resources\PI_GCS2_DLL_x64.dll" />
+    <Content Include="Resources\uc480_64.dll" />
+    <Content Include="串口通讯模块\示波器\汉泰\HTMarch.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="串口通讯模块\纳米位移台\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
