@@ -14,8 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
-using HardWares.源表.KEITHLEY_2450;
-using HardWares.源表;
+using HardWares.纳米位移台.PI;
 
 namespace 测试项目
 {
@@ -28,11 +27,11 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = new PowerSource().GetUsbDeviceNames();
+            Port.ItemsSource = new PIController().GetUsbDeviceNames();
         }
 
 
-        PowerSource cc = null;
+        PIController cc = null;
         /// <summary>
         /// 连接
         /// </summary>
@@ -40,13 +39,9 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            cc = new PowerSource();
+            cc = new PIController();
             State.Content = cc.ConnectUSB(Port.SelectedItem.ToString(), out Exception ex).ToString();
             if (State.Content.ToString() == "False") { cc.Dispose(); return; }
-            cc.Output = true;
-            tar.Content = cc.Measure().Voltage;
-            pos.Content = cc.Measure().Current;
-            cc.Dispose();
             //Thread t = new Thread(() =>
             //{
             //    while (true)

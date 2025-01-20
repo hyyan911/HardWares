@@ -48,6 +48,7 @@ namespace HardWares.相机.MindVision
         /// <returns></returns>
         public List<string> GetUsbDeviceNames()
         {
+            return new List<string>();
             MvApi.CameraEnumerateDevice(out tSdkCameraDevInfo[] infos);
             List<string> result = new List<string>();
             if (infos == null) return new List<string>();

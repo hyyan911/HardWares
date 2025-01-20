@@ -122,20 +122,55 @@ namespace HardWares.源表.KEITHLEY_2450
             return false;
         }
 
-        public bool ConnectUSB(string usbName, out Exception exc)
+        public bool ConnectUSB(string description, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.ASCII, false, usbName);
+            foreach (var item in DevNames)
+            {
+                if (item.Key == description || item.Value == description)
+                {
+                    return Connect(PortType.USB, out exc, Encoding.ASCII, false, item.Value);
+                }
+            }
+            exc = new Exception("未找到设备");
+            return false;
         }
+
+        private static Dictionary<string, string> DevNames = new Dictionary<string, string>();
 
         public List<string> GetUsbDeviceNames()
         {
             using (ResourceManager m = new ResourceManager())
             {
+                DevNames.Clear();
                 try
                 {
-                    return m.Find("USB?*").ToList();
+                    List<string> strs = m.Find("USB?*").ToList();
+                    List<string> result = new List<string>();
+                    foreach (var item in strs)
+                    {
+                        using (var ss = m.Open(item))
+                        {
+                            try
+                            {
+                                string res = ThreadSafeQuery("*IDN?\n", 200);
+                                if (res.Contains("KEITHLEY") && res.Contains("MODEL 2450"))
+                                {
+                                    //获取序列号
+                                    string strsegs = res.Split(',')[2];
+                                    string pro = "KEITHLEY 2450 " + strsegs;
+                                    result.Add(pro);
+                                    DevNames.Add(pro, item);
+                                }
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    return result;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return new List<string>();
                 }

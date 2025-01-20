@@ -94,7 +94,7 @@ namespace HardWares.纳米位移台.PI
                 QueryReturnedData = new List<string>();
                 foreach (var item in retu)
                 {
-                    QueryReturnedData.Add(Coder.GetString(item.ToArray()));
+                    QueryReturnedData.Add(Encoding.ASCII.GetString(item.ToArray()));
                 }
             }
         }
@@ -131,7 +131,7 @@ namespace HardWares.纳米位移台.PI
         {
             if (IsGCS2)
             {
-                PIAPI2.PI_GcsCommandset((int)Instance, Coder.GetString(value));
+                PIAPI2.PI_GcsCommandset((int)Instance, Encoding.ASCII.GetString(value));
             }
             else
             {

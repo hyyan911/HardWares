@@ -1703,9 +1703,9 @@ double dStepAxisRange, string szParameters);
         /// <returns></returns>
         unsafe public static int GetAnswerSize(int ID)
         {
-            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 1);
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(int) * 1);
             PI_GcsGetAnswerSize(ID, pt);
-            byte[] bt = new byte[1];
+            int[] bt = new int[1];
             Marshal.Copy(pt, bt, 0, 1);
             Marshal.FreeHGlobal(pt);
             return bt[0];
@@ -1717,14 +1717,14 @@ double dStepAxisRange, string szParameters);
         /// <returns></returns>
         public static List<string> EnumerateUSB()
         {
-            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 1000000);
-            PI_EnumerateUSB(pt, 1000000, "");
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 100000);
+            PI_EnumerateUSB(pt, 100000, "");
             Encoding coder = Encoding.ASCII;
-            byte[] bt = new byte[1];
-            Marshal.Copy(pt, bt, 0, 1000000);
+            byte[] bt = new byte[100000];
+            Marshal.Copy(pt, bt, 0, 100000);
             Marshal.FreeHGlobal(pt);
             string result = coder.GetString(bt);
-            result = result.Replace("\0", "");
+            result = result.Substring(0, result.IndexOf('\0'));
             string[] lis = result.Split(new char[] { '\n', '\t', '\r' });
             List<string> values = new List<string>();
             foreach (var item in lis)

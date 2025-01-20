@@ -31,9 +31,6 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         public override string ProductIdentifier { get; internal set; } = "PI位移台";
 
-
-        public new Encoding Coder = Encoding.ASCII;
-
         /// <summary>
         /// 位移台列表
         /// </summary>
@@ -76,7 +73,7 @@ namespace HardWares.纳米位移台.PI
         internal List<string> GetSupportedCommands()
         {
             List<string> help = ProcessQueryResult(ThreadSafeQuery(ProcessCmd("HLP?", "", ""), 3000));
-            if (help == null) return new List<string>();
+            if (help == null || help.Count <= 1) return new List<string>();
             help.RemoveAt(0);
             help.RemoveAt(help.Count - 1);
             List<string> commands = new List<string>();
@@ -101,7 +98,7 @@ namespace HardWares.纳米位移台.PI
             {
                 instruction += "\0";
             }
-            AddMessage(Coder.GetBytes(instruction).ToList());
+            AddMessage(Encoding.ASCII.GetBytes(instruction).ToList());
             int time = 0;
             Thread.Sleep(50);
             while (QueryState == false && time < waittingtime)
