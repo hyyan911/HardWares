@@ -1689,9 +1689,12 @@ double dStepAxisRange, string szParameters);
         {
             int count = GetAnswerSize(ID);
             if (count == 0) { state = true; return new List<byte>(); }
-            byte[] buffer = new byte[count];
-            state = PI_GcsGetAnswer(ID, Marshal.UnsafeAddrOfPinnedArrayElement(buffer, 0), count);
-            return buffer.ToList();
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * count);
+            state = PI_GcsGetAnswer(ID, pt, count);
+            byte[] bt = new byte[count];
+            Marshal.Copy(pt, bt, 0, count);
+            Marshal.FreeHGlobal(pt);
+            return bt.ToList();
         }
 
         /// <summary>
@@ -1700,9 +1703,12 @@ double dStepAxisRange, string szParameters);
         /// <returns></returns>
         unsafe public static int GetAnswerSize(int ID)
         {
-            int[] size = new int[1];
-            PI_GcsGetAnswerSize(ID, Marshal.UnsafeAddrOfPinnedArrayElement(size, 0));
-            return size[0];
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 1);
+            PI_GcsGetAnswerSize(ID, pt);
+            byte[] bt = new byte[1];
+            Marshal.Copy(pt, bt, 0, 1);
+            Marshal.FreeHGlobal(pt);
+            return bt[0];
         }
 
         /// <summary>
@@ -1711,10 +1717,13 @@ double dStepAxisRange, string szParameters);
         /// <returns></returns>
         public static List<string> EnumerateUSB()
         {
-            byte[] size = new byte[10000];
-            PI_EnumerateUSB(Marshal.UnsafeAddrOfPinnedArrayElement(size, 0), 10000, "");
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 1000000);
+            PI_EnumerateUSB(pt, 1000000, "");
             Encoding coder = Encoding.ASCII;
-            string result = coder.GetString(size);
+            byte[] bt = new byte[1];
+            Marshal.Copy(pt, bt, 0, 1000000);
+            Marshal.FreeHGlobal(pt);
+            string result = coder.GetString(bt);
             result = result.Replace("\0", "");
             string[] lis = result.Split(new char[] { '\n', '\t', '\r' });
             List<string> values = new List<string>();

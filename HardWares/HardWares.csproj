@@ -55,10 +55,10 @@
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
     <Reference Include="CodeHelper">
-      <HintPath>..\..\..\WPF控件库\编程辅助程序\CodeHelper\bin\Debug\CodeHelper.dll</HintPath>
+      <HintPath>..\..\CodeHelper\bin\Debug\CodeHelper.dll</HintPath>
     </Reference>
     <Reference Include="Controls">
-      <HintPath>..\..\..\WPF程序\Controls\Controls\bin\x86\Debug\Controls.dll</HintPath>
+      <HintPath>..\..\Controls\Controls\bin\x86\Debug\Controls.dll</HintPath>
     </Reference>
     <Reference Include="InTheHand.Net.Bluetooth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea38caa273134499, processorArchitecture=MSIL">
       <HintPath>..\packages\InTheHand.Net.Bluetooth.4.1.44\lib\net462\InTheHand.Net.Bluetooth.dll</HintPath>
@@ -71,7 +71,7 @@
       <HintPath>..\packages\LibUsbDotNet.2.2.29\lib\net45\LibUsbDotNet.LibUsbDotNet.dll</HintPath>
     </Reference>
     <Reference Include="MVSDK">
-      <HintPath>C:\Users\HUAWEI\Desktop\MVSDK.dll</HintPath>
+      <HintPath>Resources\MVSDK.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.Visa, Version=23.8.0.49286, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
