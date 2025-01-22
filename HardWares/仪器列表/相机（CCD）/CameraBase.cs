@@ -19,22 +19,27 @@ namespace HardWares.相机_CCD_
         /// <returns></returns>
         public BitmapSource GrabFrame(uint waittime)
         {
+            BitmapSource source = null;
+            Bitmap bmap = null;
             try
             {
-                Bitmap bmap = InnerGrabFrame(waittime);
+                bmap = InnerGrabFrame(waittime);
                 if (bmap == null)
                 {
                     return null;
                 }
                 bmap.RotateFlip(FlipType);
-                BitmapSource source = CodeHelper.ImageConverter.BitmapToBitmapSource(bmap);
-                source.Freeze();
-                bmap.Dispose();
+                source = CodeHelper.ImageConverter.BitmapToBitmapSource(bmap);
                 return source;
             }
             catch (Exception ex)
             {
-                throw ex;
+                return null;
+            }
+            finally
+            {
+                source.Freeze();
+                bmap.Dispose();
             }
         }
 
