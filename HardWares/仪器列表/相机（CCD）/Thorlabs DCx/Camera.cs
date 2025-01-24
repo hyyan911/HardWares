@@ -119,12 +119,9 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         /// <exception cref="NotImplementedException"></exception>
         public override Bitmap InnerGrabFrame(uint waittime)
         {
-            (Instance as uc480.Camera).Acquisition.Capture(2000);
+            (Instance as uc480.Camera).Acquisition.Freeze(2000);
             (Instance as uc480.Camera).Memory.GetActive(out Int32 mid);
-            (Instance as uc480.Camera).Memory.Lock(mid);
-            (Instance as uc480.Camera).Memory.ToBitmap(mid, out Bitmap ImageBuffer);
-            (Instance as uc480.Camera).Memory.Unlock(mid);
-
+            (Instance as uc480.Camera).Memory.CopyToBitmap(mid, out Bitmap ImageBuffer);
             return ImageBuffer;
         }
 
