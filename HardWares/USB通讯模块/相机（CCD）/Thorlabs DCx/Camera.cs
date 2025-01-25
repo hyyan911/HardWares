@@ -80,9 +80,9 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
 
         void USBInternalInterface.ConnectedUSBAction()
         {
-            ConnectStatus = (Instance as uc480.Camera).Acquisition.Capture(2000);
+            ConnectStatus = (Instance as uc480.Camera).Acquisition.Capture();
+            (Instance as uc480.Camera).EventFrame += NewFrame;
             if (ConnectStatus != uc480.Defines.Status.SUCCESS) throw new Exception("相机未正常开启");
-            ConnectStatus = (Instance as uc480.Camera).Memory.Allocate(true);
             (Instance as uc480.Camera).Display.Mode.Set(uc480.Defines.DisplayMode.DiB);
         }
 

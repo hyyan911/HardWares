@@ -1,9 +1,11 @@
 ﻿using HardWares.端口基类部分;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Interop;
@@ -21,6 +23,7 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
     /// </summary>
     public partial class Camera : CameraBase
     {
+
         public override string ProductIdentifier { get; internal set; } = "Thorlabs DCx";
 
         public override event ParamsChangeEventHandler ParamsChangedEvent;
@@ -111,6 +114,20 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
             return result;
         }
 
+        private bool capture;
+
+        public Bitmap FrameBuffer = null;
+
+        private void NewFrame(object sender, EventArgs e)
+        {
+            if (capture) // 检查是否需要保存图片
+            {
+                (Instance as uc480.Camera).Memory.GetActive(out Int32 mid);
+                (Instance as uc480.Camera).Memory.CopyToBitmap(mid, out FrameBuffer);
+                capture = false; // 重置标志
+            }
+        }
+
         /// <summary>
         /// 获取单帧图片
         /// </summary>
@@ -119,10 +136,16 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         /// <exception cref="NotImplementedException"></exception>
         public override Bitmap InnerGrabFrame(uint waittime)
         {
-            (Instance as uc480.Camera).Acquisition.Freeze(2000);
-            (Instance as uc480.Camera).Memory.GetActive(out Int32 mid);
-            (Instance as uc480.Camera).Memory.CopyToBitmap(mid, out Bitmap ImageBuffer);
-            return ImageBuffer;
+            capture = true;
+            int time = 0;
+            while (capture == true && time < waittime)
+            {
+                Thread.Sleep(20);
+                time += 20;
+            }
+            if (time > waittime)
+                return null;
+            return FrameBuffer;
         }
 
         public override void ValidateParams()
