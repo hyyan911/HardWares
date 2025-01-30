@@ -29,9 +29,10 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = PortObject.GetAvailableCOMPorts();
+            Port.ItemsSource = new FlipMotor().GetUsbDeviceNames();
         }
 
+        FlipMotor cc = null;
         /// <summary>
         /// 连接
         /// </summary>
@@ -39,7 +40,7 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            FlipMotor cc = new FlipMotor();
+            cc = new FlipMotor();
             State.Content = cc.ConnectUSB(Port.SelectedItem.ToString(), out Exception ex).ToString();
             if (State.Content.ToString() == "False") { cc.Dispose(); return; }
             //Thread t = new Thread(() =>
@@ -61,7 +62,7 @@ namespace 测试项目
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            //cc.Stages[0].MoveToAndWait(cc.Stages[0].Target + 0.1, 2000);
+            cc.Switch = !cc.Switch;
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)

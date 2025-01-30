@@ -39,7 +39,7 @@ namespace HardWares.相机.MindVision
         /// <returns></returns>
         public bool ConnectUSB(string usbName, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.Default, false, usbName);
+            return Connect(PortType.USB, out exc, Encoding.Default, usbName);
         }
 
         /// <summary>

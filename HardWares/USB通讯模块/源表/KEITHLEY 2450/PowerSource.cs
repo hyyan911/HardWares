@@ -103,7 +103,7 @@ namespace HardWares.源表.KEITHLEY_2450
             {
                 if (item.Key == description || item.Value == description)
                 {
-                    return Connect(PortType.USB, out exc, Encoding.ASCII, false, item.Value);
+                    return Connect(PortType.USB, out exc, Encoding.ASCII, item.Value);
                 }
             }
             exc = new Exception("未找到设备");

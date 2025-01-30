@@ -146,7 +146,7 @@ namespace HardWares.纳米位移台.PI
                 PIAPI2.PI_CloseConnection(ind);
                 ExistDevices.Remove(usbname);
             }
-            bool result = Connect(PortType.USB, out exc, Encoding.ASCII, true, usbname);
+            bool result = Connect(PortType.USB, out exc, Encoding.ASCII, usbname);
             if (result == true)
             {
                 ExistDevices.Add(usbname, (int)Instance);

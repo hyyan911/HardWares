@@ -29,7 +29,7 @@ namespace HardWares.相机_CCD_.摄像头
         /// <exception cref="NotImplementedException"></exception>
         public bool ConnectUSB(string usbName, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.Default, false, usbName);
+            return Connect(PortType.USB, out exc, Encoding.Default, usbName);
         }
 
         /// <summary>

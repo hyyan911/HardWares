@@ -392,7 +392,7 @@ namespace HardWares.端口基类
                         break;
                     }
                 }
-                Instance = OpenPort(param.ToList());
+                Instance = OpenPort(param);
 
                 //根据不同设备初始化参数
                 InitAction(Instance);
@@ -414,13 +414,11 @@ namespace HardWares.端口基类
 
                 PortArranger?.Close();
 
-                Instance = null;
                 exc = new Exception("端口打开失败");
                 return false;
             }
             catch (Exception ee)
             {
-                Instance = null;
                 exc = new Exception("接口出现异常：" + ee.Message);
                 return false;
             }
@@ -471,7 +469,9 @@ namespace HardWares.端口基类
             try
             {
                 if (Instance != null)
+                {
                     ClosePort();
+                }
             }
             catch { }
         }

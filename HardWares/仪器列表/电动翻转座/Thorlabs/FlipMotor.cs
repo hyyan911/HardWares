@@ -35,9 +35,9 @@ namespace HardWares.仪器列表.电动翻转座
             {
                 try
                 {
-                    (Instance as FilterFlipper).SetPosition(value ? (uint)1 : (uint)2, 3000);
+                    (Instance as FilterFlipper).SetPosition(value ? (uint)1 : (uint)2, 10000);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     return;
                 }

@@ -15,7 +15,7 @@ namespace HardWares.源表.KEITHLEY_2400
     {
         public bool ConnectCOM(string COMName, int baudrate, out Exception exc)
         {
-            return Connect(PortType.COM, out exc, Encoding.UTF8, false, COMName, baudrate);
+            return Connect(PortType.COM, out exc, Encoding.UTF8, COMName, baudrate);
         }
 
         void COMInternalInterface.CloseCOMPort()

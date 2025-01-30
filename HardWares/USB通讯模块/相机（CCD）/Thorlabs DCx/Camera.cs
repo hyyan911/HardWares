@@ -41,7 +41,7 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
                 if (usbName.Split('_')[0] == item.DeviceID.ToString())
                 {
                     SelectedCamera = item;
-                    return Connect(PortType.USB, out exc, Encoding.Default);
+                    return Connect(PortType.USB, out exc, Encoding.Default, usbName);
                 }
             }
             exc = new Exception("未找到设备");

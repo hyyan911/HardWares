@@ -41,7 +41,7 @@ namespace HardWares.温度控制器.SRS_PTC10
 
         public bool ConnectCOM(string COMName, int baudrate, out Exception exc)
         {
-            return Connect(PortType.COM, out exc, Encoding.ASCII, false, COMName, baudrate);
+            return Connect(PortType.COM, out exc, Encoding.ASCII, COMName, baudrate);
         }
 
         void COMInternalInterface.ConnectedCOMAction()

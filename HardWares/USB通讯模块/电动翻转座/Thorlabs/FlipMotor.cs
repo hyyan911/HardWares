@@ -18,7 +18,7 @@ namespace HardWares.仪器列表.电动翻转座
     {
         public bool ConnectUSB(string usbName, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.ASCII, false, usbName);
+            return Connect(PortType.USB, out exc, Encoding.ASCII, usbName);
         }
 
         /// <summary>
@@ -27,18 +27,18 @@ namespace HardWares.仪器列表.电动翻转座
         /// <returns></returns>
         public List<string> GetUsbDeviceNames()
         {
-            int s = 1;
             DeviceManagerCLI.BuildDeviceList();
             return DeviceManagerCLI.GetDeviceList(37);
         }
 
         void USBInternalInterface.CloseUSBPort()
         {
-            (Instance as FilterFlipper).Disconnect(false);
+            (Instance as FilterFlipper).Disconnect(true);
         }
 
         void USBInternalInterface.ConnectedUSBAction()
         {
+            (Instance as FilterFlipper).WaitForSettingsInitialized(10000);
         }
 
         bool USBInternalInterface.IsUSBOpen()
