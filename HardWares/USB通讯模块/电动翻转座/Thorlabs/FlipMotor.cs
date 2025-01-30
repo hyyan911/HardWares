@@ -7,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Thorlabs.MotionControl.DeviceManagerCLI;
 using Thorlabs.MotionControl.FilterFlipperCLI;
+using Thorlabs.MotionControl.GenericMotorCLI;
+using Thorlabs.MotionControl.GenericMotorCLI.ControlParameters;
+using Thorlabs.MotionControl.GenericMotorCLI.AdvancedMotor;
+using Thorlabs.MotionControl.GenericMotorCLI.Settings;
 
 namespace HardWares.仪器列表.电动翻转座
 {
