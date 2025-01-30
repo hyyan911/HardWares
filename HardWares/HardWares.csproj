@@ -92,13 +92,19 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Thorlabs.MotionControl.DeviceManagerCLI">
-      <HintPath>C:\Users\hy911\Desktop\Thorlabs.MotionControl.DeviceManagerCLI.dll</HintPath>
+      <HintPath>Resources\Thorlabs.MotionControl.DeviceManagerCLI.dll</HintPath>
     </Reference>
     <Reference Include="Thorlabs.MotionControl.FilterFlipperCLI">
       <HintPath>Resources\Thorlabs.MotionControl.FilterFlipperCLI.dll</HintPath>
     </Reference>
     <Reference Include="Thorlabs.MotionControl.GenericMotorCLI">
       <HintPath>Resources\Thorlabs.MotionControl.GenericMotorCLI.dll</HintPath>
+    </Reference>
+    <Reference Include="Thorlabs.MotionControl.PrivateInternal">
+      <HintPath>Resources\Thorlabs.MotionControl.PrivateInternal.dll</HintPath>
+    </Reference>
+    <Reference Include="Thorlabs.MotionControl.Tools.Logging">
+      <HintPath>Resources\Thorlabs.MotionControl.Tools.Logging.dll</HintPath>
     </Reference>
     <Reference Include="uc480DotNet, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

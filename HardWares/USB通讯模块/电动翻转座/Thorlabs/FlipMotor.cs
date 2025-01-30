@@ -14,7 +14,7 @@ namespace HardWares.仪器列表.电动翻转座
     {
         public bool ConnectUSB(string usbName, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.ASCII);
+            return Connect(PortType.USB, out exc, Encoding.ASCII, false, usbName);
         }
 
         /// <summary>
