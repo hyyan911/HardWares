@@ -48,6 +48,7 @@ namespace HardWares.仪器列表.电动翻转座
 
         object USBInternalInterface.OpenUSBPort(List<object> param)
         {
+            DeviceManagerCLI.BuildDeviceList();
             FilterFlipper dev = FilterFlipper.CreateFilterFlipper(param[0] as string);
             dev.Connect(param[0] as string);
             return dev;
