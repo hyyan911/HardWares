@@ -34,7 +34,12 @@ namespace HardWares.仪器列表.电动翻转座
 
         void USBInternalInterface.CloseUSBPort()
         {
-            (Instance as FilterFlipper).Disconnect(true);
+            try
+            {
+                (Instance as FilterFlipper).StopPolling();
+                (Instance as FilterFlipper).Disconnect(true);
+            }
+            catch (Exception) { }
         }
 
         void USBInternalInterface.ConnectedUSBAction()
@@ -55,6 +60,10 @@ namespace HardWares.仪器列表.电动翻转座
             dev.EnableDevice();
             FilterFlipperIOSettings currentDeviceSettings = dev.GetIOSettings();
             currentDeviceSettings.TransitTime = 300;
+            currentDeviceSettings.IO1PulseWidth = 200;
+            currentDeviceSettings.IO2PulseWidth = 200;
+            dev.SetIOSettings(currentDeviceSettings);
+            dev.StartPolling(250);
             return dev;
         }
 
