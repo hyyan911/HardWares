@@ -539,9 +539,9 @@ namespace HardWares.端口基类
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="path"></param>
-        public FileObject GenerateParamsFile(PortObject obj)
+        public FileObject GenerateParamsFile()
         {
-            List<Parameter> param = obj.AvailableParameterNames();
+            List<Parameter> param = AvailableParameterNames();
             CodeHelper.FileObject file = new CodeHelper.FileObject();
             List<string> paramnames = new List<string>();
             List<string> paramvalues = new List<string>();

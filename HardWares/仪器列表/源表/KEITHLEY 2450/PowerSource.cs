@@ -20,13 +20,15 @@ namespace HardWares.源表.KEITHLEY_2450
 
         public override List<Parameter> AvailableParameterNames()
         {
-            List<Parameter> parameters = new List<Parameter>();
-            return parameters;
+            List<Parameter> result = new List<Parameter>();
+            result.Add(new Parameter("CurrentLimit", "电流限流值", typeof(double), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("Output", "输出状态", typeof(bool), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("TargetVoltage", "设置电压", typeof(double), this, true) { IsReadOnly = false });
+            return result;
         }
 
         public override void ValidateParams()
         {
-            return;
         }
 
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)

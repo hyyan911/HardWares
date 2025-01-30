@@ -18,17 +18,6 @@ namespace HardWares.APIS.PI
     /// </summary>
     internal class PIAPI2 : PIAPI
     {
-
-        static PIAPI2()
-        {
-            if (!Environment.Is64BitOperatingSystem)
-            {
-                LoadGCSDLL("PI_GCS2_DLL.dll", Properties.Resources.PI_GCS2_DLL_x64);
-                return;
-            }
-            LoadGCSDLL("PI_GCS2_DLL.dll", Properties.Resources.PI_GCS2_DLL);
-        }
-
         /// <summary>
         /// 加载GCSDLL
         /// </summary>

@@ -83,6 +83,26 @@ namespace HardWares.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] Thorlabs_MotionControl_DeviceManager {
+            get {
+                object obj = ResourceManager.GetObject("Thorlabs_MotionControl_DeviceManager", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] Thorlabs_MotionControl_FilterFlipper {
+            get {
+                object obj = ResourceManager.GetObject("Thorlabs_MotionControl_FilterFlipper", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] uc480_64 {
             get {
                 object obj = ResourceManager.GetObject("uc480_64", resourceCulture);

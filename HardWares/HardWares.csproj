@@ -91,6 +91,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Thorlabs.MotionControl.DeviceManagerCLI">
+      <HintPath>C:\Users\hy911\Desktop\Thorlabs.MotionControl.DeviceManagerCLI.dll</HintPath>
+    </Reference>
+    <Reference Include="Thorlabs.MotionControl.FilterFlipperCLI">
+      <HintPath>Resources\Thorlabs.MotionControl.FilterFlipperCLI.dll</HintPath>
+    </Reference>
+    <Reference Include="Thorlabs.MotionControl.GenericMotorCLI">
+      <HintPath>Resources\Thorlabs.MotionControl.GenericMotorCLI.dll</HintPath>
+    </Reference>
     <Reference Include="uc480DotNet, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\hy911\Desktop\DCx_Camera_SDK\Develop\DotNet\signed\uc480DotNet.dll</HintPath>
@@ -98,6 +107,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIS\ExternalDlls.cs" />
     <Compile Include="APIS\PI\Options.cs" />
     <Compile Include="APIS\PI\PIAPI.cs" />
     <Compile Include="DllImporter.cs" />
@@ -107,6 +117,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="USB通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
+    <Compile Include="USB通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />
     <Compile Include="USB通讯模块\相机（CCD）\MindVision\Camera.cs" />
     <Compile Include="USB通讯模块\相机（CCD）\Thorlabs DCx\Camera.cs" />
     <Compile Include="USB通讯模块\相机（CCD）\摄像头\Camera.cs" />
@@ -133,6 +144,8 @@
     <Compile Include="仪器列表\源表\MeasureGroup.cs" />
     <Compile Include="仪器列表\源表\MeasureType.cs" />
     <Compile Include="仪器列表\源表\PowerSourceBase.cs" />
+    <Compile Include="仪器列表\电动翻转座\FlipMotorBase.cs" />
+    <Compile Include="仪器列表\电动翻转座\Thorlabs\FlipMotor.cs" />
     <Compile Include="仪器列表\相机（CCD）\CameraBase.cs" />
     <Compile Include="仪器列表\相机（CCD）\MindVision\Camera.cs" />
     <Compile Include="仪器列表\相机（CCD）\Thorlabs DCx\Camera.cs" />
@@ -148,6 +161,7 @@
     <Compile Include="端口基类部分\COM串口\RS485Frame.cs" />
     <Compile Include="端口基类部分\Parameter.cs" />
     <Compile Include="端口基类部分\PortDispatcher.cs" />
+    <Compile Include="端口基类部分\PortElement.cs" />
     <Compile Include="端口基类部分\PortObject.cs" />
     <Compile Include="端口基类部分\PortType.cs" />
     <Compile Include="端口基类部分\StaticParameter.cs" />
@@ -157,6 +171,8 @@
   <ItemGroup>
     <None Include="Resources\PI_GCS2_DLL.dll" />
     <None Include="Resources\PI_GCS2_DLL_x64.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.DeviceManager.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.FilterFlipper.dll" />
     <Content Include="Resources\uc480_64.dll" />
     <Content Include="串口通讯模块\示波器\汉泰\HTMarch.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
