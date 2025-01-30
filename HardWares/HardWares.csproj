@@ -103,14 +103,26 @@
     <Reference Include="Thorlabs.MotionControl.PrivateInternal">
       <HintPath>Resources\Thorlabs.MotionControl.PrivateInternal.dll</HintPath>
     </Reference>
+    <Reference Include="Thorlabs.MotionControl.Tools.Common">
+      <HintPath>Resources\Thorlabs.MotionControl.Tools.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Thorlabs.MotionControl.Tools.Logging">
       <HintPath>Resources\Thorlabs.MotionControl.Tools.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Thorlabs.MotionControl.Tools.WPF">
+      <HintPath>Resources\Thorlabs.MotionControl.Tools.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Thorlabs.MotionControl.Tools.WPF.UI">
+      <HintPath>Resources\Thorlabs.MotionControl.Tools.WPF.UI.dll</HintPath>
     </Reference>
     <Reference Include="uc480DotNet, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\hy911\Desktop\DCx_Camera_SDK\Develop\DotNet\signed\uc480DotNet.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>Resources\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIS\ExternalDlls.cs" />
