@@ -106,34 +106,29 @@ namespace HardWares.相机.MindVision
             MvApi.CameraPlay((CameraHandle)Instance);
         }
 
-        object USBInternalInterface.CreateUSBInstance(List<object> param)
-        {
-            MvApi.CameraEnumerateDevice(out tSdkCameraDevInfo[] infos);
-            for (int i = 0; i < infos.Length; ++i)
-            {
-                if ((Encoding.UTF8.GetString(infos[i].acProductName)).Replace("\0", "") == param[0].ToString())
-                {
-                    CameraInfo = infos[i];
-                    return null;
-                }
-            }
-            return null;
-        }
-
         bool USBInternalInterface.IsUSBOpen()
         {
             MvApi.CameraIsOpened(ref CameraInfo, out bool result);
             return result;
         }
 
-        void USBInternalInterface.OpenUSBPort()
+        object USBInternalInterface.OpenUSBPort(List<object> param)
         {
-            CameraHandle handle = 0;
-            CameraSdkStatus status = MvApi.CameraInit(ref CameraInfo, -1, -1, ref handle);
-            if (status == CameraSdkStatus.CAMERA_STATUS_SUCCESS)
+            MvApi.CameraEnumerateDevice(out tSdkCameraDevInfo[] infos);
+            for (int i = 0; i < infos.Length; ++i)
             {
-                Instance = handle;
+                if ((Encoding.UTF8.GetString(infos[i].acProductName)).Replace("\0", "") == param[0].ToString())
+                {
+                    CameraHandle handle = 0;
+                    CameraSdkStatus status = MvApi.CameraInit(ref infos[i], -1, -1, ref handle);
+                    if (status == CameraSdkStatus.CAMERA_STATUS_SUCCESS)
+                    {
+                        return handle;
+                    }
+                    return null;
+                }
             }
+            return null;
         }
 
         void USBInternalInterface.ReceiveUSBAct()

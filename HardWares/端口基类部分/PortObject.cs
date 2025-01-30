@@ -263,31 +263,15 @@ namespace HardWares.端口基类
         /// 打开COM接口
         /// </summary>
         /// <returns></returns>
-        internal void OpenPort()
+        internal object OpenPort(params object[] ps)
         {
             if (PortType == PortType.USB)
             {
-                (this as USBInternalInterface).OpenUSBPort();
+                return (this as USBInternalInterface).OpenUSBPort(ps.ToList());
             }
             if (PortType == PortType.COM)
             {
-                (this as COMInternalInterface).OpenCOMPort();
-            }
-        }
-
-        /// <summary>
-        /// 创建COM接口实例
-        /// </summary>
-        /// <returns></returns>
-        internal object CreateInstance(List<object> param)
-        {
-            if (PortType == PortType.USB)
-            {
-                return (this as USBInternalInterface).CreateUSBInstance(param);
-            }
-            if (PortType == PortType.COM)
-            {
-                return (this as COMInternalInterface).CreateCOMInstance(param);
+                return (this as COMInternalInterface).OpenCOMPort(ps.ToList());
             }
             return null;
         }
@@ -394,7 +378,7 @@ namespace HardWares.端口基类
         /// 连接
         /// </summary>
         /// <returns></returns>
-        internal virtual bool Connect(PortType type, out Exception exc, Encoding Coder, bool CloseAfterConnect = false, params object[] param)
+        internal virtual bool Connect(PortType type, out Exception exc, Encoding Coder, params object[] param)
         {
             PortType = type;
             try
@@ -408,8 +392,7 @@ namespace HardWares.端口基类
                         break;
                     }
                 }
-                Instance = CreateInstance(param.ToList());
-                OpenPort();
+                Instance = OpenPort(param.ToList());
 
                 //根据不同设备初始化参数
                 InitAction(Instance);

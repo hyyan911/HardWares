@@ -68,7 +68,7 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
 
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         void USBInternalInterface.CloseUSBPort()
@@ -86,23 +86,20 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
             (Instance as uc480.Camera).Display.Mode.Set(uc480.Defines.DisplayMode.DiB);
         }
 
-        object USBInternalInterface.CreateUSBInstance(List<object> param)
-        {
-            return new uc480.Camera();
-        }
-
         bool USBInternalInterface.IsUSBOpen()
         {
             return (Instance as uc480.Camera).IsOpened;
         }
 
-        void USBInternalInterface.OpenUSBPort()
+        object USBInternalInterface.OpenUSBPort(List<object> param)
         {
-            ConnectStatus = (Instance as uc480.Camera).Init((Int32)SelectedCamera.DeviceID | (Int32)uc480.Defines.DeviceEnumeration.UseDeviceID);
-            if (ConnectStatus != uc480.Defines.Status.SUCCESS) return;
-            ConnectStatus = (Instance as uc480.Camera).Memory.Allocate(out Int32 m, true);
-            if (ConnectStatus != uc480.Defines.Status.SUCCESS) return;
+            uc480.Camera C = new uc480.Camera();
+            ConnectStatus = C.Init((Int32)SelectedCamera.DeviceID | (Int32)uc480.Defines.DeviceEnumeration.UseDeviceID);
+            if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
+            ConnectStatus = C.Memory.Allocate(out Int32 m, true);
+            if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
             MemoryIntptr = m;
+            return C;
         }
 
         void USBInternalInterface.ReceiveUSBAct()

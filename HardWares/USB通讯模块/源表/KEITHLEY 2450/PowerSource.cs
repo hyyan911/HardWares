@@ -14,8 +14,6 @@ namespace HardWares.源表.KEITHLEY_2450
 {
     public partial class PowerSource : PowerSourceBase, USBInternalInterface, WinUSBOuterInterface
     {
-        public static List<UsbSession> USBNameBuffer = new List<UsbSession>();
-        public static List<string> USBNames = new List<string>();
 
         private string name = "";
 
@@ -24,8 +22,6 @@ namespace HardWares.源表.KEITHLEY_2450
             if (Instance == null) return;
             (Instance as UsbSession).Clear();
             (Instance as UsbSession).UnlockResource();
-            USBNameBuffer.Remove(Instance as UsbSession);
-            USBNames.Remove(name);
             (Instance as UsbSession).Dispose();
         }
 
@@ -52,46 +48,25 @@ namespace HardWares.源表.KEITHLEY_2450
         {
         }
 
-        object USBInternalInterface.CreateUSBInstance(List<object> param)
-        {
-            using (ResourceManager m = new ResourceManager())
-            {
-                UsbSession res = (UsbSession)m.Open(param[0] as string, AccessModes.None, 1000, out ResourceOpenStatus stat);
-                foreach (var item in USBNames)
-                {
-                    if (item == param[0] as string)
-                    {
-                        try
-                        {
-                            USBNameBuffer[USBNames.IndexOf(item)].UnlockResource();
-                        }
-                        catch (Exception ex) { }
-                        USBNameBuffer.RemoveAt(USBNames.IndexOf(item));
-                        USBNames.Remove(item);
-                        break;
-                    }
-                }
-                try
-                {
-                    res.LockResource(2000);
-                    USBNameBuffer.Add(res);
-                    USBNames.Add(param[0] as string);
-                }
-                catch (Exception ex) { }
-                res.TerminationCharacterEnabled = false;
-                name = param[0] as string;
-                return res;
-            }
-        }
-
         bool USBInternalInterface.IsUSBOpen()
         {
             return true;
         }
 
-        void USBInternalInterface.OpenUSBPort()
+        object USBInternalInterface.OpenUSBPort(List<object> param)
         {
-            return;
+            using (ResourceManager m = new ResourceManager())
+            {
+                UsbSession res = (UsbSession)m.Open(param[0] as string, AccessModes.None, 1000, out ResourceOpenStatus stat);
+                res.TerminationCharacterEnabled = false;
+                name = param[0] as string;
+                try
+                {
+                    (Instance as UsbSession).LockResource(2000);
+                }
+                catch (Exception ex) { }
+                return res;
+            }
         }
 
         void USBInternalInterface.ReceiveUSBAct()

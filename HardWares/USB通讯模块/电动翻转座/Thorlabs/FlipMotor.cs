@@ -41,21 +41,16 @@ namespace HardWares.仪器列表.电动翻转座
         {
         }
 
-        private string SerialNO = "";
-        object USBInternalInterface.CreateUSBInstance(List<object> param)
-        {
-            SerialNO = param[0] as string;
-            return FilterFlipper.CreateFilterFlipper(param[0] as string);
-        }
-
         bool USBInternalInterface.IsUSBOpen()
         {
             return (Instance as FilterFlipper).IsConnected;
         }
 
-        void USBInternalInterface.OpenUSBPort()
+        object USBInternalInterface.OpenUSBPort(List<object> param)
         {
-            (Instance as FilterFlipper).Connect(SerialNO);
+            FilterFlipper dev = FilterFlipper.CreateFilterFlipper(param[0] as string);
+            dev.Connect(param[0] as string);
+            return dev;
         }
 
         void USBInternalInterface.ReceiveUSBAct()

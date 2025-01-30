@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using HardWares.纳米位移台.PI;
 using HardWares.仪器列表.电动翻转座;
+using HardWares.端口基类;
 
 namespace 测试项目
 {
@@ -28,7 +29,7 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = new FlipMotor().GetUsbDeviceNames();
+            Port.ItemsSource = PortObject.GetAvailableCOMPorts();
         }
 
         /// <summary>

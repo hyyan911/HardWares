@@ -69,19 +69,16 @@ namespace HardWares.温度控制器.SRS_PTC10
             }
         }
 
-        object COMInternalInterface.CreateCOMInstance(List<object> param)
-        {
-            return new SerialPort(param[0] as string, (int)param[1]);
-        }
-
         bool COMInternalInterface.IsCOMOpen()
         {
             return (Instance as SerialPort).IsOpen;
         }
 
-        void COMInternalInterface.OpenCOMPort()
+        object COMInternalInterface.OpenCOMPort(List<object> param)
         {
-            (Instance as SerialPort).Open();
+            SerialPort port = new SerialPort(param[0] as string, (int)param[1]);
+            port.Open();
+            return port;
         }
 
         void COMInternalInterface.ReceiveCOMAct()

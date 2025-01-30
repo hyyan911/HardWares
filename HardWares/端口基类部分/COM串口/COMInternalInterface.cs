@@ -32,16 +32,10 @@ namespace HardWares.端口基类.COM串口
         void CloseCOMPort();
 
         /// <summary>
-        /// 打开COM接口
+        ///  创建COM接口实例
         /// </summary>
         /// <returns></returns>
-        void OpenCOMPort();
-
-        /// <summary>
-        /// 创建COM接口实例
-        /// </summary>
-        /// <returns></returns>
-        object CreateCOMInstance(List<object> param);
+        object OpenCOMPort(List<object> param);
 
         /// <summary>
         /// COM接口是否打开

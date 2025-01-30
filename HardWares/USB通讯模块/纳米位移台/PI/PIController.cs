@@ -62,8 +62,12 @@ namespace HardWares.纳米位移台.PI
             }
         }
 
+        bool USBInternalInterface.IsUSBOpen()
+        {
+            return PIAPI2.PI_IsConnected((int)Instance);
+        }
 
-        object USBInternalInterface.CreateUSBInstance(List<object> param)
+        object USBInternalInterface.OpenUSBPort(List<object> param)
         {
             if (IsGCS2)
             {
@@ -72,16 +76,6 @@ namespace HardWares.纳米位移台.PI
                 return id;
             }
             return -1;
-        }
-
-        bool USBInternalInterface.IsUSBOpen()
-        {
-            return PIAPI2.PI_IsConnected((int)Instance);
-        }
-
-        void USBInternalInterface.OpenUSBPort()
-        {
-            return;
         }
 
         void USBInternalInterface.ReceiveUSBAct()

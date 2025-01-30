@@ -72,24 +72,21 @@ namespace HardWares.相机_CCD_.摄像头
             }
         }
 
-        object USBInternalInterface.CreateUSBInstance(List<object> param)
-        {
-            return new VideoCaptureDevice(param[0] as string);
-        }
-
         bool USBInternalInterface.IsUSBOpen()
         {
             return (Instance as VideoCaptureDevice).IsRunning;
         }
 
-        void USBInternalInterface.OpenUSBPort()
+        object USBInternalInterface.OpenUSBPort(List<object> param)
         {
-            (Instance as VideoCaptureDevice).Start();
+            VideoCaptureDevice Camera = new VideoCaptureDevice(param[0] as string);
+            Camera.Start();
             Thread.Sleep(50);
-            if (!(Instance as VideoCaptureDevice).IsRunning)
+            if (!Camera.IsRunning)
             {
                 throw new Exception("设备不存在");
             }
+            return Camera;
         }
 
         void USBInternalInterface.ReceiveUSBAct()

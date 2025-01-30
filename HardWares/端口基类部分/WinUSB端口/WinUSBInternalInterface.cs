@@ -43,13 +43,7 @@ namespace HardWares.端口基类
         /// 创建USB接口实例
         /// </summary>
         /// <returns></returns>
-        object CreateUSBInstance(List<object> param);
-
-        /// <summary>
-        /// 打开USB接口
-        /// </summary>
-        /// <returns></returns>
-        void OpenUSBPort();
+        object OpenUSBPort(List<object> param);
 
         /// <summary>
         /// 关闭USB接口
