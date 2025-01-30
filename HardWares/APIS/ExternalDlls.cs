@@ -10,7 +10,7 @@ namespace HardWares.APIS
 {
     public class ExternalDlls
     {
-        static ExternalDlls()
+        public static void LoadDlls()
         {
             DllImporter importer;
             PropertyInfo[] infos = typeof(Properties.Resources).GetProperties();

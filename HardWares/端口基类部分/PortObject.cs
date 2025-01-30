@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CodeHelper;
+using HardWares.APIS;
 using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类部分;
@@ -22,6 +23,10 @@ namespace HardWares.端口基类
 
     public abstract partial class PortObject
     {
+        static PortObject()
+        {
+            ExternalDlls.LoadDlls();
+        }
 
         /// <summary>
         /// 当被回收时释放资源
