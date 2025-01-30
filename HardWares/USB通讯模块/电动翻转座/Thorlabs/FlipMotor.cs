@@ -37,8 +37,10 @@ namespace HardWares.仪器列表.电动翻转座
         {
         }
 
+        private string SerialNO = "";
         object USBInternalInterface.CreateUSBInstance(List<object> param)
         {
+            SerialNO = param[0] as string;
             return FilterFlipper.CreateFilterFlipper(param[0] as string);
         }
 
@@ -49,7 +51,7 @@ namespace HardWares.仪器列表.电动翻转座
 
         void USBInternalInterface.OpenUSBPort()
         {
-            (Instance as FilterFlipper).Connect((Instance as FilterFlipper).SerialNo);
+            (Instance as FilterFlipper).Connect(SerialNO);
         }
 
         void USBInternalInterface.ReceiveUSBAct()
