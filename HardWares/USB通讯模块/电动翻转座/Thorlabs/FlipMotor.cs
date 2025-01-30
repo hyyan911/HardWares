@@ -23,6 +23,7 @@ namespace HardWares.仪器列表.电动翻转座
         /// <returns></returns>
         public List<string> GetUsbDeviceNames()
         {
+            int s = 1;
             DeviceManagerCLI.BuildDeviceList();
             return DeviceManagerCLI.GetDeviceList(37);
         }

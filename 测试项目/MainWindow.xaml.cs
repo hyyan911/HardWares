@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using HardWares.纳米位移台.PI;
+using HardWares.仪器列表.电动翻转座;
 
 namespace 测试项目
 {
@@ -27,11 +28,9 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = new PIController().GetUsbDeviceNames();
+            Port.ItemsSource = new FlipMotor().GetUsbDeviceNames();
         }
 
-
-        PIController cc = null;
         /// <summary>
         /// 连接
         /// </summary>
@@ -39,7 +38,7 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            cc = new PIController();
+            FlipMotor cc = new FlipMotor();
             State.Content = cc.ConnectUSB(Port.SelectedItem.ToString(), out Exception ex).ToString();
             if (State.Content.ToString() == "False") { cc.Dispose(); return; }
             //Thread t = new Thread(() =>

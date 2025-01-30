@@ -44,6 +44,9 @@ namespace HardWares.仪器列表.电动翻转座
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override string ProductIdentifier { get; internal set; } = "Thorlabs Filter Flipper";
 
         public override event ParamsChangeEventHandler ParamsChangedEvent;

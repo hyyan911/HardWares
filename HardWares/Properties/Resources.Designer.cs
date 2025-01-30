@@ -85,7 +85,7 @@ namespace HardWares.Properties {
         /// </summary>
         internal static byte[] Thorlabs_MotionControl_DeviceManager {
             get {
-                object obj = ResourceManager.GetObject("Thorlabs_MotionControl_DeviceManager", resourceCulture);
+                object obj = ResourceManager.GetObject("Thorlabs.MotionControl.DeviceManager", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace HardWares.Properties {
         /// </summary>
         internal static byte[] Thorlabs_MotionControl_FilterFlipper {
             get {
-                object obj = ResourceManager.GetObject("Thorlabs_MotionControl_FilterFlipper", resourceCulture);
+                object obj = ResourceManager.GetObject("Thorlabs.MotionControl.FilterFlipper", resourceCulture);
                 return ((byte[])(obj));
             }
         }

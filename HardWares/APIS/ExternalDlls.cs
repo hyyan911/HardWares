@@ -1,6 +1,7 @@
 ﻿using HardWares.Properties;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,14 +13,21 @@ namespace HardWares.APIS
     {
         public static void LoadDlls()
         {
-            DllImporter importer;
-            PropertyInfo[] infos = typeof(Properties.Resources).GetRuntimeProperties().ToArray();
-            foreach (PropertyInfo info in infos)
+            DllImporter importer = new DllImporter();
+            importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "Thorlabs.MotionControl.DeviceManager" + ".dll"), Resources.Thorlabs_MotionControl_DeviceManager);
+
+            importer = new DllImporter();
+            importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "Thorlabs.MotionControl.FilterFlipper" + ".dll"), Resources.Thorlabs_MotionControl_FilterFlipper);
+
+            if (Environment.Is64BitOperatingSystem)
             {
-                if (info.Name == "Culture") continue;
-                if (info.Name == "ResourceManager") continue;
                 importer = new DllImporter();
-                importer.ExtractEmbeddedDlls(info.Name + ".dll", (byte[])Resources.ResourceManager.GetObject(info.Name));
+                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "PI_GCS2_DLL" + ".dll"), Resources.PI_GCS2_DLL_x64);
+            }
+            else
+            {
+                importer = new DllImporter();
+                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "PI_GCS2_DLL" + ".dll"), Resources.PI_GCS2_DLL);
             }
         }
     }

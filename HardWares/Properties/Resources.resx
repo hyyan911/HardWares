@@ -124,10 +124,10 @@
   <data name="PI_GCS2_DLL_x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PI_GCS2_DLL_x64.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Thorlabs_MotionControl_DeviceManager" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Thorlabs.MotionControl.DeviceManager" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Thorlabs.MotionControl.DeviceManager.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Thorlabs_MotionControl_FilterFlipper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Thorlabs.MotionControl.FilterFlipper" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Thorlabs.MotionControl.FilterFlipper.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="uc480_64" type="System.Resources.ResXFileRef, System.Windows.Forms">

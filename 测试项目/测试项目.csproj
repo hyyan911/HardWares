@@ -43,9 +43,6 @@
     <Reference Include="LibUsb.Common, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LibUsb.Common.2.2.18\lib\net45\LibUsb.Common.dll</HintPath>
     </Reference>
-    <Reference Include="LibUsbDotNet">
-      <HintPath>C:\Users\hy911\Desktop\temp\LibUsbDotNet-master\src\LibUsbDotNet\bin\Debug\netstandard2.0\LibUsbDotNet.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.0\lib\net462\System.Buffers.dll</HintPath>
