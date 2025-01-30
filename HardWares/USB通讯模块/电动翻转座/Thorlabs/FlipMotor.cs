@@ -34,7 +34,7 @@ namespace HardWares.仪器列表.电动翻转座
 
         void USBInternalInterface.CloseUSBPort()
         {
-            (Instance as FilterFlipper).DisableDevice();
+            (Instance as FilterFlipper).Disconnect(false);
         }
 
         void USBInternalInterface.ConnectedUSBAction()
@@ -65,18 +65,16 @@ namespace HardWares.仪器列表.电动翻转座
 
         bool USBInternalInterface.TestUSBAction()
         {
-            if ((Instance as FilterFlipper).USBConnected == ThorlabsConnectionManager.ConnectionStates.Connected)
+            if ((Instance as FilterFlipper).USBConnected == ThorlabsConnectionManager.ConnectionStates.Disconnected)
             {
-                ProductName = "Thorlabs Filter Flipper " + (Instance as FilterFlipper).SerialNo;
-                return true;
+                return false;
             }
-            return false;
+            ProductName = "Thorlabs Filter Flipper " + (Instance as FilterFlipper).SerialNo;
+            return true;
         }
 
         void USBInternalInterface.USBInitAction(object PortInstance)
         {
-            //复位
-            (Instance as FilterFlipper).Home(3000);
         }
 
         byte[] USBInternalInterface.USBPortRead()
