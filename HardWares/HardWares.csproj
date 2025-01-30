@@ -177,6 +177,7 @@
     <Compile Include="端口基类部分\COM串口\COMOuterInterface.cs" />
     <Compile Include="端口基类部分\COM串口\COMInternalInterface.cs" />
     <Compile Include="端口基类部分\COM串口\RS485Frame.cs" />
+    <Compile Include="端口基类部分\DeviceInfo.cs" />
     <Compile Include="端口基类部分\Parameter.cs" />
     <Compile Include="端口基类部分\PortDispatcher.cs" />
     <Compile Include="端口基类部分\PortElement.cs" />

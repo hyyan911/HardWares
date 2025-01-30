@@ -326,16 +326,8 @@ namespace HardWares.步进电机.Aurduino
 
                 if (msg.Contains("B") && msg.Contains("00TEST#"))
                 {
-                    if (Is_ID_Necessary == true)
-                    {
-                        if (msg[1] - '0' == id)
-                            Internal_Is_Connected = true;
-                    }
-                    else
-                    {
-                        Internal_Is_Connected = true;
-                        id = msg[1] - '0';
-                    }
+                    Internal_Is_Connected = true;
+                    id = msg[1] - '0';
                 }
 
                 #region 参数设置指令

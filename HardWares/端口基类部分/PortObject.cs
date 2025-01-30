@@ -155,11 +155,6 @@ namespace HardWares.端口基类
         /// </summary>
         public bool CheckConnection { get; set; } = false;
 
-        /// <summary>
-        /// 是否根据ID号进行连接
-        /// </summary>
-        internal bool Is_ID_Necessary = false;
-
         private int isConnected = 0;
         /// <summary>
         /// 是否连接
@@ -391,23 +386,36 @@ namespace HardWares.端口基类
         #region 连接方式
 
         /// <summary>
+        /// 历史设备记录
+        /// </summary>
+        internal static List<DeviceInfo> DeviceInfos { get; set; } = new List<DeviceInfo>();
+
+        /// <summary>
         /// 连接
         /// </summary>
         /// <returns></returns>
         internal virtual bool Connect(PortType type, out Exception exc, Encoding Coder, bool CloseAfterConnect = false, params object[] param)
         {
             PortType = type;
-            Is_ID_Necessary = false;
-            bool IsOriginOpen = false;
             try
             {
+                //检查已有设备中是否存在此设备,如果有则关闭后重新连接
+                for (int i = 0; i < DeviceInfos.Count; i++)
+                {
+                    if (DeviceInfos[i].CompareParam(GetType(), type, param))
+                    {
+                        DeviceInfos[i].Device.Dispose();
+                        break;
+                    }
+                }
                 Instance = CreateInstance(param.ToList());
-                IsOriginOpen = IsOpen();
-                if (IsOriginOpen == false) OpenPort();
+                OpenPort();
+
                 //根据不同设备初始化参数
                 InitAction(Instance);
 
                 PortArranger = new PortDispatcher(this, Coder);
+
                 //发送测试信息
                 Internal_Is_Connected = TestAction();
                 if (Internal_Is_Connected)
@@ -415,36 +423,21 @@ namespace HardWares.端口基类
                     Internal_Is_Connected = false;
                     ConnectedAction();
                     CreateTestThread();
+                    //添加设备到已连接列表
+                    DeviceInfos.Add(new DeviceInfo() { Device = this, PortParams = param.ToList(), PortType = type });
                     exc = null;
                     return true;
                 }
 
                 PortArranger?.Close();
 
-                if (IsOriginOpen == false || CloseAfterConnect)
-                {
-                    try
-                    {
-                        ClosePort();
-                    }
-                    catch (Exception ex) { }
-                }
                 Instance = null;
                 exc = new Exception("端口打开失败");
                 return false;
             }
             catch (Exception ee)
             {
-                if (IsOriginOpen == false || CloseAfterConnect)
-                {
-                    PortArranger?.Close();
-                    try
-                    {
-                        ClosePort();
-                    }
-                    catch (Exception ex) { }
-                    Instance = null;
-                }
+                Instance = null;
                 exc = new Exception("接口出现异常：" + ee.Message);
                 return false;
             }
@@ -472,6 +465,14 @@ namespace HardWares.端口基类
         /// </summary>
         public void Dispose()
         {
+            //从已连接设备中删除
+            for (int i = 0; i < DeviceInfos.Count; i++)
+            {
+                if (DeviceInfos[i].Device == this)
+                {
+                    DeviceInfos.RemoveAt(i);
+                }
+            }
             DisposeCOMAction();
             if (TestThread != null)
             {
@@ -613,7 +614,6 @@ namespace HardWares.端口基类
         }
         #endregion
 
-
         #region Query方法
 
         bool isQuereEnd = true;
@@ -632,6 +632,32 @@ namespace HardWares.端口基类
         internal abstract string ThreadUnsafeQuery(string messagetosend, int timeout);
 
         #endregion
+
+        /// <summary>
+        /// 获取所有可用端口
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetAvailableCOMPorts()
+        {
+            List<string> result = new List<string>();
+            string[] ss = SerialPort.GetPortNames();
+            foreach (var item in ss)
+            {
+                try
+                {
+                    SerialPort por = new SerialPort(item);
+                    por.Open();
+                    por.Close();
+                    result.Add(item);
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+
+            return result;
+        }
 
     }
 

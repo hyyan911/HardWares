@@ -22,5 +22,6 @@ namespace HardWares.端口基类
         /// <param name="baudrate"></param>
         /// <returns></returns>
         bool ConnectCOM(string COMName, int baudrate, out Exception exc);
+
     }
 }
