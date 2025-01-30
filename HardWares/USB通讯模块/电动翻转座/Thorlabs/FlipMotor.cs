@@ -11,6 +11,7 @@ using Thorlabs.MotionControl.GenericMotorCLI;
 using Thorlabs.MotionControl.GenericMotorCLI.ControlParameters;
 using Thorlabs.MotionControl.GenericMotorCLI.AdvancedMotor;
 using Thorlabs.MotionControl.GenericMotorCLI.Settings;
+using Thorlabs.MotionControl.FilterFlipperCLI.Native;
 
 namespace HardWares.仪器列表.电动翻转座
 {
@@ -51,6 +52,9 @@ namespace HardWares.仪器列表.电动翻转座
             DeviceManagerCLI.BuildDeviceList();
             FilterFlipper dev = FilterFlipper.CreateFilterFlipper(param[0] as string);
             dev.Connect(param[0] as string);
+            dev.EnableDevice();
+            FilterFlipperIOSettings currentDeviceSettings = dev.GetIOSettings();
+            currentDeviceSettings.TransitTime = 300;
             return dev;
         }
 
