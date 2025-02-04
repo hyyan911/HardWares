@@ -38,8 +38,8 @@ namespace HardWares.相机_CCD_
             }
             finally
             {
-                source.Freeze();
                 bmap.Dispose();
+                source.Freeze();
             }
         }
 
