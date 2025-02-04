@@ -135,7 +135,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TCPIP通讯模块\波源\Rigol DSG 3000\SignalGenerator.cs" />
-    <Compile Include="TCPIP通讯模块\波源\SignalGeneratorBase.cs" />
     <Compile Include="USB通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
     <Compile Include="USB通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />
     <Compile Include="USB通讯模块\相机（CCD）\MindVision\Camera.cs" />
@@ -153,7 +152,9 @@
     <Compile Include="串口通讯模块\PID\PIDControlHelper.cs" />
     <Compile Include="串口通讯模块\步进电机\三轴步进电机（与Aurduino通讯）\MicroMover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="仪器列表\波源\RIGOL DSG 3000\SignalGenerator.cs" />
+    <Compile Include="仪器列表\射频波源\OutputShapes.cs" />
+    <Compile Include="仪器列表\射频波源\RIGOL DSG 3000\RFSignalGenerator.cs" />
+    <Compile Include="仪器列表\射频波源\RFSignalGeneratorBase.cs" />
     <Compile Include="仪器列表\温度控制器\OutputChannelBase.cs" />
     <Compile Include="仪器列表\温度控制器\SensorChannelBase.cs" />
     <Compile Include="仪器列表\温度控制器\SRS PTC10\Options.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="仪器列表\纳米位移台\PI\PIStage.cs" />
     <Compile Include="仪器列表\纳米位移台\StageBase.cs" />
     <Compile Include="数据处理\DataProcess.cs" />
+    <Compile Include="数据处理\SCPI指令\SCPIGenerator.cs" />
     <Compile Include="端口基类部分\COM串口\COMOuterInterface.cs" />
     <Compile Include="端口基类部分\COM串口\COMInternalInterface.cs" />
     <Compile Include="端口基类部分\DeviceInfo.cs" />

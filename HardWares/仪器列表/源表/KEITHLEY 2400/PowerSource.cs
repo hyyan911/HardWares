@@ -1,4 +1,5 @@
-﻿using HardWares.源表;
+﻿using HardWares.数据处理.SCPI指令;
+using HardWares.源表;
 using HardWares.端口基类部分;
 using System;
 using System.Collections.Generic;
@@ -53,38 +54,6 @@ namespace HardWares.源表.KEITHLEY_2400
             return res;
         }
 
-        /// <summary>
-        /// 生成SCPI指令
-        /// </summary>
-        /// <returns></returns>
-        internal string GenerateSCPICommannd(bool isQuery, bool[] isnumber, string[] values, params string[] commands)
-        {
-            string command = "";
-            foreach (var item in commands)
-            {
-                command += ":" + item;
-            }
-            if (isQuery)
-            {
-                command += "?";
-            }
-            else
-            {
-                for (int i = 0; i < isnumber.Count(); ++i)
-                {
-                    if (isnumber[i])
-                    {
-                        command += " " + values[i];
-                    }
-                    else
-                    {
-                        command += " " + "\"" + values[i] + "\"";
-                    }
-                }
-            }
-            return command.Remove(0, 1) + "\n";
-        }
-
 
         #region 设备参数
 
@@ -103,7 +72,7 @@ namespace HardWares.源表.KEITHLEY_2400
             DateTime time = new DateTime();
 
             string value = "";
-            value = ThreadSafeQuery(GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "MEAS", "VOLT").Replace("\r", "") + ";" + GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "MEAS", "CURR"), 3000);
+            value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "MEAS", "VOLT").Replace("\r", "") + ";" + SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "MEAS", "CURR"), 3000);
             if (value == "") return new MeasureGroup();
             string[] vc = value.Split(';');
             string[] v = vc[0].Split(',');
@@ -131,7 +100,7 @@ namespace HardWares.源表.KEITHLEY_2400
         {
             get
             {
-                string value = ThreadSafeQuery(GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SENS", "CURR", "PROT"), 1000);
+                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SENS", "CURR", "PROT"), 1000);
                 try
                 {
                     return Convert.ToDouble(value);
@@ -143,7 +112,7 @@ namespace HardWares.源表.KEITHLEY_2400
             }
             set
             {
-                AddMessage(GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "SENS", "CURR", "PROT"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "SENS", "CURR", "PROT"));
             }
         }
 
@@ -155,7 +124,7 @@ namespace HardWares.源表.KEITHLEY_2400
         {
             get
             {
-                string value = ThreadSafeQuery(GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "OUTP"), 1000);
+                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "OUTP"), 1000);
                 if (value == "1")
                 {
                     return true;
@@ -167,7 +136,7 @@ namespace HardWares.源表.KEITHLEY_2400
             }
             set
             {
-                AddMessage(GenerateSCPICommannd(false, new bool[] { true }, new string[] { value ? "1" : "0" }, "OUTP"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value ? "1" : "0" }, "OUTP"));
             }
         }
 
@@ -178,7 +147,7 @@ namespace HardWares.源表.KEITHLEY_2400
         {
             get
             {
-                string value = ThreadSafeQuery(GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT"), 1000);
+                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT"), 1000);
                 try
                 {
                     return Convert.ToDouble(value);
@@ -190,7 +159,7 @@ namespace HardWares.源表.KEITHLEY_2400
             }
             set
             {
-                AddMessage(GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "SOUR", "VOLT"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "SOUR", "VOLT"));
             }
         }
 
@@ -199,7 +168,7 @@ namespace HardWares.源表.KEITHLEY_2400
         /// </summary>
         public override bool IsCurrentLimited()
         {
-            string value = ThreadSafeQuery(GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SENS", "CURR", "PROT", "TRIP"), 1000);
+            string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SENS", "CURR", "PROT", "TRIP"), 1000);
             if (value == "1")
             {
                 return true;
