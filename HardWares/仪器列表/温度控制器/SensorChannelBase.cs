@@ -19,13 +19,11 @@ namespace HardWares.温度控制器
         /// <summary>
         /// 名称
         /// </summary>
-        [StaticParameter]
         public string Name { get; internal set; }
 
         /// <summary>
         /// 单位
         /// </summary>
-        [StaticParameter]
         public string Unit { get; internal set; }
 
 

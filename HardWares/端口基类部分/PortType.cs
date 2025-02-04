@@ -22,7 +22,7 @@ namespace HardWares
         /// <summary>
         /// 网络设备
         /// </summary>
-        Socket = 2
+        TCPIP = 2
 
     }
 }

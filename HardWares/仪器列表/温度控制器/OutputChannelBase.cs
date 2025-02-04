@@ -31,14 +31,12 @@ namespace HardWares.温度控制器
         /// <summary>
         /// 名称
         /// </summary>
-        [StaticParameter]
         public string Name { get; internal set; }
 
 
         /// <summary>
         /// 单位
         /// </summary>
-        [StaticParameter]
         public string Unit { get; internal set; }
 
 
@@ -51,37 +49,31 @@ namespace HardWares.温度控制器
         /// <summary>
         /// PID参数:P
         /// </summary>
-        [StaticParameter]
         public abstract double P { get; set; }
 
         /// <summary>
         /// PID参数:P
         /// </summary>
-        [StaticParameter]
         public abstract double I { get; set; }
 
         /// <summary>
         /// PID参数:P
         /// </summary>
-        [StaticParameter]
         public abstract double D { get; set; }
 
         /// <summary>
         /// 设定温度(度)
         /// </summary>
-        [StaticParameter]
         public abstract double SetPoint { get; set; }
 
         /// <summary>
         /// 功率限制下限
         /// </summary>
-        [StaticParameter]
         public abstract double LowPowerLimit { get; set; }
 
         /// <summary>
         /// 功率限制上限
         /// </summary>
-        [StaticParameter]
         public abstract double HiPowerLimit { get; set; }
 
         /// <summary>

@@ -27,7 +27,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 轴序号
         /// </summary>
-        [StaticParameter]
         public override string AxisName
         {
             get
@@ -96,7 +95,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 是否启用
         /// </summary>
-        [StaticParameter]
         public bool Enable
         {
             get
@@ -119,7 +117,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 开环位置下限
         /// </summary>
-        [StaticParameter]
         public double OpenRangeLo
         {
             get
@@ -141,7 +138,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 开环位置上限
         /// </summary>
-        [StaticParameter]
         public double OpenRangeHi
         {
             get
@@ -163,7 +159,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 闭环位置下限
         /// </summary>
-        [StaticParameter]
         public double ServoRangeLo
         {
             get
@@ -185,7 +180,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 闭环位置上限
         /// </summary>
-        [StaticParameter]
         public double ServoRangeHi
         {
             get
@@ -224,7 +218,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 是否启用闭环控制
         /// </summary>
-        [StaticParameter]
         public bool ServoState
         {
             get
@@ -247,7 +240,6 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// Reference模式
         /// </summary>
-        [StaticParameter]
         public ReferenceModes ReferenceMode
         {
             get

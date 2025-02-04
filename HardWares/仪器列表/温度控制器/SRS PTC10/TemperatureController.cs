@@ -182,7 +182,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 传感器类型
         /// </summary>
-        [StaticParameter]
+        
         public SensorType Sensor
         {
             get
@@ -270,7 +270,6 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 参数A
         /// </summary>
-        [StaticParameter]
         public double Param_A
         {
             get
@@ -288,7 +287,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 参数B
         /// </summary>
-        [StaticParameter]
+        
         public double Param_B
         {
             get
@@ -306,7 +305,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 参数C
         /// </summary>
-        [StaticParameter]
+        
         public double Param_C
         {
             get
@@ -324,7 +323,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 参数R0
         /// </summary>
-        [StaticParameter]
+        
         public double Param_R0
         {
             get
@@ -413,7 +412,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 功率限制下限
         /// </summary>
-        [StaticParameter]
+        
         public override double LowPowerLimit
         {
             get
@@ -432,7 +431,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 功率限制上限
         /// </summary>
-        [StaticParameter]
+        
         public override double HiPowerLimit
         {
             get
@@ -451,7 +450,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// IO测量方式
         /// </summary>
-        [StaticParameter]
+        
         public IOTypes IOType
         {
             get
@@ -491,7 +490,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// PID参数:P
         /// </summary>
-        [StaticParameter]
+        
         public override double P
         {
             get
@@ -510,7 +509,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// PID参数:P
         /// </summary>
-        [StaticParameter]
+        
         public override double I
         {
             get
@@ -529,7 +528,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// PID参数:P
         /// </summary>
-        [StaticParameter]
+        
         public override double D
         {
             get
@@ -548,7 +547,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 设定温度(度)
         /// </summary>
-        [StaticParameter]
+        
         public override double SetPoint
         {
             get
@@ -567,7 +566,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// PID输入通道名
         /// </summary>
-        [StaticParameter]
+        
         public string PIDInput
         {
             get
@@ -584,7 +583,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// 变温速率
         /// </summary>
-        [StaticParameter]
+        
         public double Ramp
         {
             get
@@ -617,7 +616,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <summary>
         /// PID模式
         /// </summary>
-        [StaticParameter]
+        
         public PIDMode PIDMode
         {
             get

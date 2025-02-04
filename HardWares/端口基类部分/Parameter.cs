@@ -74,23 +74,5 @@ namespace HardWares.端口基类部分
         {
             return Convert.ChangeType(Parent.GetType().GetProperty(ParameterName).GetValue(Parent), ParamType);
         }
-
-        /// <summary>
-        /// 判断是否是静态参数
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <returns></returns>
-        public bool IsStaticParameter()
-        {
-            var attrs = Parent.GetType().GetProperty(ParameterName).CustomAttributes;
-            foreach (var attr in attrs)
-            {
-                if (attr.AttributeType == typeof(StaticParameter))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }

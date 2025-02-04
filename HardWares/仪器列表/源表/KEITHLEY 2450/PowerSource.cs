@@ -33,13 +33,7 @@ namespace HardWares.源表.KEITHLEY_2450
 
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)
         {
-            try
-            {
-                (Instance as UsbSession).TimeoutMilliseconds = timeout;
-                (Instance as UsbSession).RawIO.Write(messagetosend);
-                return ((Instance as UsbSession).RawIO.ReadString().Replace("\n", ""));
-            }
-            catch (Exception ex) { return ""; }
+            return VISA.VISAThreadUnsafeQuery(this, messagetosend, timeout);
         }
 
         /// <summary>

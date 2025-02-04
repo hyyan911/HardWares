@@ -15,33 +15,37 @@ namespace HardWares.源表.KEITHLEY_2450
     public partial class PowerSource : PowerSourceBase, USBInternalInterface, WinUSBOuterInterface
     {
 
-        private string name = "";
+        private VISAResourceHelper VISA = new VISAResourceHelper() { GetProductName = GetProductName };
+
+        private static string GetProductName(string source)
+        {
+            if (source.Contains("KEITHLEY") && source.Contains("MODEL 2450"))
+            {
+                //获取序列号
+                string strsegs = source.Split(',')[2];
+                return "KEITHLEY 2450 " + strsegs;
+            }
+            return "";
+        }
 
         void USBInternalInterface.CloseUSBPort()
         {
-            if (Instance == null) return;
-            (Instance as UsbSession).Clear();
-            (Instance as UsbSession).UnlockResource();
-            (Instance as UsbSession).Dispose();
+            VISA.CloseUSBPort(this);
         }
 
         void USBInternalInterface.USBInitAction(object PortInstance)
         {
-            try
-            {
-                (Instance as UsbSession).Clear();
-            }
-            catch (Exception ex) { }
+            VISA.USBInitAction(this, PortInstance);
         }
 
         byte[] USBInternalInterface.USBPortRead()
         {
-            return new byte[0];
+            return VISA.USBPortRead(this);
         }
 
         void USBInternalInterface.USBPortWrite(byte[] value)
         {
-            (Instance as UsbSession).RawIO.Write(value);
+            VISA.USBPortWrite(this, value);
         }
 
         void USBInternalInterface.ConnectedUSBAction()
@@ -50,106 +54,43 @@ namespace HardWares.源表.KEITHLEY_2450
 
         bool USBInternalInterface.IsUSBOpen()
         {
-            return true;
+            return VISA.IsUSBOpen(this);
         }
 
         object USBInternalInterface.OpenUSBPort(List<object> param)
         {
-            using (ResourceManager m = new ResourceManager())
-            {
-                UsbSession res = (UsbSession)m.Open(param[0] as string, AccessModes.None, 1000, out ResourceOpenStatus stat);
-                res.TerminationCharacterEnabled = false;
-                name = param[0] as string;
-                try
-                {
-                    (Instance as UsbSession).LockResource(2000);
-                }
-                catch (Exception ex) { }
-                return res;
-            }
+            return VISA.OpenUSBPort(this, param);
         }
 
         void USBInternalInterface.ReceiveUSBAct()
         {
-            if (ReceiveBuffer.Count != 0)
-            {
-                List<List<byte>> retu = DataProcess.ProcessReceivedSerialData('\n', ReceiveBuffer, out List<byte> result);
-                ReceiveBuffer = result;
-                if (retu.Count != 0)
-                {
-                    QueryState = true;
-                    //只取第一条指令
-                    QueryReturnedData = new List<string>() { PortArranger.Coder.GetString(retu[0].ToArray()) };
-                }
-            }
+            VISA.ReceiveUSBAct(this);
         }
 
         bool USBInternalInterface.TestUSBAction()
         {
-            string res = ThreadSafeQuery("*IDN?\n", 1000);
-            if (res.Contains("KEITHLEY") && res.Contains("MODEL 2450"))
-            {
-                //获取序列号
-                string strsegs = res.Split(',')[2];
-                ProductName = "KEITHLEY 2450 " + strsegs;
-                return true;
-            }
-            return false;
+            return VISA.TestUSBPort(this);
         }
 
         public bool ConnectUSB(string description, out Exception exc)
         {
-            foreach (var item in DevNames)
+            VISA.EnumerateUSBDevices(this);
+            string usbname = VISA.FindUSBName(description);
+            if (usbname == "")
             {
-                if (item.Key == description || item.Value == description)
-                {
-                    return Connect(PortType.USB, out exc, Encoding.ASCII, item.Value);
-                }
+                exc = new Exception("未找到对应设备");
+                return false;
             }
-            exc = new Exception("未找到设备");
-            return false;
+            return Connect(PortType.USB, out exc, Encoding.ASCII, usbname);
         }
 
-        private static Dictionary<string, string> DevNames = new Dictionary<string, string>();
-
+        /// <summary>
+        /// 获取USB设备
+        /// </summary>
+        /// <returns></returns>
         public List<string> GetUsbDeviceNames()
         {
-            using (ResourceManager m = new ResourceManager())
-            {
-                DevNames.Clear();
-                try
-                {
-                    List<string> strs = m.Find("USB?*").ToList();
-                    List<string> result = new List<string>();
-                    foreach (var item in strs)
-                    {
-                        using (var ss = m.Open(item))
-                        {
-                            try
-                            {
-                                string res = ThreadSafeQuery("*IDN?\n", 200);
-                                if (res.Contains("KEITHLEY") && res.Contains("MODEL 2450"))
-                                {
-                                    //获取序列号
-                                    string strsegs = res.Split(',')[2];
-                                    string pro = "KEITHLEY 2450 " + strsegs;
-                                    result.Add(pro);
-                                    DevNames.Add(pro, item);
-                                }
-                            }
-                            catch
-                            {
-                                continue;
-                            }
-                        }
-                    }
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    return new List<string>();
-                }
-            }
+            return VISA.EnumerateUSBDevices(this);
         }
     }
 }
