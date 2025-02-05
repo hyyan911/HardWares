@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.TCPIP通讯模块.波源
+namespace HardWares.波源
 {
     /// <summary>
     /// 

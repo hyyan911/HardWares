@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.TCPIP通讯模块.波源.Rigol_DSG_3000
+namespace HardWares.波源.Rigol_DSG_3000
 {
     internal partial class RFSignalGenerator : RFSignalGeneratorBase
     {
