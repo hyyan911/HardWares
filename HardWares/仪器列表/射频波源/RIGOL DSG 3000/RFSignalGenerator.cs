@@ -44,6 +44,16 @@ namespace HardWares.TCPIP通讯模块.波源.Rigol_DSG_3000
         public override List<Parameter> AvailableParameterNames()
         {
             List<Parameter> res = new List<Parameter>();
+            res.Add(new Parameter("RFFrequency", "射频源频率（MHz）", RFFrequency.GetType(), this, true));
+            res.Add(new Parameter("RFPhaseOffset", "射频相位偏移(度)", RFPhaseOffset.GetType(), this, true));
+            res.Add(new Parameter("RFAmplitude", "射频强度（dBm）", RFAmplitude.GetType(), this, true));
+            res.Add(new Parameter("RFAmplitudeLimit", "射频输出上限（dBm）", RFAmplitudeLimit.GetType(), this, true));
+            res.Add(new Parameter("IsRFOutOpen", "射频源输出状态", IsRFOutOpen.GetType(), this, true));
+
+            res.Add(new Parameter("LFAmplitude", "低频源幅度（V）", LFAmplitude.GetType(), this, true));
+            res.Add(new Parameter("LFFrequency", "低频输出源频率（Hz）", LFFrequency.GetType(), this, true));
+            res.Add(new Parameter("IsLFOutOpen", "低频源开关状态", IsLFOutOpen.GetType(), this, true));
+            res.Add(new Parameter("LFOutputShape", "低频输出波形", LFOutputShape.GetType(), this, true));
             return res;
         }
 
