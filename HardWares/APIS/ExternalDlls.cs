@@ -22,7 +22,7 @@ namespace HardWares.APIS
             if (Environment.Is64BitOperatingSystem)
             {
                 importer = new DllImporter();
-                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "PI_GCS2_DLL" + ".dll"), Resources.PI_GCS2_DLL_x64);
+                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "PI_GCS2_DLL" + ".dll"), Resources.PI_GCS2_DLL);
             }
             else
             {
