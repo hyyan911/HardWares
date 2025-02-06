@@ -34,6 +34,8 @@ namespace HardWares.相机_CCD_
             }
             catch (Exception ex)
             {
+                bmap.Dispose();
+                ++BrokenFrameCount;
                 return null;
             }
             finally
@@ -49,6 +51,11 @@ namespace HardWares.相机_CCD_
         /// 
         /// </summary>
         public abstract double ExposureTime { get; set; }
+
+        /// <summary>
+        /// 未加载帧数
+        /// </summary>
+        public int BrokenFrameCount { get; set; } = 0;
 
         /// <summary>
         /// 
