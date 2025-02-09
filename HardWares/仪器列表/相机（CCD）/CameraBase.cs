@@ -30,6 +30,9 @@ namespace HardWares.相机_CCD_
                 }
                 bmap.RotateFlip(FlipType);
                 source = CodeHelper.ImageConverter.BitmapToBitmapSource(bmap);
+                bmap.Dispose();
+                source.Freeze();
+                GC.Collect();
                 return source;
             }
             catch (Exception ex)
@@ -37,11 +40,6 @@ namespace HardWares.相机_CCD_
                 bmap.Dispose();
                 ++BrokenFrameCount;
                 return null;
-            }
-            finally
-            {
-                bmap.Dispose();
-                source.Freeze();
             }
         }
 

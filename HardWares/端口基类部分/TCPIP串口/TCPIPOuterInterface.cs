@@ -23,5 +23,10 @@ namespace HardWares.端口基类
         /// <returns></returns>
         bool ConnectTCPIP(string TCPIPName, int baudrate, out Exception exc);
 
+        /// <summary>
+        /// 获取USB设备名称
+        /// </summary>
+        /// <returns></returns>
+        List<string> GetTCPIPDeviceNames();
     }
 }

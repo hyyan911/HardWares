@@ -18,18 +18,6 @@ namespace HardWares.APIS.PI
     /// </summary>
     internal class PIAPI2 : PIAPI
     {
-        /// <summary>
-        /// 加载GCSDLL
-        /// </summary>
-        /// <param name="gcsName"></param>
-        /// <param name="resourceBytes"></param>
-        /// <returns></returns>
-        internal static string LoadGCSDLL(string gcsName, byte[] resourceBytes)
-        {
-            DllImporter importer = new DllImporter();
-            importer.ExtractEmbeddedDlls(gcsName, resourceBytes);
-            return gcsName;
-        }
 
         #region 设备连接部分
 

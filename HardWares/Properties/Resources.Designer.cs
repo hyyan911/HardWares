@@ -109,5 +109,25 @@ namespace HardWares.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] ziDotNETCore_win32 {
+            get {
+                object obj = ResourceManager.GetObject("ziDotNETCore_win32", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] ziDotNETCore_win64 {
+            get {
+                object obj = ResourceManager.GetObject("ziDotNETCore_win64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

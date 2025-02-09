@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace HardWares.APIS
 {
@@ -19,10 +20,10 @@ namespace HardWares.APIS
             importer = new DllImporter();
             importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "Thorlabs.MotionControl.FilterFlipper" + ".dll"), Resources.Thorlabs_MotionControl_FilterFlipper);
 
-            if (Environment.Is64BitOperatingSystem)
+            if (DllImporter.GetArchitecture() == Architecture.X64 || DllImporter.GetArchitecture() == Architecture.Arm64)
             {
                 importer = new DllImporter();
-                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "PI_GCS2_DLL" + ".dll"), Resources.PI_GCS2_DLL);
+                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "PI_GCS2_DLL" + ".dll"), Resources.PI_GCS2_DLL_x64);
             }
             else
             {

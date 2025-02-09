@@ -8,12 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares
+namespace HardWares.APIS
 {
-    /// <summary>
-    /// 预加载指定的非托管DLL文件
-    /// </summary>
-    internal class DllImporter
+    public class DllImporter
     {
         internal string tempFolder { get; private set; } = "";
 
@@ -65,5 +62,13 @@ namespace HardWares
             }
         }
 
+        /// <summary>
+        /// 获取处理器架构
+        /// </summary>
+        /// <returns></returns>
+        public static Architecture GetArchitecture()
+        {
+            return System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture;
+        }
     }
 }

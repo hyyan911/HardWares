@@ -123,17 +123,22 @@
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>Resources\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="ziDotNET-win32, Version=1.0.9097.7136, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\ziDotNET-win32.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIS\DllImporter.cs" />
     <Compile Include="APIS\ExternalDlls.cs" />
     <Compile Include="APIS\PI\Options.cs" />
     <Compile Include="APIS\PI\PIAPI.cs" />
-    <Compile Include="DllImporter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TCPIP通讯模块\Zurich LockIn\LockIn.cs" />
     <Compile Include="TCPIP通讯模块\波源\Rigol DSG 3000\SignalGenerator.cs" />
     <Compile Include="USB通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
     <Compile Include="USB通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />
@@ -152,6 +157,8 @@
     <Compile Include="串口通讯模块\PID\PIDControlHelper.cs" />
     <Compile Include="串口通讯模块\步进电机\三轴步进电机（与Aurduino通讯）\MicroMover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="仪器列表\Lock In\LockInBase.cs" />
+    <Compile Include="仪器列表\Lock In\Zurich LockIn\LockIn.cs" />
     <Compile Include="仪器列表\射频波源\OutputShapes.cs" />
     <Compile Include="仪器列表\射频波源\RIGOL DSG 3000\RFSignalGenerator.cs" />
     <Compile Include="仪器列表\射频波源\RFSignalGeneratorBase.cs" />
@@ -197,6 +204,10 @@
     <Content Include="Resources\Thorlabs.MotionControl.DeviceManager.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.FilterFlipper.dll" />
     <Content Include="Resources\uc480_64.dll" />
+    <Content Include="Resources\ziDotNET-win32.dll" />
+    <Content Include="Resources\ziDotNET-win64.dll" />
+    <Content Include="Resources\ziDotNETCore-win32.dll" />
+    <Content Include="Resources\ziDotNETCore-win64.dll" />
     <Content Include="串口通讯模块\示波器\汉泰\HTMarch.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

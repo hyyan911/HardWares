@@ -28,13 +28,6 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
 
         public override event ParamsChangeEventHandler ParamsChangedEvent;
 
-        static Camera()
-        {
-            DllImporter importer = new DllImporter();
-            //importer.ExtractEmbeddedDlls("uc480.dll", Properties.Resources.uc480_64);
-            importer.ExtractEmbeddedDlls("uc480_64.dll", Properties.Resources.uc480_64);
-        }
-
         #region 参数列表
 
         /// <summary>
