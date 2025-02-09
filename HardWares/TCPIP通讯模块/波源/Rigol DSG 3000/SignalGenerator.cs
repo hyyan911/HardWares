@@ -22,6 +22,11 @@ namespace HardWares.波源.Rigol_DSG_3000
             return Connect(PortType.TCPIP, out exc, Encoding.ASCII, DeviceName);
         }
 
+        public List<string> GetTCPIPDeviceNames()
+        {
+            return VISA.EnumerateTCPIPDevices(this);
+        }
+
         void TCPIPInternalInterface.CloseTCPIPPort()
         {
             VISA.CloseTCPIPPort(this);

@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using zhinst;
 
-namespace HardWares.仪器列表.Lock_In.Zurich_LockIn
+namespace HardWares.Lock_In.Zurich_LockIn
 {
     public partial class LockIn : LockInBase, TCPIPInternalInterface, TCPIPOuterInterface
     {
-        private static ziDotNET ZurichClient = new ziDotNET();
+        private static ziDotNET ZurichClient = null;
 
         public bool ConnectTCPIP(string TCPIPName, int baudrate, out Exception exc)
         {
@@ -28,6 +28,7 @@ namespace HardWares.仪器列表.Lock_In.Zurich_LockIn
         /// <returns></returns>
         public List<string> GetTCPIPDeviceNames()
         {
+            if (ZurichClient == null) ZurichClient = new ziDotNET();
             return ZurichClient.discoveryFindAll();
         }
 

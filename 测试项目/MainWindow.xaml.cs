@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using HardWares.纳米位移台.PI;
 using HardWares.仪器列表.电动翻转座;
-using HardWares.端口基类;
+using HardWares.Lock_In.Zurich_LockIn;
 using HardWares.相机_CCD_;
 
 namespace 测试项目
@@ -30,7 +30,7 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = PortObject.GetDeviceNamesWithSameBase(typeof(CameraBase));
+            Port.ItemsSource = new LockIn().GetTCPIPDeviceNames();
         }
 
         FlipMotor cc = null;

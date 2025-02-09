@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.仪器列表.Lock_In.Zurich_LockIn
+namespace HardWares.Lock_In.Zurich_LockIn
 {
     public partial class LockIn : LockInBase
     {
