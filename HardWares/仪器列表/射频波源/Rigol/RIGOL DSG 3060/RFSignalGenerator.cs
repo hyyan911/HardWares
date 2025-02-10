@@ -164,7 +164,7 @@ namespace HardWares.波源.Rigol_DSG_3060
             }
             set
             {
-                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { false }, new string[] { value ? "ON" : "OFF" }, "OUTP"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value ? "1" : "0" }, "OUTP"));
             }
         }
 
@@ -277,7 +277,7 @@ namespace HardWares.波源.Rigol_DSG_3060
             }
             set
             {
-                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { false }, new string[] { value ? "ON" : "OFF" }, "LFO"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value ? "1" : "0" }, "LFO"));
             }
         }
         #endregion

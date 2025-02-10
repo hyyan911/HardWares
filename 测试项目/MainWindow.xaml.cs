@@ -69,7 +69,8 @@ namespace 测试项目
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
-            // cc.Stages[0].MoveToAndWait(cc.Stages[0].Target - 0.1, 2000);
+            cc.IsLFOutOpen = !cc.IsLFOutOpen;
+            cc.LFAmplitude -= 0.02;
         }
     }
 }

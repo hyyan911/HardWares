@@ -52,7 +52,7 @@ namespace HardWares.端口基类部分
                 string name = param[0] as string;
                 try
                 {
-                    ((device as PortObject).Instance as SerialSession).LockResource(2000);
+                    res.LockResource(2000);
                 }
                 catch (Exception ex) { }
                 return res;
@@ -175,7 +175,7 @@ namespace HardWares.端口基类部分
                 res.TerminationCharacterEnabled = false;
                 try
                 {
-                    ((device as PortObject).Instance as UsbSession).LockResource(2000);
+                    res.LockResource(2000);
                 }
                 catch (Exception ex) { }
                 return res;
@@ -318,7 +318,7 @@ namespace HardWares.端口基类部分
                 res.TerminationCharacterEnabled = false;
                 try
                 {
-                    ((device as PortObject).Instance as TcpipSession).LockResource(2000);
+                    res.LockResource(2000);
                 }
                 catch (Exception ex) { }
                 return res;
@@ -425,19 +425,19 @@ namespace HardWares.端口基类部分
         {
             if (device.Instance is UsbSession)
             {
-                VISAUSBThreadUnsafeQuery(device.Instance as UsbSession, messagetosend, timeout);
+                return VISAUSBThreadUnsafeQuery(device.Instance as UsbSession, messagetosend, timeout);
             }
             if (device.Instance is SerialSession)
             {
-                VISACOMThreadUnsafeQuery(device.Instance as SerialSession, messagetosend, timeout);
+                return VISACOMThreadUnsafeQuery(device.Instance as SerialSession, messagetosend, timeout);
             }
             if (device.Instance is GpibSession)
             {
-                VISAGPIBThreadUnsafeQuery(device.Instance as GpibSession, messagetosend, timeout);
+                return VISAGPIBThreadUnsafeQuery(device.Instance as GpibSession, messagetosend, timeout);
             }
             if (device.Instance is TcpipSession)
             {
-                VISATCPIPThreadUnsafeQuery(device.Instance as TcpipSession, messagetosend, timeout);
+                return VISATCPIPThreadUnsafeQuery(device.Instance as TcpipSession, messagetosend, timeout);
             }
             return "";
         }
