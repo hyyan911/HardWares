@@ -22,7 +22,6 @@ namespace HardWares.端口基类部分
         public ProductNameGenerater GetProductName = null;
 
         #region COM部分
-
         public void COMPortWrite(TCPIPInternalInterface device, byte[] value)
         {
             ((device as PortObject).Instance as SerialSession).RawIO.Write(value);
@@ -87,6 +86,67 @@ namespace HardWares.端口基类部分
                 ((device as PortObject).Instance as SerialSession).Clear();
             }
             catch (Exception ex) { }
+        }
+
+        /// <summary>
+        /// 获取USB设备
+        /// </summary>
+        public List<string> EnumerateCOMDevices(COMInternalInterface device)
+        {
+            using (ResourceManager m = new ResourceManager())
+            {
+                DevNames.Clear();
+                try
+                {
+                    List<string> strs = m.Find("ASRL?*INSTR").ToList();
+                    List<string> result = new List<string>();
+                    foreach (var item in strs)
+                    {
+                        using (var ss = m.Open(item) as SerialSession)
+                        {
+                            try
+                            {
+                                string res = VISACOMThreadUnsafeQuery(ss, "*IDN?\n", 200);
+                                if (res == "") continue;
+                                if (GetProductName == null) result.Add(res);
+                                string product = GetProductName?.Invoke(res);
+                                if (product == "") continue;
+                                result.Add(product);
+                                DevNames.Add(new KeyValuePair<string, string>(product, item));
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    return new List<string>();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 连接USB
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="usbName"></param>
+        /// <param name="exc"></param>
+        /// <returns></returns>
+        public bool ConnectCOM(PortObject device, string comname, int baudrate, out Exception exc)
+        {
+            EnumerateCOMDevices(device as COMInternalInterface);
+            string res = FindResourceName(comname);
+            if (res == "")
+            {
+                exc = new Exception("未找到设备");
+                return false;
+            }
+            return device.Connect(PortType.COM, out exc, Encoding.ASCII, res, baudrate);
         }
         #endregion
 
@@ -204,13 +264,32 @@ namespace HardWares.端口基类部分
         /// </summary>
         /// <param name="identifier"></param>
         /// <returns></returns>
-        public string FindUSBName(string identifier)
+        private string FindResourceName(string identifier)
         {
             foreach (var item in DevNames)
             {
                 if (item.Key == identifier || item.Value == identifier) return item.Value;
             }
             return "";
+        }
+
+        /// <summary>
+        /// 连接USB
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="usbName"></param>
+        /// <param name="exc"></param>
+        /// <returns></returns>
+        public bool ConnectUSB(PortObject device, string usbName, out Exception exc)
+        {
+            EnumerateUSBDevices(device as USBInternalInterface);
+            string res = FindResourceName(usbName);
+            if (res == "")
+            {
+                exc = new Exception("未找到设备");
+                return false;
+            }
+            return device.Connect(PortType.USB, out exc, Encoding.ASCII, res);
         }
         #endregion
 
@@ -320,18 +399,24 @@ namespace HardWares.端口基类部分
             }
         }
 
+
         /// <summary>
-        /// 根据ProductName寻找USB名称
+        /// 连接USB
         /// </summary>
-        /// <param name="identifier"></param>
+        /// <param name="device"></param>
+        /// <param name="usbName"></param>
+        /// <param name="exc"></param>
         /// <returns></returns>
-        public string FindTCPIPName(string identifier)
+        public bool ConnectTCPIP(PortObject device, string tcpipname, out Exception exc)
         {
-            foreach (var item in DevNames)
+            EnumerateTCPIPDevices(device as TCPIPInternalInterface);
+            string res = FindResourceName(tcpipname);
+            if (res == "")
             {
-                if (item.Key == identifier || item.Value == identifier) return item.Value;
+                exc = new Exception("未找到设备");
+                return false;
             }
-            return "";
+            return device.Connect(PortType.TCPIP, out exc, Encoding.ASCII, res);
         }
         #endregion
 

@@ -13,13 +13,7 @@ namespace HardWares.波源.Rigol_DSG_3060
     {
         public bool ConnectUSB(string usbName, out Exception exc)
         {
-            string res = VISA.FindUSBName(usbName);
-            if (res == "")
-            {
-                exc = new Exception("未找到设备");
-                return false;
-            }
-            return Connect(PortType.USB, out exc, Encoding.ASCII, usbName);
+            return VISA.ConnectUSB(this, usbName, out exc);
         }
 
         public List<string> GetUsbDeviceNames()

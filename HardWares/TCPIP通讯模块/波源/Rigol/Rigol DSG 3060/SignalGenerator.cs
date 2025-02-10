@@ -13,13 +13,7 @@ namespace HardWares.波源.Rigol_DSG_3060
     {
         public bool ConnectTCPIP(string DeviceName, out Exception exc)
         {
-            string res = VISA.FindTCPIPName(DeviceName);
-            if (res == "")
-            {
-                exc = new Exception("未找到设备");
-                return false;
-            }
-            return Connect(PortType.TCPIP, out exc, Encoding.ASCII, DeviceName);
+            return VISA.ConnectTCPIP(this, DeviceName, out exc);
         }
 
         public List<string> GetTCPIPDeviceNames()

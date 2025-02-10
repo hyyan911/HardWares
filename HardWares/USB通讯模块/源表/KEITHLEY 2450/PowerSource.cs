@@ -74,14 +74,7 @@ namespace HardWares.源表.KEITHLEY_2450
 
         public bool ConnectUSB(string description, out Exception exc)
         {
-            VISA.EnumerateUSBDevices(this);
-            string usbname = VISA.FindUSBName(description);
-            if (usbname == "")
-            {
-                exc = new Exception("未找到对应设备");
-                return false;
-            }
-            return Connect(PortType.USB, out exc, Encoding.ASCII, usbname);
+            return VISA.ConnectUSB(this, description, out exc);
         }
 
         /// <summary>
