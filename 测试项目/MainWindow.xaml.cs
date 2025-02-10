@@ -16,8 +16,8 @@ using System.Windows.Shapes;
 using System.Threading;
 using HardWares.纳米位移台.PI;
 using HardWares.仪器列表.电动翻转座;
-using HardWares.Lock_In.Zurich_LockIn;
 using HardWares.相机_CCD_;
+using HardWares.波源.Rigol_DSG_3060;
 
 namespace 测试项目
 {
@@ -30,10 +30,10 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = new LockIn().GetTCPIPDeviceNames();
+            Port.ItemsSource = new RFSignalGenerator().GetUsbDeviceNames();
         }
 
-        FlipMotor cc = null;
+        RFSignalGenerator cc = null;
         /// <summary>
         /// 连接
         /// </summary>
@@ -41,7 +41,7 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            cc = new FlipMotor();
+            cc = new RFSignalGenerator();
             State.Content = cc.ConnectUSB(Port.SelectedItem.ToString(), out Exception ex).ToString();
             if (State.Content.ToString() == "False") { cc.Dispose(); return; }
             //Thread t = new Thread(() =>
@@ -63,7 +63,8 @@ namespace 测试项目
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            cc.Switch = !cc.Switch;
+            cc.IsLFOutOpen = !cc.IsLFOutOpen;
+            cc.LFAmplitude += 0.02;
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)

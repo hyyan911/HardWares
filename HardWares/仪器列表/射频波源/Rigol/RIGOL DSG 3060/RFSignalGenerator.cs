@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.波源.Rigol_DSG_3000
+namespace HardWares.波源.Rigol_DSG_3060
 {
-    internal partial class RFSignalGenerator : RFSignalGeneratorBase
+    public partial class RFSignalGenerator : RFSignalGeneratorBase
     {
         VISAResourceHelper VISA { get; set; } = new VISAResourceHelper() { GetProductName = GetProductName };
 
@@ -27,9 +27,9 @@ namespace HardWares.波源.Rigol_DSG_3000
                 if (source.Contains("Rigol Technologies"))
                 {
                     string[] ss = source.Split(',');
-                    if (ss[1].Contains("DSG3000"))
+                    if (ss[1].Contains("DSG3060"))
                     {
-                        return "DSG3000 " + ss[2];
+                        return "DSG3060 " + ss[2];
                     }
                 }
                 return "";
@@ -37,7 +37,7 @@ namespace HardWares.波源.Rigol_DSG_3000
             catch (Exception) { return ""; }
         }
 
-        public override string ProductIdentifier { get; internal set; } = "Rigol DSG3000";
+        public override string ProductIdentifier { get; internal set; } = "Rigol DSG3060";
 
         public override event ParamsChangeEventHandler ParamsChangedEvent;
 

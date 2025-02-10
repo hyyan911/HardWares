@@ -17,7 +17,7 @@ namespace HardWares.Lock_In.Zurich_LockIn
     {
         private static ziDotNET ZurichClient = null;
 
-        public bool ConnectTCPIP(string TCPIPName, int baudrate, out Exception exc)
+        public bool ConnectTCPIP(string TCPIPName, out Exception exc)
         {
             throw new NotImplementedException();
         }

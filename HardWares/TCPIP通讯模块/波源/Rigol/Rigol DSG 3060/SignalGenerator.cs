@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.波源.Rigol_DSG_3000
+namespace HardWares.波源.Rigol_DSG_3060
 {
-    internal partial class RFSignalGenerator : TCPIPInternalInterface, TCPIPOuterInterface
+    public partial class RFSignalGenerator : TCPIPInternalInterface, TCPIPOuterInterface
     {
-        public bool ConnectTCPIP(string DeviceName, int baudrate, out Exception exc)
+        public bool ConnectTCPIP(string DeviceName, out Exception exc)
         {
             string res = VISA.FindTCPIPName(DeviceName);
             if (res == "")
