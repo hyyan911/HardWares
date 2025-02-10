@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="TCPIP通讯模块\Zurich LockIn\LockIn.cs" />
     <Compile Include="TCPIP通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
+    <Compile Include="TCPIP通讯模块\纳米位移台\PI\PIController.cs" />
     <Compile Include="USB通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
     <Compile Include="USB通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
     <Compile Include="USB通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />

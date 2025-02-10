@@ -40,11 +40,6 @@ namespace HardWares.纳米位移台.PI
         internal bool IsGCS2 { get; set; } = true;
 
         /// <summary>
-        /// 已经存在的设备列表
-        /// </summary>
-        internal static Dictionary<string, int> ExistDevices = new Dictionary<string, int>();
-
-        /// <summary>
         /// 支持的函数
         /// </summary>
         internal List<string> CommandSet = new List<string>();
@@ -194,17 +189,6 @@ namespace HardWares.纳米位移台.PI
         }
         #endregion
 
-
-        #region 设备查重部分
-        internal int HasRepeatDevice(string serialnumber)
-        {
-            if (ExistDevices.TryGetValue(serialnumber, out var device))
-            {
-                return device;
-            }
-            return -1;
-        }
-        #endregion
 
         #region GCS版本部分
 

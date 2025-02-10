@@ -140,18 +140,7 @@ namespace HardWares.纳米位移台.PI
         /// <returns></returns>
         public bool ConnectUSB(string usbname, out Exception exc)
         {
-            int ind = HasRepeatDevice(usbname);
-            if (ind != -1)
-            {
-                PIAPI2.PI_CloseConnection(ind);
-                ExistDevices.Remove(usbname);
-            }
-            bool result = Connect(PortType.USB, out exc, Encoding.ASCII, usbname);
-            if (result == true)
-            {
-                ExistDevices.Add(usbname, (int)Instance);
-            }
-            return result;
+            return Connect(PortType.USB, out exc, Encoding.ASCII, usbname);
         }
 
         /// <summary>

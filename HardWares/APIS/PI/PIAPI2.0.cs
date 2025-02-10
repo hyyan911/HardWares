@@ -95,6 +95,20 @@ namespace HardWares.APIS.PI
         internal static extern int PI_EnumerateUSB(IntPtr szBuffer, int iBufferSize, string szFilter);
 
         /// <summary>
+        /// Lists the identification strings of all controllers available viaUSB interfaces
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("PI_GCS2_DLL.dll", EntryPoint = "PI_EnumerateTCPIPDevices", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.Winapi)]
+        internal static extern int PI_EnumerateTCPIPDevices(IntPtr szBuffer, int iBufferSize, string szFilter);
+
+        /// <summary>
+        /// Lists the identification strings of all controllers available viaUSB interfaces
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("PI_GCS2_DLL.dll", EntryPoint = "PI_ConnectTCPIPbyDescription", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.Winapi)]
+        internal static extern int PI_ConnectTCPIPbyDescription(string szDescription);
+
+        /// <summary>
         /// Gets ID of a connected controller
         /// </summary>
         /// <returns></returns>
@@ -1696,6 +1710,32 @@ double dStepAxisRange, string szParameters);
         {
             IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 100000);
             PI_EnumerateUSB(pt, 100000, "");
+            Encoding coder = Encoding.ASCII;
+            byte[] bt = new byte[100000];
+            Marshal.Copy(pt, bt, 0, 100000);
+            Marshal.FreeHGlobal(pt);
+            string result = coder.GetString(bt);
+            result = result.Substring(0, result.IndexOf('\0'));
+            string[] lis = result.Split(new char[] { '\n', '\t', '\r' });
+            List<string> values = new List<string>();
+            foreach (var item in lis)
+            {
+                if (item.Trim() != "")
+                {
+                    values.Add(item.Trim());
+                }
+            }
+            return values;
+        }
+
+        /// <summary>
+        /// 枚举可用的USB设备
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> EnumerateTCPIP()
+        {
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 100000);
+            PI_EnumerateTCPIPDevices(pt, 100000, "");
             Encoding coder = Encoding.ASCII;
             byte[] bt = new byte[100000];
             Marshal.Copy(pt, bt, 0, 100000);
