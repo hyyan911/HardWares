@@ -125,7 +125,7 @@ namespace HardWares.纳米位移台.PI
         {
             if (IsGCS2)
             {
-                PIAPI2.PI_GcsCommandset((int)Instance, Encoding.ASCII.GetString(value));
+                PIAPI2.PI_GcsCommandset((int)Instance, value);
             }
             else
             {

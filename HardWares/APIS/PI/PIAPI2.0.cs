@@ -16,7 +16,7 @@ namespace HardWares.APIS.PI
     /// <summary>
     /// 定义所有可用串口的PIAPI
     /// </summary>
-    internal class PIAPI2 : PIAPI
+    internal class PIAPI2
     {
 
         #region 设备连接部分
@@ -105,8 +105,15 @@ namespace HardWares.APIS.PI
         /// Lists the identification strings of all controllers available viaUSB interfaces
         /// </summary>
         /// <returns></returns>
-        [DllImport("PI_GCS2_DLL.dll", EntryPoint = "PI_ConnectTCPIPbyDescription", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.Winapi)]
-        internal static extern int PI_ConnectTCPIPbyDescription(string szDescription);
+        [DllImport("PI_GCS2_DLL.dll", EntryPoint = "PI_ConnectTCPIPByDescription", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.Winapi)]
+        internal static extern int PI_ConnectTCPIPByDescription(string szDescription);
+
+        /// <summary>
+        /// Lists the identification strings of all controllers available viaUSB interfaces
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("PI_GCS2_DLL.dll", EntryPoint = "PI_ConnectTCPIP", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.Winapi)]
+        internal static extern int PI_ConnectTCPIP(string szHostname, int port);
 
         /// <summary>
         /// Gets ID of a connected controller
@@ -324,7 +331,7 @@ namespace HardWares.APIS.PI
         #region 通信部分
 
         [DllImport("PI_GCS2_DLL.dll", EntryPoint = "PI_GcsCommandset", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.Winapi)]
-        internal static extern bool PI_GcsCommandset(int ID, string szCommand);
+        internal static extern bool PI_GcsCommandset(int ID, byte[] szCommand);
 
         [DllImport("PI_GCS2_DLL.dll", EntryPoint = "PI_GcsGetAnswer", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.Winapi)]
         internal static extern bool PI_GcsGetAnswer(int ID, IntPtr szAnswer, int iBufferSize);
@@ -1754,6 +1761,17 @@ double dStepAxisRange, string szParameters);
             return values;
         }
 
+        public static string QIDN(int id)
+        {
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * 100000);
+            PI_qIDN(id, pt, 100000);
+            Encoding coder = Encoding.ASCII;
+            byte[] bt = new byte[100000];
+            Marshal.Copy(pt, bt, 0, 100000);
+            Marshal.FreeHGlobal(pt);
+            string result = coder.GetString(bt);
+            return result;
+        }
         #endregion
     }
 }

@@ -6,7 +6,4 @@ using System.Threading.Tasks;
 
 namespace HardWares.APIS.PI
 {
-    internal abstract class PIAPI
-    {
-    }
 }

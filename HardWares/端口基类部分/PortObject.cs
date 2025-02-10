@@ -212,7 +212,7 @@ namespace HardWares.端口基类
             }
             if (PortType == PortType.TCPIP)
             {
-                (this as TCPIPInternalInterface).TestTCPIPAction();
+                return (this as TCPIPInternalInterface).TestTCPIPAction();
             }
             return false;
         }
@@ -253,7 +253,7 @@ namespace HardWares.端口基类
             }
             if (PortType == PortType.TCPIP)
             {
-                (this as TCPIPInternalInterface).TCPIPPortRead();
+                return (this as TCPIPInternalInterface).TCPIPPortRead();
             }
             return new byte[0];
         }
@@ -313,7 +313,7 @@ namespace HardWares.端口基类
             {
                 return (this as COMInternalInterface).IsCOMOpen();
             }
-            if (PortType == PortType.COM)
+            if (PortType == PortType.TCPIP)
             {
                 return (this as TCPIPInternalInterface).IsTCPIPOpen();
             }

@@ -30,10 +30,10 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = new RFSignalGenerator().GetUsbDeviceNames();
+            Port.ItemsSource = new PIController().GetTCPIPDeviceNames();
         }
 
-        RFSignalGenerator cc = null;
+        PIController cc = null;
         /// <summary>
         /// 连接
         /// </summary>
@@ -41,8 +41,8 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            cc = new RFSignalGenerator();
-            State.Content = cc.ConnectUSB(Port.SelectedItem.ToString(), out Exception ex).ToString();
+            cc = new PIController();
+            State.Content = cc.ConnectTCPIP(Port.SelectedItem.ToString(), out Exception ex).ToString();
             if (State.Content.ToString() == "False") { cc.Dispose(); return; }
             //Thread t = new Thread(() =>
             //{
@@ -63,10 +63,6 @@ namespace 测试项目
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            cc.RFFrequency = 2800;
-            cc.RFAmplitudeLimit = -20;
-            cc.RFAmplitude = -20;
-            var x = cc.LFFrequency;
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)

@@ -11,58 +11,65 @@ namespace HardWares.波源.Rigol_DSG_3060
 {
     public partial class RFSignalGenerator : TCPIPInternalInterface, TCPIPOuterInterface
     {
+        VISAResourceTCPIPHelper TCPVISA { get; set; } = new VISAResourceTCPIPHelper(GetProductName);
+
         public bool ConnectTCPIP(string DeviceName, out Exception exc)
         {
-            return VISA.ConnectTCPIP(this, DeviceName, out exc);
+            return TCPVISA.ConnectTCPIP(this, DeviceName, out exc);
         }
 
         public List<string> GetTCPIPDeviceNames()
         {
-            return VISA.EnumerateTCPIPDevices(this);
+            return TCPVISA.EnumerateTCPIPDevices(this);
         }
 
         void TCPIPInternalInterface.CloseTCPIPPort()
         {
-            VISA.CloseTCPIPPort(this);
+            TCPVISA.CloseTCPIPPort(this);
         }
 
         void TCPIPInternalInterface.ConnectedTCPIPAction()
         {
         }
 
+        List<string> TCPIPInternalInterface.GetRawTCPIPDeviceNames()
+        {
+            return new List<string>();
+        }
+
         bool TCPIPInternalInterface.IsTCPIPOpen()
         {
-            return VISA.IsTCPIPOpen(this);
+            return TCPVISA.IsTCPIPOpen(this);
         }
 
         object TCPIPInternalInterface.OpenTCPIPPort(List<object> param)
         {
-            return VISA.OpenTCPIPPort(this, param);
+            return TCPVISA.OpenTCPIPPort(this, param);
         }
 
         void TCPIPInternalInterface.ReceiveTCPIPAct()
         {
-            VISA.ReceiveTCPIPAct(this);
+            TCPVISA.ReceiveTCPIPAct(this);
         }
 
         void TCPIPInternalInterface.TCPIPInitAction(object PortInstance)
         {
-            VISA.TCPIPInitAction(this, PortInstance);
+            TCPVISA.TCPIPInitAction(this, PortInstance);
         }
 
         byte[] TCPIPInternalInterface.TCPIPPortRead()
         {
-            return VISA.TCPIPPortRead(this);
+            return TCPVISA.TCPIPPortRead(this);
         }
 
         void TCPIPInternalInterface.TCPIPPortWrite(byte[] value)
         {
-            VISA.TCPIPPortWrite(this, value);
+            TCPVISA.TCPIPPortWrite(this, value);
         }
 
         bool TCPIPInternalInterface.TestTCPIPAction()
         {
-            return VISA.TestTCPIPPort(this);
+            return TCPVISA.TestTCPIPPort(this);
         }
     }
 }

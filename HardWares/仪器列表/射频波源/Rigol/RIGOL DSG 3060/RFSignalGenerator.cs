@@ -12,8 +12,6 @@ namespace HardWares.波源.Rigol_DSG_3060
 {
     public partial class RFSignalGenerator : RFSignalGeneratorBase
     {
-        VISAResourceHelper VISA { get; set; } = new VISAResourceHelper() { GetProductName = GetProductName };
-
         /// <summary>
         /// 获取ProductName
         /// </summary>

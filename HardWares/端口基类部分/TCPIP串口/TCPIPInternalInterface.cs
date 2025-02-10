@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HardWares.端口基类部分.VISA资源辅助类;
 
 namespace HardWares.端口基类.TCPIP串口
 {
     internal interface TCPIPInternalInterface
     {
+        PortResourceHelper helper
         /// <summary>
         /// 发送TCPIP测试信号内容
         /// </summary>
@@ -58,5 +60,7 @@ namespace HardWares.端口基类.TCPIP串口
         /// 初始化串口
         /// </summary>
         void TCPIPInitAction(object PortInstance);
+
+        List<string> GetRawTCPIPDeviceNames();
     }
 }

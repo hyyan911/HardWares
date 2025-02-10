@@ -15,6 +15,7 @@ using System.Windows;
 using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类.TCPIP串口;
+using System.Text.RegularExpressions;
 
 namespace HardWares.纳米位移台.PI
 {
@@ -26,7 +27,8 @@ namespace HardWares.纳米位移台.PI
 
         bool TCPIPInternalInterface.TestTCPIPAction()
         {
-            List<string> result = ProcessQueryResult(ThreadSafeQuery(ProcessCmd("*IDN?", "", ""), 300));
+            string s = PIAPI2.QIDN((int)Instance);
+            List<string> result = ProcessQueryResult(ThreadSafeQuery(ProcessCmd("*IDN?", "", ""), 500));
             if (result.Count == 0) return false;
             if (result[0].Contains("Physik Instrumente"))
             {
@@ -39,7 +41,7 @@ namespace HardWares.纳米位移台.PI
         {
             if (IsGCS2)
             {
-                PIAPI2.PI_GcsCommandset((int)Instance, Encoding.ASCII.GetString(value));
+                PIAPI2.PI_GcsCommandset((int)Instance, value);
             }
             else
             {
@@ -77,7 +79,13 @@ namespace HardWares.纳米位移台.PI
         {
             if (IsGCS2)
             {
-                int id = PIAPI2.PI_ConnectTCPIPbyDescription((param[0] as string).Split(' ').Last());
+                string str = param[0] as string;
+                //Regex reg = new Regex("[(].*[)]");
+                //var res = reg.Match(str);
+                //int id = PIAPI2.PI_ConnectTCPIP(res.Value.Replace("(", "").Replace(")", "").Replace(":50000", ""), 50000);
+                Regex reg = new Regex("[S][N][ ]*[0-9]*[ ]?");
+                var res = reg.Match(str);
+                int id = PIAPI2.PI_ConnectTCPIPByDescription(str);
                 ProductName = param[0] as string;
                 return id;
             }
@@ -107,6 +115,7 @@ namespace HardWares.纳米位移台.PI
 
         void TCPIPInternalInterface.ReceiveTCPIPAct()
         {
+            if (ReceiveBuffer.Count == 0) return;
             List<List<byte>> retu = DataProcess.ProcessReceivedSerialData(LF, ReceiveBuffer, out List<byte> result);
             ReceiveBuffer = result;
             if (retu.Count != 0)

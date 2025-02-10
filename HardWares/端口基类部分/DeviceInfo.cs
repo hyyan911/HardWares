@@ -36,6 +36,16 @@ namespace HardWares.端口基类部分
                 }
                 return false;
             }
+
+            if (type == PortType.TCPIP)
+            {
+                if (PortParams[0].ToString() == param[0].ToString() && PortParams[1].ToString() == param[1].ToString())
+                {
+                    return true;
+                }
+                return false;
+            }
+
             return false;
         }
     }

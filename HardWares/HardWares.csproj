@@ -196,7 +196,13 @@
     <Compile Include="端口基类部分\PortType.cs" />
     <Compile Include="端口基类部分\TCPIP串口\TCPIPInternalInterface.cs" />
     <Compile Include="端口基类部分\TCPIP串口\TCPIPOuterInterface.cs" />
+    <Compile Include="端口基类部分\端口辅助类\PortTCPHelper.cs" />
+    <Compile Include="端口基类部分\端口辅助类\PortUSBHelper.cs" />
+    <Compile Include="端口基类部分\端口辅助类\PortHelper.cs" />
     <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceHelper.cs" />
+    <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceTCPIPHelper.cs" />
+    <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceCOMHelper.cs" />
+    <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceUSBHelper.cs" />
     <Compile Include="端口基类部分\WinUSB端口\WinUSBInternalInterface.cs" />
     <Compile Include="端口基类部分\WinUSB端口\WinUSBOuterInterface.cs" />
   </ItemGroup>

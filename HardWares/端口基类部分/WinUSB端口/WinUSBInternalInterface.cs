@@ -61,5 +61,7 @@ namespace HardWares.端口基类
         /// 初始化串口
         /// </summary>
         void USBInitAction(object PortInstance);
+
+        List<string> RawEnumerateUSBDevices();
     }
 }
