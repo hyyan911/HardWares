@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using HardWares.纳米位移台.PI;
 using HardWares.仪器列表.电动翻转座;
-using HardWares.相机_CCD_;
+using HardWares.源表.KEITHLEY_2450;
 using HardWares.波源.Rigol_DSG_3060;
 
 namespace 测试项目
@@ -63,14 +63,14 @@ namespace 测试项目
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            cc.IsLFOutOpen = !cc.IsLFOutOpen;
-            cc.LFAmplitude += 0.02;
+            cc.RFFrequency = 2800;
+            cc.RFAmplitudeLimit = -20;
+            cc.RFAmplitude = -20;
+            var x = cc.LFFrequency;
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
-            cc.IsLFOutOpen = !cc.IsLFOutOpen;
-            cc.LFAmplitude -= 0.02;
         }
     }
 }

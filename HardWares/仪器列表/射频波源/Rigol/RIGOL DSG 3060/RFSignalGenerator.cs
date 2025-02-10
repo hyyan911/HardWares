@@ -75,13 +75,21 @@ namespace HardWares.波源.Rigol_DSG_3060
         {
             if (value.Contains("MHz"))
             {
-                return double.Parse(value.Replace("MHz", "")) * 1e+6;
+                return double.Parse(value.Replace("MHz", "").Replace(" ", "")) * 1e+6;
             }
             if (value.Contains("kHz"))
             {
-                return double.Parse(value.Replace("kHz", "")) * 1e+3;
+                return double.Parse(value.Replace("kHz", "").Replace(" ", "")) * 1e+3;
             }
-            return double.Parse(value);
+            if (value.Contains("GHz"))
+            {
+                return double.Parse(value.Replace("GHz", "").Replace(" ", "")) * 1e+9;
+            }
+            if (value.Contains("Hz"))
+            {
+                return double.Parse(value.Replace("Hz", "").Replace(" ", ""));
+            }
+            return double.Parse(value.Replace(" ", ""));
         }
 
         #region 设备属性
@@ -95,13 +103,13 @@ namespace HardWares.波源.Rigol_DSG_3060
                 try
                 {
                     string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "FREQ"), 2000);
-                    return ConvertFreqValue(value) * 1e+6;
+                    return ConvertFreqValue(value) * 1e-6;
                 }
                 catch (Exception) { return double.NaN; }
             }
             set
             {
-                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { false }, new string[] { value.ToString() + "MHz" }, "FREQ"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() + "MHz" }, "FREQ"));
             }
         }
         /// <summary>
@@ -120,7 +128,7 @@ namespace HardWares.波源.Rigol_DSG_3060
             }
             set
             {
-                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "LEV"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() + "dBm" }, "LEV"));
             }
         }
 
@@ -140,7 +148,7 @@ namespace HardWares.波源.Rigol_DSG_3060
             }
             set
             {
-                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "LEV", "LIM"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() + "dBm" }, "LEV", "LIM"));
             }
         }
 
@@ -253,7 +261,7 @@ namespace HardWares.波源.Rigol_DSG_3060
             set
             {
                 if (value == OutputShapes.Unknown) return;
-                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { false }, new string[] { value == OutputShapes.Sine ? "SINE" : "SQU" }, "LFO", "SHAP"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value == OutputShapes.Sine ? "SINE" : "SQU" }, "LFO", "SHAP"));
             }
         }
 
