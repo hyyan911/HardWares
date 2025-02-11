@@ -122,7 +122,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             {
                 try
                 {
-                    ser.Write("\"" + "*IDN?" + "\"\n");
+                    ser.Write( "*IDN?\n");
                     Thread.Sleep(100);
                     string res = ser.ReadExisting();
                     if (res.Contains("Stanford Research Systems, PTC10 Programmable Temperature Controller"))
