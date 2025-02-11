@@ -47,6 +47,26 @@ namespace HardWares.Windows
             }
         }
 
+        public ParameterWindow(PortElement obj, Window owner = null)
+        {
+            ps = obj.AvailableParameterNames();
+            InitializeComponent();
+
+            //添加参数
+            foreach (var item in ps)
+            {
+                if (!item.IsStatic) continue;
+                var result = item.ReadValue();
+                Grid g = CreateParamLine(item, result);
+                paramsPanel.Children.Add(g);
+            }
+            if (owner != null)
+            {
+                Owner = owner;
+                WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

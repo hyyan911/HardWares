@@ -13,13 +13,8 @@ namespace HardWares.纳米位移台
     /// <summary>
     /// 纳米位移台
     /// </summary>
-    public abstract class StageBase
+    public abstract class StageBase : PortElement
     {
-        /// <summary>
-        /// 所属控制器
-        /// </summary>
-        public abstract NanoControllerBase Controller { get; internal set; }
-
         /// <summary>
         /// 轴名称
         /// </summary>
@@ -54,11 +49,5 @@ namespace HardWares.纳米位移台
         /// <param name="targetvalue"></param>
         /// <returns></returns>
         public abstract void MoveStepAndWait(double step, int timeout);
-
-        /// <summary>
-        /// 获取可用参数
-        /// </summary>
-        /// <returns></returns>
-        public abstract List<Parameter> AvailableParameterNames();
     }
 }

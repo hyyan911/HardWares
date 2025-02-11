@@ -1,4 +1,5 @@
 ﻿using HardWares.端口基类;
+using HardWares.端口基类部分;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,5 @@ namespace HardWares.纳米位移台
         /// 位移台列表
         /// </summary>
         public abstract List<StageBase> Stages { get; set; }
-
     }
 }

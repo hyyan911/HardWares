@@ -12,9 +12,8 @@ namespace HardWares.温度控制器
     /// <summary>
     /// 温度传感器通道
     /// </summary>
-    public abstract class SensorChannelBase
+    public abstract class SensorChannelBase : PortElement
     {
-        public TemperatureControllerBase Parent { get; internal set; } = null;
 
         /// <summary>
         /// 名称
@@ -39,15 +38,9 @@ namespace HardWares.温度控制器
         /// <param name="parent"></param>
         public SensorChannelBase(string name, TemperatureControllerBase parent, string unit)
         {
-            Parent = parent;
+            ParentDevice = parent;
             Name = name;
             Unit = unit;
         }
-
-        /// <summary>
-        /// 获取可用参数
-        /// </summary>
-        /// <returns></returns>
-        public abstract List<Parameter> GetAvailableParams();
     }
 }

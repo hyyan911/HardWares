@@ -12,9 +12,8 @@ namespace HardWares.温度控制器
     /// <summary>
     /// 温控输出通道
     /// </summary>
-    public abstract class OutputChannelBase
+    public abstract class OutputChannelBase : PortElement
     {
-        public TemperatureControllerBase Parent { get;internal set; } = null;
 
         /// <summary>
         /// 初始化
@@ -23,7 +22,7 @@ namespace HardWares.温度控制器
         /// <param name="parent"></param>
         public OutputChannelBase(string name, TemperatureControllerBase parent, string unit)
         {
-            Parent = parent;
+            ParentDevice = parent;
             Name = name;
             Unit = unit;
         }
@@ -75,12 +74,6 @@ namespace HardWares.温度控制器
         /// 功率限制上限
         /// </summary>
         public abstract double HiPowerLimit { get; set; }
-
-        /// <summary>
-        /// 获取可用参数
-        /// </summary>
-        /// <returns></returns>
-        public abstract List<Parameter> GetAvailableParams();
 
     }
 }
