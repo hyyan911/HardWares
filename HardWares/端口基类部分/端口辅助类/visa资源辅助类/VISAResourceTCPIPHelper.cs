@@ -100,9 +100,9 @@ namespace HardWares.端口基类部分.VISAHelper
                     List<TCPIPDeviceInfo> result = new List<TCPIPDeviceInfo>();
                     foreach (var item in strs)
                     {
-                        using (var ss = m.Open(item) as TcpipSession)
+                        try
                         {
-                            try
+                            using (var ss = m.Open(item) as TcpipSession)
                             {
                                 string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);
                                 if (res == "") continue;
@@ -115,10 +115,9 @@ namespace HardWares.端口基类部分.VISAHelper
                                 if (product == "") continue;
                                 result.Add(new TCPIPDeviceInfo(product, item, 0));
                             }
-                            catch
-                            {
-                                continue;
-                            }
+                        }
+                        catch (Exception)
+                        {
                         }
                     }
                     return result;

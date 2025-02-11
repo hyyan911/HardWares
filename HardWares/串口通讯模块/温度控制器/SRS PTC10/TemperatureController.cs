@@ -12,6 +12,7 @@ using HardWares.数据处理;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类;
 using HardWares.端口基类部分.设备信息;
+using HardWares.端口基类部分.VISAHelper;
 
 namespace HardWares.温度控制器.SRS_PTC10
 {
@@ -102,7 +103,7 @@ namespace HardWares.温度控制器.SRS_PTC10
 
         bool COMInternalInterface.TestCOMAction()
         {
-            string result = ThreadSafeQuery("\"" + "*IDN?" + "\"\n", 500);
+            string result = ThreadSafeQuery("\n\"*IDN?\"\n", 500);
             if (result.Contains("Stanford Research Systems, PTC10 Programmable Temperature Controller"))
             {
                 ProductName = "SRS PTC10";
@@ -122,12 +123,13 @@ namespace HardWares.温度控制器.SRS_PTC10
             {
                 try
                 {
-                    ser.Write( "*IDN?\n");
-                    Thread.Sleep(100);
+                    byte[] bs = Encoding.ASCII.GetBytes("\n\"*IDN?\"\n");
+                    ser.Write(bs, 0, bs.Length);
+                    Thread.Sleep(200);
                     string res = ser.ReadExisting();
                     if (res.Contains("Stanford Research Systems, PTC10 Programmable Temperature Controller"))
                     {
-                        string serialnumber = res.Split(',')[1];
+                        string serialnumber = res.Split(',')[2];
                         return "SRS PTC10 " + serialnumber;
                     }
                     return "";

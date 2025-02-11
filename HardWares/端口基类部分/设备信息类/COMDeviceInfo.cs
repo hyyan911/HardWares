@@ -60,6 +60,8 @@ namespace HardWares.端口基类部分.设备信息
                     try
                     {
                         port.Open();
+                        port.DiscardInBuffer();
+                        port.DiscardOutBuffer();
                         string res = PortTestFunc(port);
                         port.DiscardInBuffer();
                         port.DiscardOutBuffer();

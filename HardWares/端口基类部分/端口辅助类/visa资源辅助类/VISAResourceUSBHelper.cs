@@ -12,7 +12,7 @@ using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分.VISAHelper;
 using HardWares.端口基类部分.设备信息;
 
-namespace HardWares.端口基类部分
+namespace HardWares.端口基类部分.VISAHelper
 {
     internal class VISAResourceUSBHelper : VISAResourceHelperBase
     {
@@ -100,9 +100,9 @@ namespace HardWares.端口基类部分
                     List<USBDeviceInfo> result = new List<USBDeviceInfo>();
                     foreach (var item in strs)
                     {
-                        using (var ss = m.Open(item) as UsbSession)
+                        try
                         {
-                            try
+                            using (var ss = m.Open(item) as UsbSession)
                             {
                                 string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);
                                 if (res == "") continue;
@@ -115,10 +115,9 @@ namespace HardWares.端口基类部分
                                 if (product == "") continue;
                                 result.Add(new USBDeviceInfo(product, item));
                             }
-                            catch
-                            {
-                                continue;
-                            }
+                        }
+                        catch (Exception)
+                        {
                         }
                     }
                     return result;

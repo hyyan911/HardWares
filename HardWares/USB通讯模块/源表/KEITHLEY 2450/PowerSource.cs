@@ -3,13 +3,8 @@ using HardWares.端口基类;
 using HardWares.端口基类部分;
 using System;
 using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NationalInstruments.Visa;
-using Ivi.Visa;
 using HardWares.端口基类部分.设备信息;
+using HardWares.端口基类部分.VISAHelper;
 
 namespace HardWares.源表.KEITHLEY_2450
 {

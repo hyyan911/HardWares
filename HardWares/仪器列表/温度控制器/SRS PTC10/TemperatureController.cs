@@ -145,7 +145,7 @@ namespace HardWares.温度控制器.SRS_PTC10
 
         internal override Encoding GetCoder()
         {
-            return Encoding.UTF7;
+            return Encoding.ASCII;
         }
         #endregion
     }

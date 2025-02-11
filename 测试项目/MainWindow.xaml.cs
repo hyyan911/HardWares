@@ -18,6 +18,7 @@ using HardWares.纳米位移台.PI;
 using HardWares.仪器列表.电动翻转座;
 using HardWares.源表.KEITHLEY_2450;
 using HardWares.Windows;
+using HardWares.温度控制器;
 using HardWares.相机_CCD_;
 using HardWares.端口基类;
 
@@ -42,7 +43,7 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(CameraBase));
+            ConnectWindow win = new ConnectWindow(typeof(TemperatureControllerBase));
             State.Content = win.ShowDialog(this);
             obj = win.ConnectedDevice;
             //Thread t = new Thread(() =>

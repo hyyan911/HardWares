@@ -22,17 +22,17 @@ namespace HardWares.端口基类部分.VISAHelper
         }
 
         #region COM部分
-        public void COMPortWrite(TCPIPInternalInterface device, byte[] value)
+        public void COMPortWrite(COMInternalInterface device, byte[] value)
         {
             ((device as PortObject).Instance as SerialSession).RawIO.Write(value);
         }
 
-        public byte[] COMPortRead(TCPIPInternalInterface device)
+        public byte[] COMPortRead(COMInternalInterface device)
         {
             return new byte[0];
         }
 
-        public void CloseCOMPort(TCPIPInternalInterface device)
+        public void CloseCOMPort(COMInternalInterface device)
         {
             if ((device as PortObject).Instance == null) return;
             SerialSession session = (device as PortObject).Instance as SerialSession;
@@ -42,13 +42,12 @@ namespace HardWares.端口基类部分.VISAHelper
         }
 
 
-        public object OpenCOMPort(TCPIPInternalInterface device, List<object> param)
+        public object OpenCOMPort(COMInternalInterface device, COMDeviceInfo param)
         {
             using (ResourceManager m = new ResourceManager())
             {
-                SerialSession res = (SerialSession)m.Open(param[0] as string, AccessModes.None, 1000, out ResourceOpenStatus stat);
+                SerialSession res = (SerialSession)m.Open(param.COMName, AccessModes.None, 1000, out ResourceOpenStatus stat);
                 res.TerminationCharacterEnabled = false;
-                string name = param[0] as string;
                 try
                 {
                     res.LockResource(2000);
@@ -58,27 +57,27 @@ namespace HardWares.端口基类部分.VISAHelper
             }
         }
 
-        public bool IsCOMOpen(TCPIPInternalInterface device)
+        public bool IsCOMOpen(COMInternalInterface device)
         {
             return true;
         }
 
-        public void ReceiveCOMAct(TCPIPInternalInterface device)
+        public void ReceiveCOMAct(COMInternalInterface device)
         {
             return;
         }
 
-        public bool TestCOMPort(TCPIPInternalInterface device)
+        public bool TestCOMPort(COMInternalInterface device)
         {
             PortObject port = device as PortObject;
-            string res = port.ThreadSafeQuery("*IDN?\n", 1000);
+            string res = port.ThreadSafeQuery("*IDN?", 1000);
             if (res == "") return false;
             port.ProductName = GetProductName?.Invoke(res);
             if (port.ProductName == "") return false;
             return true;
         }
 
-        public void COMInitAction(TCPIPInternalInterface device, object PortInstance)
+        public void COMInitAction(COMInternalInterface device, object PortInstance)
         {
             try
             {
@@ -100,26 +99,30 @@ namespace HardWares.端口基类部分.VISAHelper
                     List<COMDeviceInfo> result = new List<COMDeviceInfo>();
                     foreach (var item in strs)
                     {
-                        using (var ss = m.Open(item) as SerialSession)
+                        try
                         {
-                            try
+                            using (var ss = m.Open(item) as SerialSession)
                             {
-                                string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);
-                                if (res == "") continue;
-                                if (GetProductName == null)
+                                try
                                 {
-                                    result.Add(new COMDeviceInfo(res, item, 9600));
+                                    string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);
+                                    if (res == "") continue;
+                                    if (GetProductName == null)
+                                    {
+                                        result.Add(new COMDeviceInfo(res, item, 9600));
+                                        continue;
+                                    }
+                                    string product = GetProductName?.Invoke(res);
+                                    if (product == "") continue;
+                                    result.Add(new COMDeviceInfo(product, item, 9600));
+                                }
+                                catch
+                                {
                                     continue;
                                 }
-                                string product = GetProductName?.Invoke(res);
-                                if (product == "") continue;
-                                result.Add(new COMDeviceInfo(product, item, 9600));
-                            }
-                            catch
-                            {
-                                continue;
                             }
                         }
+                        catch (Exception) { }
                     }
                     return result;
                 }

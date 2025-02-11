@@ -1,12 +1,10 @@
 ﻿using HardWares.端口基类;
 using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.VISAHelper;
 using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HardWares.射频源.Rigol_DSG_3060
 {

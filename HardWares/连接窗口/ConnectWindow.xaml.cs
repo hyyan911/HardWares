@@ -122,6 +122,11 @@ namespace HardWares.Windows
                 else
                 {
                     MessageWindow.ShowTipWindow(ex.Message, this);
+                    Dispatcher.Invoke(() =>
+                    {
+                        Connecting.Visibility = Visibility.Hidden;
+                        Connected.Visibility = Visibility.Hidden;
+                    });
                     IsConnected = false;
                     ConnectedDevice = null;
                 }
