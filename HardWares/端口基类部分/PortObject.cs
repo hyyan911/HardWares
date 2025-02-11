@@ -15,7 +15,7 @@ using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
-using HardWares.端口基类部分.VISAHelper;
+using HardWares.端口基类部分.PortHelper;
 using HardWares.端口基类部分.设备信息;
 using LibUsbDotNet;
 using LibUsbDotNet.LibUsb;

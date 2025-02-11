@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.端口基类部分.VISAHelper
+namespace HardWares.端口基类部分.PortHelper
 {
-    internal abstract class VISAResourceHelperBase
+    internal abstract class VISAResourceHelperBase : PortHelper
     {
         public Func<string, string> GetProductName { get; protected set; } = null;
 
@@ -16,15 +16,30 @@ namespace HardWares.端口基类部分.VISAHelper
         {
             if (obj.Instance is UsbSession)
             {
-                return VISAThreadUnsafeQuery(obj.Instance as UsbSession, message, timeout);
+                string str = VISAThreadUnsafeQuery(obj.Instance as UsbSession, message, timeout);
+                int ind = str.LastIndexOf("\n");
+                if (ind != -1)
+                {
+                    return str.Remove(ind, 1);
+                }
             }
             if (obj.Instance is SerialSession)
             {
-                return VISAThreadUnsafeQuery(obj.Instance as SerialSession, message, timeout);
+                string str = VISAThreadUnsafeQuery(obj.Instance as SerialSession, message, timeout);
+                int ind = str.LastIndexOf("\n");
+                if (ind != -1)
+                {
+                    return str.Remove(ind, 1);
+                }
             }
             if (obj.Instance is TcpipSession)
             {
-                return VISAThreadUnsafeQuery(obj.Instance as TcpipSession, message, timeout);
+                string str = VISAThreadUnsafeQuery(obj.Instance as TcpipSession, message, timeout);
+                int ind = str.LastIndexOf("\n");
+                if (ind != -1)
+                {
+                    return str.Remove(ind, 1);
+                }
             }
             return "";
         }

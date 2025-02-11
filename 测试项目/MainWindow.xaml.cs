@@ -21,6 +21,7 @@ using HardWares.Windows;
 using HardWares.温度控制器;
 using HardWares.相机_CCD_;
 using HardWares.端口基类;
+using HardWares.源表;
 
 namespace 测试项目
 {
@@ -43,7 +44,7 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(TemperatureControllerBase));
+            ConnectWindow win = new ConnectWindow(typeof(PowerSourceBase));
             State.Content = win.ShowDialog(this);
             obj = win.ConnectedDevice;
             //Thread t = new Thread(() =>
@@ -67,6 +68,8 @@ namespace 测试项目
         {
             ParameterWindow win = new ParameterWindow(obj, this);
             win.ShowDialog();
+            //PowerSourceBase s = obj as PowerSourceBase;
+            //var re = s.Output;
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)

@@ -12,7 +12,7 @@ using HardWares.数据处理;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类;
 using HardWares.端口基类部分.设备信息;
-using HardWares.端口基类部分.VISAHelper;
+using HardWares.端口基类部分.PortHelper;
 
 namespace HardWares.温度控制器.SRS_PTC10
 {
@@ -119,7 +119,7 @@ namespace HardWares.温度控制器.SRS_PTC10
 
         public List<COMDeviceInfo> GetCOMDeviceInfos()
         {
-            return COMDeviceInfo.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
+            return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
             {
                 try
                 {

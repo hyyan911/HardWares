@@ -2,6 +2,7 @@
 using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.PortHelper;
 using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace HardWares.源表.KEITHLEY_2400
 
         public List<COMDeviceInfo> GetCOMDeviceInfos()
         {
-            return COMDeviceInfo.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
+            return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
             {
                 try
                 {

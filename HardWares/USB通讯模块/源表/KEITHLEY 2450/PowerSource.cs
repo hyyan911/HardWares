@@ -4,7 +4,7 @@ using HardWares.端口基类部分;
 using System;
 using System.Collections.Generic;
 using HardWares.端口基类部分.设备信息;
-using HardWares.端口基类部分.VISAHelper;
+using HardWares.端口基类部分.PortHelper;
 
 namespace HardWares.源表.KEITHLEY_2450
 {

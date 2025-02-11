@@ -12,7 +12,7 @@ using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
 using HardWares.端口基类部分.设备信息;
 
-namespace HardWares.端口基类部分.VISAHelper
+namespace HardWares.端口基类部分.PortHelper
 {
     internal class VISAResourceTCPIPHelper : VISAResourceHelperBase
     {
@@ -102,6 +102,10 @@ namespace HardWares.端口基类部分.VISAHelper
                     {
                         try
                         {
+                            if (EndJudgeFunc != null)
+                            {
+                                if (EndJudgeFunc.Invoke() == true) return result;
+                            }
                             using (var ss = m.Open(item) as TcpipSession)
                             {
                                 string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);

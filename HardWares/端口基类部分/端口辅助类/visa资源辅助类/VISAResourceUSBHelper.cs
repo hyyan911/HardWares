@@ -9,10 +9,10 @@ using NationalInstruments.Visa;
 using Ivi.Visa;
 using System.Xml.Linq;
 using HardWares.端口基类.TCPIP串口;
-using HardWares.端口基类部分.VISAHelper;
+using HardWares.端口基类部分.PortHelper;
 using HardWares.端口基类部分.设备信息;
 
-namespace HardWares.端口基类部分.VISAHelper
+namespace HardWares.端口基类部分.PortHelper
 {
     internal class VISAResourceUSBHelper : VISAResourceHelperBase
     {
@@ -102,6 +102,10 @@ namespace HardWares.端口基类部分.VISAHelper
                     {
                         try
                         {
+                            if (EndJudgeFunc != null)
+                            {
+                                if (EndJudgeFunc.Invoke() == true) return result;
+                            }
                             using (var ss = m.Open(item) as UsbSession)
                             {
                                 string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);

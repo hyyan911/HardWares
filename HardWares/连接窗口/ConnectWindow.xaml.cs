@@ -22,6 +22,7 @@ using Controls.Windows;
 using HardWares.端口基类部分.设备信息;
 using System.Windows.Media.Animation;
 using HardWares.端口基类.COM串口;
+using HardWares.端口基类部分.PortHelper;
 
 namespace HardWares.Windows
 {
@@ -148,6 +149,7 @@ namespace HardWares.Windows
         private void RefreshPort(object sender, RoutedEventArgs e)
         {
             if (DeviceTypeList.SelectedItem == null) return;
+            RefreshThreadEndTag = true;
             Thread RefreshThread = new Thread(() =>
             {
                 while (RefreshTasks.Count > 1) Thread.Sleep(100);
@@ -165,7 +167,9 @@ namespace HardWares.Windows
                 List<DeviceInfoBase> connectinfos = new List<DeviceInfoBase>();
                 if (obj is COMOuterInterface)
                 {
+                    PortHelper.EndJudgeFunc = new Func<bool>(() => { return RefreshThreadEndTag; });
                     connectinfos.AddRange((obj as COMOuterInterface).GetCOMDeviceInfos());
+                    PortHelper.EndJudgeFunc = null;
                 }
                 if (RefreshThreadEndTag)
                 {
@@ -176,7 +180,9 @@ namespace HardWares.Windows
                 }
                 if (obj is WinUSBOuterInterface)
                 {
+                    PortHelper.EndJudgeFunc = new Func<bool>(() => { return RefreshThreadEndTag; });
                     connectinfos.AddRange((obj as WinUSBOuterInterface).GetUsbDeviceInfos());
+                    PortHelper.EndJudgeFunc = null;
                 }
                 if (RefreshThreadEndTag)
                 {
@@ -187,7 +193,9 @@ namespace HardWares.Windows
                 }
                 if (obj is TCPIPOuterInterface)
                 {
+                    PortHelper.EndJudgeFunc = new Func<bool>(() => { return RefreshThreadEndTag; });
                     connectinfos.AddRange((obj as TCPIPOuterInterface).GetTCPIPDeviceInfos());
+                    PortHelper.EndJudgeFunc = null;
                 }
                 if (RefreshThreadEndTag)
                 {

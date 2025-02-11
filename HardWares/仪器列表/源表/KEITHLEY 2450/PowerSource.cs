@@ -1,6 +1,6 @@
 ﻿using HardWares.数据处理.SCPI指令;
 using HardWares.端口基类部分;
-using HardWares.端口基类部分.VISAHelper;
+using HardWares.端口基类部分.PortHelper;
 using NationalInstruments.Visa;
 using System;
 using System.Collections.Generic;

@@ -140,7 +140,7 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <exception cref="NotImplementedException"></exception>
         public override List<Parameter> AvailableParameterNames()
         {
-            throw new NotImplementedException();
+            return new List<Parameter>();
         }
 
         internal override Encoding GetCoder()

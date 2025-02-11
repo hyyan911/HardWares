@@ -195,6 +195,8 @@
     <Compile Include="端口基类部分\TCPIP串口\TCPIPOuterInterface.cs" />
     <Compile Include="端口基类部分\WinUSB端口\WinUSBInternalInterface.cs" />
     <Compile Include="端口基类部分\WinUSB端口\WinUSBOuterInterface.cs" />
+    <Compile Include="端口基类部分\端口辅助类\PotrHelper.cs" />
+    <Compile Include="端口基类部分\端口辅助类\COMHelper.cs" />
     <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceCOMHelper.cs" />
     <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceHelperBase.cs" />
     <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceTCPIPHelper.cs" />

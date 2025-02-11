@@ -12,7 +12,7 @@ using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
 using HardWares.端口基类部分.设备信息;
 
-namespace HardWares.端口基类部分.VISAHelper
+namespace HardWares.端口基类部分.PortHelper
 {
     internal class VISAResourceCOMHelper : VISAResourceHelperBase
     {
@@ -99,6 +99,10 @@ namespace HardWares.端口基类部分.VISAHelper
                     List<COMDeviceInfo> result = new List<COMDeviceInfo>();
                     foreach (var item in strs)
                     {
+                        if (EndJudgeFunc != null)
+                        {
+                            if (EndJudgeFunc.Invoke() == true) return result;
+                        }
                         try
                         {
                             using (var ss = m.Open(item) as SerialSession)
