@@ -1,4 +1,5 @@
 ﻿using HardWares.端口基类;
+using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -21,7 +22,13 @@ namespace HardWares.端口基类
         /// <param name="COMName"></param>
         /// <param name="baudrate"></param>
         /// <returns></returns>
-        bool ConnectCOM(string COMName, int baudrate, out Exception exc);
+        bool ConnectCOM(COMDeviceInfo info, out Exception exc);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        List<COMDeviceInfo> GetCOMDeviceInfos();
 
     }
 }

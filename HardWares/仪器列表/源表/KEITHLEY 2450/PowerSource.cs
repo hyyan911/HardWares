@@ -1,5 +1,6 @@
 ﻿using HardWares.数据处理.SCPI指令;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.VISAHelper;
 using NationalInstruments.Visa;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace HardWares.源表.KEITHLEY_2450
 
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)
         {
-            return VISA.VISAThreadUnsafeQuery(this, messagetosend, timeout);
+            return VISAResourceHelperBase.ThreadUnsafeQuery(this, messagetosend, timeout);
         }
 
         #region 设备参数
@@ -159,5 +160,10 @@ namespace HardWares.源表.KEITHLEY_2450
         }
 
         #endregion
+
+        internal override Encoding GetCoder()
+        {
+            return Encoding.ASCII;
+        }
     }
 }

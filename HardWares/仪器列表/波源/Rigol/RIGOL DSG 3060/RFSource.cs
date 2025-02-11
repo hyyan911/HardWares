@@ -1,6 +1,7 @@
-﻿using HardWares.仪器列表.射频波源.RIGOL_DSG_3000;
+﻿using HardWares.射频源;
 using HardWares.数据处理.SCPI指令;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.VISAHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,33 +9,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.波源.Rigol_DSG_3060
+namespace HardWares.射频源.Rigol_DSG_3060
 {
-    public partial class RFSignalGenerator : RFSignalGeneratorBase
+    /// <summary>
+    /// 
+    /// </summary>
+    public partial class RFSource : RFSourceBase
     {
-        /// <summary>
-        /// 获取ProductName
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        private static string GetProductName(string source)
-        {
-            try
-            {
-                if (source.Contains("Rigol Technologies"))
-                {
-                    string[] ss = source.Split(',');
-                    if (ss[1].Contains("DSG3060"))
-                    {
-                        return "DSG3060 " + ss[2];
-                    }
-                }
-                return "";
-            }
-            catch (Exception) { return ""; }
-        }
-
         public override string ProductIdentifier { get; internal set; } = "Rigol DSG3060";
 
         public override event ParamsChangeEventHandler ParamsChangedEvent;
@@ -61,7 +42,12 @@ namespace HardWares.波源.Rigol_DSG_3060
 
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)
         {
-            return VISA.VISAThreadUnsafeQuery(this, messagetosend, timeout);
+            return VISAResourceHelperBase.ThreadUnsafeQuery(this, messagetosend, timeout);
+        }
+
+        internal override Encoding GetCoder()
+        {
+            return Encoding.ASCII;
         }
 
         /// <summary>

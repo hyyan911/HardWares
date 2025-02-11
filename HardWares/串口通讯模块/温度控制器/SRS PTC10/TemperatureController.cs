@@ -11,6 +11,7 @@ using System.Windows;
 using HardWares.数据处理;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类;
+using HardWares.端口基类部分.设备信息;
 
 namespace HardWares.温度控制器.SRS_PTC10
 {
@@ -39,9 +40,15 @@ namespace HardWares.温度控制器.SRS_PTC10
             (Instance as SerialPort).Write(value, 0, value.Length);
         }
 
-        public bool ConnectCOM(string COMName, int baudrate, out Exception exc)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="exc"></param>
+        /// <returns></returns>
+        public bool ConnectCOM(COMDeviceInfo info, out Exception exc)
         {
-            return Connect(PortType.COM, out exc, Encoding.ASCII, COMName, baudrate);
+            return Connect(info, out exc);
         }
 
         void COMInternalInterface.ConnectedCOMAction()
@@ -74,9 +81,9 @@ namespace HardWares.温度控制器.SRS_PTC10
             return (Instance as SerialPort).IsOpen;
         }
 
-        object COMInternalInterface.OpenCOMPort(List<object> param)
+        object COMInternalInterface.OpenCOMPort(COMDeviceInfo param)
         {
-            SerialPort port = new SerialPort(param[0] as string, (int)param[1]);
+            SerialPort port = new SerialPort(param.COMName, param.BaudRate);
             port.Open();
             return port;
         }
@@ -109,6 +116,25 @@ namespace HardWares.温度控制器.SRS_PTC10
             return;
         }
 
+        public List<COMDeviceInfo> GetCOMDeviceInfos()
+        {
+            return COMDeviceInfo.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
+            {
+                try
+                {
+                    ser.Write("\"" + "*IDN?" + "\"\n");
+                    Thread.Sleep(100);
+                    string res = ser.ReadExisting();
+                    if (res.Contains("Stanford Research Systems, PTC10 Programmable Temperature Controller"))
+                    {
+                        string serialnumber = res.Split(',')[1];
+                        return "SRS PTC10 " + serialnumber;
+                    }
+                    return "";
+                }
+                catch (Exception) { return ""; }
+            }));
+        }
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using HardWares.端口基类;
+using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -43,7 +44,7 @@ namespace HardWares.端口基类
         /// 创建USB接口实例
         /// </summary>
         /// <returns></returns>
-        object OpenUSBPort(List<object> param);
+        object OpenUSBPort(USBDeviceInfo info);
 
         /// <summary>
         /// 关闭USB接口
@@ -61,7 +62,5 @@ namespace HardWares.端口基类
         /// 初始化串口
         /// </summary>
         void USBInitAction(object PortInstance);
-
-        List<string> RawEnumerateUSBDevices();
     }
 }

@@ -9,15 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using NationalInstruments.Visa;
 using Ivi.Visa;
+using HardWares.端口基类部分.设备信息;
 
 namespace HardWares.源表.KEITHLEY_2450
 {
     public partial class PowerSource : PowerSourceBase, USBInternalInterface, WinUSBOuterInterface
     {
 
-        private VISAResourceHelper VISA = new VISAResourceHelper() { GetProductName = GetProductName };
+        private VISAResourceUSBHelper VISA = new VISAResourceUSBHelper(GetUSBProductName);
 
-        private static string GetProductName(string source)
+        private static string GetUSBProductName(string source)
         {
             if (source.Contains("KEITHLEY") && source.Contains("MODEL 2450"))
             {
@@ -57,7 +58,7 @@ namespace HardWares.源表.KEITHLEY_2450
             return VISA.IsUSBOpen(this);
         }
 
-        object USBInternalInterface.OpenUSBPort(List<object> param)
+        object USBInternalInterface.OpenUSBPort(USBDeviceInfo param)
         {
             return VISA.OpenUSBPort(this, param);
         }
@@ -72,16 +73,16 @@ namespace HardWares.源表.KEITHLEY_2450
             return VISA.TestUSBPort(this);
         }
 
-        public bool ConnectUSB(string description, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
         {
-            return VISA.ConnectUSB(this, description, out exc);
+            return VISA.ConnectUSB(this, info, out exc);
         }
 
         /// <summary>
         /// 获取USB设备
         /// </summary>
         /// <returns></returns>
-        public List<string> GetUsbDeviceNames()
+        public List<USBDeviceInfo> GetUsbDeviceInfos()
         {
             return VISA.EnumerateUSBDevices(this);
         }

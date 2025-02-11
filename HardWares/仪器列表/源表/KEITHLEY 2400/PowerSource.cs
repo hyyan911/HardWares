@@ -180,5 +180,10 @@ namespace HardWares.源表.KEITHLEY_2400
         }
 
         #endregion
+
+        internal override Encoding GetCoder()
+        {
+            return Encoding.UTF8;
+        }
     }
 }

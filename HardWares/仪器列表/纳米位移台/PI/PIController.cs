@@ -51,6 +51,10 @@ namespace HardWares.纳米位移台.PI
 
         #endregion
 
+        internal override Encoding GetCoder()
+        {
+            return Encoding.ASCII;
+        }
 
         /// <summary>
         /// 

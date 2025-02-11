@@ -16,6 +16,8 @@ using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类.TCPIP串口;
 using System.Text.RegularExpressions;
+using HardWares.端口基类部分;
+using HardWares.端口基类部分.设备信息;
 
 namespace HardWares.纳米位移台.PI
 {
@@ -75,19 +77,11 @@ namespace HardWares.纳米位移台.PI
             }
         }
 
-        object TCPIPInternalInterface.OpenTCPIPPort(List<object> param)
+        object TCPIPInternalInterface.OpenTCPIPPort(TCPIPDeviceInfo info)
         {
             if (IsGCS2)
             {
-                string str = param[0] as string;
-                //Regex reg = new Regex("[(].*[)]");
-                //var res = reg.Match(str);
-                //int id = PIAPI2.PI_ConnectTCPIP(res.Value.Replace("(", "").Replace(")", "").Replace(":50000", ""), 50000);
-                Regex reg = new Regex("[S][N][ ]*[0-9]*[ ]?");
-                var res = reg.Match(str);
-                int id = PIAPI2.PI_ConnectTCPIPByDescription(str);
-                ProductName = param[0] as string;
-                return id;
+                return PIAPI2.PI_ConnectTCPIP(info.IPAddress, info.Port);
             }
             return -1;
         }
@@ -133,14 +127,25 @@ namespace HardWares.纳米位移台.PI
         {
         }
 
-        public bool ConnectTCPIP(string TCPIPName, out Exception exc)
+        public bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc)
         {
-            return Connect(PortType.TCPIP, out exc, Encoding.ASCII, TCPIPName);
+            return Connect(info, out exc);
         }
 
-        public List<string> GetTCPIPDeviceNames()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<TCPIPDeviceInfo> GetTCPIPDeviceInfos()
         {
-            return PIAPI2.EnumerateTCPIP();
+            List<string> names = PIAPI2.EnumerateTCPIP();
+
+            return names.Select(x =>
+            {
+                Regex reg = new Regex("[(].*[)]");
+                var res = reg.Match(x);
+                return new TCPIPDeviceInfo(GetUSBProductName(x), res.Value, 50000);
+            }).ToList();
         }
     }
 }

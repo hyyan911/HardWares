@@ -15,9 +15,11 @@ using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.设备信息;
 using LibUsbDotNet;
 using LibUsbDotNet.LibUsb;
 using LibUsbDotNet.Main;
+using Thorlabs.MotionControl.DeviceManagerCLI;
 
 namespace HardWares.端口基类
 {
@@ -98,6 +100,8 @@ namespace HardWares.端口基类
         {
             ConnectStateChangeEvent?.Invoke(this, new EventArgs());
         }
+
+        internal abstract Encoding GetCoder();
 
         /// <summary>
         /// 更新参数
@@ -282,19 +286,19 @@ namespace HardWares.端口基类
         /// 打开COM接口
         /// </summary>
         /// <returns></returns>
-        internal object OpenPort(params object[] ps)
+        internal object OpenPort(DeviceInfoBase info)
         {
             if (PortType == PortType.USB)
             {
-                return (this as USBInternalInterface).OpenUSBPort(ps.ToList());
+                return (this as USBInternalInterface).OpenUSBPort(info as USBDeviceInfo);
             }
             if (PortType == PortType.COM)
             {
-                return (this as COMInternalInterface).OpenCOMPort(ps.ToList());
+                return (this as COMInternalInterface).OpenCOMPort(info as COMDeviceInfo);
             }
             if (PortType == PortType.TCPIP)
             {
-                return (this as TCPIPInternalInterface).OpenTCPIPPort(ps.ToList());
+                return (this as TCPIPInternalInterface).OpenTCPIPPort(info as TCPIPDeviceInfo);
             }
             return null;
         }
@@ -407,32 +411,32 @@ namespace HardWares.端口基类
         /// <summary>
         /// 历史设备记录
         /// </summary>
-        internal static List<DeviceInfo> DeviceInfos { get; set; } = new List<DeviceInfo>();
+        internal static List<KeyValuePair<DeviceInfoBase, PortObject>> DeviceInfos { get; set; } = new List<KeyValuePair<DeviceInfoBase, PortObject>>();
 
         /// <summary>
         /// 连接
         /// </summary>
         /// <returns></returns>
-        internal virtual bool Connect(PortType type, out Exception exc, Encoding Coder, params object[] param)
+        internal virtual bool Connect(DeviceInfoBase info, out Exception exc)
         {
-            PortType = type;
+            PortType = info.PortType;
             try
             {
                 //检查已有设备中是否存在此设备,如果有则关闭后重新连接
-                for (int i = 0; i < DeviceInfos.Count; i++)
+                foreach (var item in DeviceInfos)
                 {
-                    if (DeviceInfos[i].CompareParam(GetType(), type, param))
+                    if (item.Key.CompareParam(info))
                     {
-                        DeviceInfos[i].Device.Dispose();
-                        break;
+                        item.Value.Dispose();
                     }
                 }
-                Instance = OpenPort(param);
+
+                Instance = OpenPort(info);
 
                 //根据不同设备初始化参数
                 InitAction(Instance);
 
-                PortArranger = new PortDispatcher(this, Coder);
+                PortArranger = new PortDispatcher(this, GetCoder());
 
                 //发送测试信息
                 Internal_Is_Connected = TestAction();
@@ -441,8 +445,9 @@ namespace HardWares.端口基类
                     Internal_Is_Connected = false;
                     ConnectedAction();
                     CreateTestThread();
+                    ProductName = info.DeviceName;
                     //添加设备到已连接列表
-                    DeviceInfos.Add(new DeviceInfo() { Device = this, PortParams = param.ToList(), PortType = type });
+                    DeviceInfos.Add(new KeyValuePair<DeviceInfoBase, PortObject>(info.Copy(), this));
                     exc = null;
                     return true;
                 }
@@ -484,7 +489,7 @@ namespace HardWares.端口基类
             //从已连接设备中删除
             for (int i = 0; i < DeviceInfos.Count; i++)
             {
-                if (DeviceInfos[i].Device == this)
+                if (DeviceInfos[i].Value == this)
                 {
                     DeviceInfos.RemoveAt(i);
                 }

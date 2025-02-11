@@ -1,6 +1,7 @@
 ﻿using HardWares.端口基类;
 using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,25 @@ namespace HardWares.Lock_In.Zurich_LockIn
     {
         private static ziDotNET ZurichClient = null;
 
-        public bool ConnectTCPIP(string TCPIPName, out Exception exc)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="exc"></param>
+        /// <returns></returns>
+        public bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc)
         {
-            throw new NotImplementedException();
+            return Connect(info, out exc);
         }
 
         /// <summary>
         /// 获取设备名称
         /// </summary>
         /// <returns></returns>
-        public List<string> GetTCPIPDeviceNames()
+        public List<TCPIPDeviceInfo> GetTCPIPDeviceInfos()
         {
             if (ZurichClient == null) ZurichClient = new ziDotNET();
-            return ZurichClient.discoveryFindAll();
+            return ZurichClient.discoveryFindAll().Select(x => new TCPIPDeviceInfo(x, "", 0)).ToList();
         }
 
         void TCPIPInternalInterface.CloseTCPIPPort()
@@ -46,9 +53,8 @@ namespace HardWares.Lock_In.Zurich_LockIn
             return false;
         }
 
-        object TCPIPInternalInterface.OpenTCPIPPort(List<object> param)
+        object TCPIPInternalInterface.OpenTCPIPPort(TCPIPDeviceInfo param)
         {
-            string name = param[0] as string;
             ziDotNET core = new ziDotNET();
             core.connect();
             return core;

@@ -109,6 +109,10 @@ namespace HardWares.相机_CCD_.摄像头
             return FrameBuffer;
         }
 
+        internal override Encoding GetCoder()
+        {
+            return Encoding.Default;
+        }
         public override void ValidateParams()
         {
         }

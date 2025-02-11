@@ -1,4 +1,5 @@
 ﻿using HardWares.端口基类;
+using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -21,12 +22,12 @@ namespace HardWares.端口基类
         /// <param name="TCPIPName"></param>
         /// <param name="baudrate"></param>
         /// <returns></returns>
-        bool ConnectTCPIP(string TCPIPName, out Exception exc);
+        bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc);
 
         /// <summary>
         /// 获取USB设备名称
         /// </summary>
         /// <returns></returns>
-        List<string> GetTCPIPDeviceNames();
+        List<TCPIPDeviceInfo> GetTCPIPDeviceInfos();
     }
 }

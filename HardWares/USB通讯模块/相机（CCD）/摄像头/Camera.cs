@@ -12,6 +12,7 @@ using AForge.Imaging;
 using AForge.Controls;
 using AForge.Video.DirectShow;
 using System.Threading;
+using HardWares.端口基类部分.设备信息;
 
 namespace HardWares.相机_CCD_.摄像头
 {
@@ -27,9 +28,9 @@ namespace HardWares.相机_CCD_.摄像头
         /// <param name="exc"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool ConnectUSB(string usbName, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.Default, usbName);
+            return Connect(info, out exc);
         }
 
         /// <summary>
@@ -37,13 +38,13 @@ namespace HardWares.相机_CCD_.摄像头
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public List<string> GetUsbDeviceNames()
+        public List<USBDeviceInfo> GetUsbDeviceInfos()
         {
-            List<string> names = new List<string>();
+            List<USBDeviceInfo> names = new List<USBDeviceInfo>();
             FilterInfoCollection videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             for (int i = 0; i < videoDevices.Count; i++)
             {
-                names.Add(videoDevices[i].MonikerString);
+                names.Add(new USBDeviceInfo(videoDevices[i].Name, videoDevices[i].MonikerString));
             }
             return names;
         }
@@ -77,9 +78,9 @@ namespace HardWares.相机_CCD_.摄像头
             return (Instance as VideoCaptureDevice).IsRunning;
         }
 
-        object USBInternalInterface.OpenUSBPort(List<object> param)
+        object USBInternalInterface.OpenUSBPort(USBDeviceInfo param)
         {
-            VideoCaptureDevice Camera = new VideoCaptureDevice(param[0] as string);
+            VideoCaptureDevice Camera = new VideoCaptureDevice(param.USBIdentification);
             Camera.Start();
             Thread.Sleep(50);
             if (!Camera.IsRunning)

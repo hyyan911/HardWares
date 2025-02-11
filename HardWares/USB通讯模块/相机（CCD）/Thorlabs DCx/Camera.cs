@@ -1,5 +1,6 @@
 ﻿using HardWares.端口基类;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,7 +17,6 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
     /// </summary>
     public partial class Camera : WinUSBOuterInterface, USBInternalInterface
     {
-        internal CameraInformation SelectedCamera { get; set; }
 
         internal uc480.Defines.Status ConnectStatus { get; set; } = uc480.Defines.Status.NO_SUCCESS;
 
@@ -32,20 +32,9 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         /// <param name="exc"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool ConnectUSB(string usbName, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
         {
-            uc480.Types.CameraInformation[] cameraList;
-            uc480.Info.Camera.GetCameraList(out cameraList);
-            foreach (var item in cameraList)
-            {
-                if (usbName.Split('_')[0] == item.DeviceID.ToString())
-                {
-                    SelectedCamera = item;
-                    return Connect(PortType.USB, out exc, Encoding.Default, usbName);
-                }
-            }
-            exc = new Exception("未找到设备");
-            return false;
+            return Connect(info, out exc);
         }
 
         /// <summary>
@@ -53,15 +42,15 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public List<string> GetUsbDeviceNames()
+        public List<USBDeviceInfo> GetUsbDeviceInfos()
         {
-            List<string> res = new List<string>();
+            List<USBDeviceInfo> res = new List<USBDeviceInfo>();
             uc480.Types.CameraInformation[] cameraList;
             uc480.Info.Camera.GetCameraList(out cameraList);
             foreach (var item in cameraList)
             {
                 if (item.InUse) continue;
-                res.Add(item.CameraID.ToString() + "_" + item.SerialNumber);
+                res.Add(new USBDeviceInfo("Thorlabs DCx " + item.Model.ToString() + " " + item.SerialNumber, item.SerialNumber));
             }
             return res;
         }
@@ -91,15 +80,24 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
             return (Instance as uc480.Camera).IsOpened;
         }
 
-        object USBInternalInterface.OpenUSBPort(List<object> param)
+        object USBInternalInterface.OpenUSBPort(USBDeviceInfo param)
         {
-            uc480.Camera C = new uc480.Camera();
-            ConnectStatus = C.Init((Int32)SelectedCamera.DeviceID | (Int32)uc480.Defines.DeviceEnumeration.UseDeviceID);
-            if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
-            ConnectStatus = C.Memory.Allocate(out Int32 m, true);
-            if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
-            MemoryIntptr = m;
-            return C;
+            uc480.Types.CameraInformation[] cameraList;
+            uc480.Info.Camera.GetCameraList(out cameraList);
+            foreach (var item in cameraList)
+            {
+                if (param.USBIdentification == item.SerialNumber.ToString())
+                {
+                    uc480.Camera C = new uc480.Camera();
+                    ConnectStatus = C.Init((Int32)item.DeviceID | (Int32)uc480.Defines.DeviceEnumeration.UseDeviceID);
+                    if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
+                    ConnectStatus = C.Memory.Allocate(out Int32 m, true);
+                    if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
+                    MemoryIntptr = m;
+                    return C;
+                }
+            }
+            throw new Exception("未找到设备");
         }
 
         void USBInternalInterface.ReceiveUSBAct()
@@ -110,7 +108,6 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         bool USBInternalInterface.TestUSBAction()
         {
             if (ConnectStatus != uc480.Defines.Status.SUCCESS) return false;
-            ProductName = "Thorlabs DCx " + SelectedCamera.Model.ToString() + " " + SelectedCamera.SerialNumber;
             return true;
         }
 

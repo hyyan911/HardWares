@@ -14,6 +14,8 @@ using System.IO.Ports;
 using System.Windows;
 using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
+using HardWares.端口基类部分.设备信息;
+
 
 namespace HardWares.纳米位移台.PI
 {
@@ -22,6 +24,10 @@ namespace HardWares.纳米位移台.PI
     /// </summary>
     public partial class PIController : NanoControllerBase, USBInternalInterface, WinUSBOuterInterface
     {
+        private static string GetUSBProductName(string arg)
+        {
+            return arg;
+        }
 
         /// <summary>
         /// 枚举所有此类型USB设备
@@ -67,12 +73,11 @@ namespace HardWares.纳米位移台.PI
             return PIAPI2.PI_IsConnected((int)Instance);
         }
 
-        object USBInternalInterface.OpenUSBPort(List<object> param)
+        object USBInternalInterface.OpenUSBPort(USBDeviceInfo info)
         {
             if (IsGCS2)
             {
-                int id = PIAPI2.PI_ConnectUSB((param[0] as string).Split(' ').Last());
-                ProductName = param[0] as string;
+                int id = PIAPI2.PI_ConnectUSB(info.USBIdentification);
                 return id;
             }
             return -1;
@@ -134,13 +139,14 @@ namespace HardWares.纳米位移台.PI
         }
 
         /// <summary>
-        /// 连接USB，只有第一个参数有效，值为USB口的标识字符串
+        /// 
         /// </summary>
-        /// <param name="param"></param>
+        /// <param name="info"></param>
+        /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectUSB(string usbname, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.ASCII, usbname);
+            return Connect(info, out exc);
         }
 
         /// <summary>
@@ -148,9 +154,14 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public List<string> GetUsbDeviceNames()
+        public List<USBDeviceInfo> GetUsbDeviceInfos()
         {
-            return PIAPI2.EnumerateUSB();
+            var r = PIAPI2.EnumerateUSB();
+
+            return r.Select(x =>
+            {
+                return new USBDeviceInfo(x, x.Split(' ').Last());
+            }).ToList();
         }
     }
 }

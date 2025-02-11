@@ -1,0 +1,16 @@
+﻿using HardWares.端口基类;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HardWares.信号发生器
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public abstract class SignalGeneratorBase : PortObject
+    {
+    }
+}

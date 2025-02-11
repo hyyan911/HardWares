@@ -109,6 +109,8 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
 
         private bool capture;
 
+        private object obj = new object();
+
         public Bitmap FrameBuffer = null;
 
         private void NewFrame(object sender, EventArgs e)
@@ -116,9 +118,19 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
             if (capture) // 检查是否需要保存图片
             {
                 (Instance as uc480.Camera).Memory.GetActive(out Int32 mid);
-                (Instance as uc480.Camera).Memory.CopyToBitmap(mid, out FrameBuffer);
+                (Instance as uc480.Camera).Memory.Lock(mid);
+                lock (obj)
+                {
+                    (Instance as uc480.Camera).Memory.CopyToBitmap(mid, out FrameBuffer);
+                }
+                (Instance as uc480.Camera).Memory.Unlock(mid);
                 capture = false; // 重置标志
             }
+        }
+
+        internal override Encoding GetCoder()
+        {
+            return Encoding.Default;
         }
 
         /// <summary>

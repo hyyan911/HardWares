@@ -80,6 +80,10 @@ namespace HardWares.相机.MindVision
             return null;
         }
 
+        internal override Encoding GetCoder()
+        {
+            return Encoding.Default;
+        }
 
         public override List<Parameter> AvailableParameterNames()
         {

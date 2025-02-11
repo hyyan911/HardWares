@@ -9,39 +9,46 @@ using NationalInstruments.Visa;
 using Ivi.Visa;
 using System.Xml.Linq;
 using HardWares.端口基类.TCPIP串口;
+using HardWares.端口基类部分;
+using HardWares.端口基类部分.设备信息;
 
-namespace HardWares.端口基类部分
+namespace HardWares.端口基类部分.VISAHelper
 {
-    internal class VISAResourceUSBHelper : VISAResourceHelper
+    internal class VISAResourceCOMHelper : VISAResourceHelperBase
     {
-        /// <summary>
-        /// 获取ProductName
-        /// </summary>
-        private ProductNameGenerater GetProductName = null;
-
-        #region USB部分
-
-        public void ReceiveUSBAct(USBInternalInterface device)
+        public VISAResourceCOMHelper(Func<string, string> getProductName)
         {
-            return;
+            GetProductName = getProductName;
         }
 
-        public byte[] USBPortRead(USBInternalInterface device)
+        #region COM部分
+        public void COMPortWrite(TCPIPInternalInterface device, byte[] value)
+        {
+            ((device as PortObject).Instance as SerialSession).RawIO.Write(value);
+        }
+
+        public byte[] COMPortRead(TCPIPInternalInterface device)
         {
             return new byte[0];
         }
 
-        public bool IsUSBOpen(USBInternalInterface device)
+        public void CloseCOMPort(TCPIPInternalInterface device)
         {
-            return true;
+            if ((device as PortObject).Instance == null) return;
+            SerialSession session = (device as PortObject).Instance as SerialSession;
+            session.Clear();
+            session.UnlockResource();
+            session.Dispose();
         }
 
-        public object OpenUSBPort(USBInternalInterface device, List<object> param)
+
+        public object OpenCOMPort(TCPIPInternalInterface device, List<object> param)
         {
             using (ResourceManager m = new ResourceManager())
             {
-                UsbSession res = (UsbSession)m.Open(param[0] as string, AccessModes.None, 1000, out ResourceOpenStatus stat);
+                SerialSession res = (SerialSession)m.Open(param[0] as string, AccessModes.None, 1000, out ResourceOpenStatus stat);
                 res.TerminationCharacterEnabled = false;
+                string name = param[0] as string;
                 try
                 {
                     res.LockResource(2000);
@@ -51,17 +58,17 @@ namespace HardWares.端口基类部分
             }
         }
 
-        public void CloseUSBPort(USBInternalInterface device)
+        public bool IsCOMOpen(TCPIPInternalInterface device)
         {
-            if ((device as PortObject).Instance == null) return;
-            UsbSession session = (device as PortObject).Instance as UsbSession;
-
-            session.Clear();
-            session.UnlockResource();
-            session.Dispose();
+            return true;
         }
 
-        public bool TestUSBPort(USBInternalInterface device)
+        public void ReceiveCOMAct(TCPIPInternalInterface device)
+        {
+            return;
+        }
+
+        public bool TestCOMPort(TCPIPInternalInterface device)
         {
             PortObject port = device as PortObject;
             string res = port.ThreadSafeQuery("*IDN?\n", 1000);
@@ -71,16 +78,11 @@ namespace HardWares.端口基类部分
             return true;
         }
 
-        public void USBPortWrite(USBInternalInterface device, byte[] value)
-        {
-            ((device as PortObject).Instance as UsbSession).RawIO.Write(value);
-        }
-
-        public void USBInitAction(USBInternalInterface device, object PortInstance)
+        public void COMInitAction(TCPIPInternalInterface device, object PortInstance)
         {
             try
             {
-                ((device as PortObject).Instance as UsbSession).Clear();
+                ((device as PortObject).Instance as SerialSession).Clear();
             }
             catch (Exception ex) { }
         }
@@ -88,28 +90,30 @@ namespace HardWares.端口基类部分
         /// <summary>
         /// 获取USB设备
         /// </summary>
-        public List<string> EnumerateUSBDevices(USBInternalInterface device)
+        public List<COMDeviceInfo> EnumerateCOMDevices(COMInternalInterface device)
         {
             using (ResourceManager m = new ResourceManager())
             {
-                DevNames.Clear();
                 try
                 {
-                    List<string> strs = m.Find("USB?*").ToList();
-                    List<string> result = new List<string>();
+                    List<string> strs = m.Find("ASRL?*INSTR").ToList();
+                    List<COMDeviceInfo> result = new List<COMDeviceInfo>();
                     foreach (var item in strs)
                     {
-                        using (var ss = m.Open(item) as UsbSession)
+                        using (var ss = m.Open(item) as SerialSession)
                         {
                             try
                             {
                                 string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);
                                 if (res == "") continue;
-                                if (GetProductName == null) result.Add(res);
+                                if (GetProductName == null)
+                                {
+                                    result.Add(new COMDeviceInfo(res, item, 9600));
+                                    continue;
+                                }
                                 string product = GetProductName?.Invoke(res);
                                 if (product == "") continue;
-                                result.Add(product);
-                                DevNames.Add(new KeyValuePair<string, string>(product, item));
+                                result.Add(new COMDeviceInfo(product, item, 9600));
                             }
                             catch
                             {
@@ -121,10 +125,9 @@ namespace HardWares.端口基类部分
                 }
                 catch (Exception ex)
                 {
-                    return new List<string>();
+                    return new List<COMDeviceInfo>();
                 }
             }
-
         }
 
         /// <summary>
@@ -134,18 +137,10 @@ namespace HardWares.端口基类部分
         /// <param name="usbName"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectUSB(PortObject device, string usbName, out Exception exc)
+        public bool ConnectCOM(PortObject device, COMDeviceInfo info, out Exception exc)
         {
-            EnumerateUSBDevices(device as USBInternalInterface);
-            string res = FindResourceName(usbName);
-            if (res == "")
-            {
-                exc = new Exception("未找到设备");
-                return false;
-            }
-            return device.Connect(PortType.USB, out exc, Encoding.ASCII, res);
+            return device.Connect(info, out exc);
         }
         #endregion
-
     }
 }

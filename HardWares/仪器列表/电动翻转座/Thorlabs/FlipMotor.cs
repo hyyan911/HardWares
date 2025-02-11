@@ -60,6 +60,11 @@ namespace HardWares.仪器列表.电动翻转座
         {
         }
 
+        internal override Encoding GetCoder()
+        {
+            return Encoding.ASCII;
+        }
+
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)
         {
             return "";

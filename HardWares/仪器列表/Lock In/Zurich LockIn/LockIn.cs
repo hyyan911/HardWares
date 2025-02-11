@@ -25,6 +25,11 @@ namespace HardWares.Lock_In.Zurich_LockIn
         {
         }
 
+        internal override Encoding GetCoder()
+        {
+            return Encoding.ASCII;
+        }
+
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)
         {
             throw new NotImplementedException();

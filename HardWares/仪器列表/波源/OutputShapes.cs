@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.仪器列表.射频波源.RIGOL_DSG_3000
+namespace HardWares.射频源
 {
     public enum OutputShapes
     {

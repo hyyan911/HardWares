@@ -141,7 +141,7 @@
     <Compile Include="TCPIP通讯模块\Zurich LockIn\LockIn.cs" />
     <Compile Include="TCPIP通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
     <Compile Include="TCPIP通讯模块\纳米位移台\PI\PIController.cs" />
-    <Compile Include="USB通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
+    <Compile Include="USB通讯模块\射频源\Rigol\Rigol DSG 3060\RFSource.cs" />
     <Compile Include="USB通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
     <Compile Include="USB通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />
     <Compile Include="USB通讯模块\相机（CCD）\MindVision\Camera.cs" />
@@ -152,18 +152,16 @@
     <Compile Include="串口通讯模块\温度控制器\SRS PTC10\TemperatureController.cs" />
     <Compile Include="APIS\PI\PIAPI2.0.cs" />
     <Compile Include="串口通讯模块\源表\KEITHLEY 2400\PowerSource.cs" />
-    <Compile Include="串口通讯模块\角度传感器\AngleSensor.cs" />
-    <Compile Include="串口通讯模块\波源\FrequencyGenerator.cs" />
-    <Compile Include="串口通讯模块\微操作手\MicroSupport.cs" />
     <Compile Include="串口通讯模块\示波器\汉泰\OscilloScope.cs" />
     <Compile Include="串口通讯模块\PID\PIDControlHelper.cs" />
-    <Compile Include="串口通讯模块\步进电机\三轴步进电机（与Aurduino通讯）\MicroMover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="仪器列表\Lock In\LockInBase.cs" />
     <Compile Include="仪器列表\Lock In\Zurich LockIn\LockIn.cs" />
-    <Compile Include="仪器列表\射频波源\OutputShapes.cs" />
-    <Compile Include="仪器列表\射频波源\Rigol\RIGOL DSG 3060\RFSignalGenerator.cs" />
-    <Compile Include="仪器列表\射频波源\RFSignalGeneratorBase.cs" />
+    <Compile Include="仪器列表\信号发生器\SignalGeneratorBase.cs" />
+    <Compile Include="仪器列表\信号发生器\WaveFormTypes.cs" />
+    <Compile Include="仪器列表\波源\OutputShapes.cs" />
+    <Compile Include="仪器列表\波源\Rigol\RIGOL DSG 3060\RFSource.cs" />
+    <Compile Include="仪器列表\波源\RFSourceBase.cs" />
     <Compile Include="仪器列表\温度控制器\OutputChannelBase.cs" />
     <Compile Include="仪器列表\温度控制器\SensorChannelBase.cs" />
     <Compile Include="仪器列表\温度控制器\SRS PTC10\Options.cs" />
@@ -188,7 +186,6 @@
     <Compile Include="数据处理\SCPI指令\SCPIGenerator.cs" />
     <Compile Include="端口基类部分\COM串口\COMOuterInterface.cs" />
     <Compile Include="端口基类部分\COM串口\COMInternalInterface.cs" />
-    <Compile Include="端口基类部分\DeviceInfo.cs" />
     <Compile Include="端口基类部分\Parameter.cs" />
     <Compile Include="端口基类部分\PortDispatcher.cs" />
     <Compile Include="端口基类部分\PortElement.cs" />
@@ -196,19 +193,32 @@
     <Compile Include="端口基类部分\PortType.cs" />
     <Compile Include="端口基类部分\TCPIP串口\TCPIPInternalInterface.cs" />
     <Compile Include="端口基类部分\TCPIP串口\TCPIPOuterInterface.cs" />
-    <Compile Include="端口基类部分\端口辅助类\PortTCPHelper.cs" />
-    <Compile Include="端口基类部分\端口辅助类\PortUSBHelper.cs" />
-    <Compile Include="端口基类部分\端口辅助类\PortHelper.cs" />
-    <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceHelper.cs" />
-    <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceTCPIPHelper.cs" />
-    <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceCOMHelper.cs" />
-    <Compile Include="端口基类部分\VISA资源辅助类\VISAResourceUSBHelper.cs" />
     <Compile Include="端口基类部分\WinUSB端口\WinUSBInternalInterface.cs" />
     <Compile Include="端口基类部分\WinUSB端口\WinUSBOuterInterface.cs" />
+    <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceCOMHelper.cs" />
+    <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceHelperBase.cs" />
+    <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceTCPIPHelper.cs" />
+    <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceUSBHelper.cs" />
+    <Compile Include="端口基类部分\设备信息类\DeviceInfoBase.cs" />
+    <Compile Include="端口基类部分\设备信息类\COMDeviceInfo.cs" />
+    <Compile Include="端口基类部分\设备信息类\USBDeviceInfo.cs" />
+    <Compile Include="端口基类部分\设备信息类\TCPIPDeviceInfo.cs" />
+    <Compile Include="连接窗口\ConnectWindow.xaml.cs">
+      <DependentUpon>ConnectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="连接窗口\ParameterWindow.xaml.cs">
+      <DependentUpon>ParameterWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PI_GCS2_DLL.dll" />
     <None Include="Resources\PI_GCS2_DLL_x64.dll" />
+    <Resource Include="Image\downArrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\loading.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Thorlabs.MotionControl.DeviceManager.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.FilterFlipper.dll" />
     <Content Include="Resources\uc480_64.dll" />
@@ -228,7 +238,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="串口通讯模块\信号发生器\" />
     <Folder Include="串口通讯模块\纳米位移台\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="连接窗口\ConnectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="连接窗口\ParameterWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

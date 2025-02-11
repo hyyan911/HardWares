@@ -9,24 +9,21 @@ using NationalInstruments.Visa;
 using Ivi.Visa;
 using System.Xml.Linq;
 using HardWares.端口基类.TCPIP串口;
+using HardWares.端口基类部分;
+using HardWares.端口基类部分.设备信息;
 
-namespace HardWares.端口基类部分
+namespace HardWares.端口基类部分.VISAHelper
 {
-    internal delegate string ProductNameGenerater(string source);
-
-    internal class VISAResourceTCPIPHelper : VISAResourceHelper
+    internal class VISAResourceTCPIPHelper : VISAResourceHelperBase
     {
-        /// <summary>
-        /// 获取ProductName
-        /// </summary>
-        private ProductNameGenerater GetProductName = null;
-
-        public VISAResourceTCPIPHelper(ProductNameGenerater getProductName)
+        public VISAResourceTCPIPHelper(Func<string, string> getProductName)
         {
             GetProductName = getProductName;
         }
 
         #region TCPIP部分
+
+
 
         public void ReceiveTCPIPAct(TCPIPInternalInterface device)
         {
@@ -43,11 +40,11 @@ namespace HardWares.端口基类部分
             return true;
         }
 
-        public object OpenTCPIPPort(TCPIPInternalInterface device, List<object> param)
+        public object OpenTCPIPPort(TCPIPInternalInterface device, TCPIPDeviceInfo info)
         {
             using (ResourceManager m = new ResourceManager())
             {
-                TcpipSession res = (TcpipSession)m.Open(param[0] as string, AccessModes.None, 1000, out ResourceOpenStatus stat);
+                TcpipSession res = (TcpipSession)m.Open(info.IPAddress, AccessModes.None, 1000, out ResourceOpenStatus stat);
                 res.TerminationCharacterEnabled = false;
                 try
                 {
@@ -93,15 +90,14 @@ namespace HardWares.端口基类部分
         /// <summary>
         /// 获取USB设备
         /// </summary>
-        public List<string> EnumerateTCPIPDevices(TCPIPInternalInterface device)
+        public List<TCPIPDeviceInfo> EnumerateTCPIPDevices(TCPIPInternalInterface device)
         {
             using (ResourceManager m = new ResourceManager())
             {
-                DevNames.Clear();
                 try
                 {
                     List<string> strs = m.Find("TCPIP?*").ToList();
-                    List<string> result = new List<string>();
+                    List<TCPIPDeviceInfo> result = new List<TCPIPDeviceInfo>();
                     foreach (var item in strs)
                     {
                         using (var ss = m.Open(item) as TcpipSession)
@@ -110,11 +106,14 @@ namespace HardWares.端口基类部分
                             {
                                 string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);
                                 if (res == "") continue;
-                                if (GetProductName == null) result.Add(res);
+                                if (GetProductName == null)
+                                {
+                                    result.Add(new TCPIPDeviceInfo(res, item, 0));
+                                    continue;
+                                }
                                 string product = GetProductName?.Invoke(res);
                                 if (product == "") continue;
-                                result.Add(product);
-                                DevNames.Add(new KeyValuePair<string, string>(product, item));
+                                result.Add(new TCPIPDeviceInfo(product, item, 0));
                             }
                             catch
                             {
@@ -126,10 +125,11 @@ namespace HardWares.端口基类部分
                 }
                 catch (Exception ex)
                 {
-                    return new List<string>();
+                    return new List<TCPIPDeviceInfo>();
                 }
             }
         }
+
         /// <summary>
         /// 连接USB
         /// </summary>
@@ -137,16 +137,9 @@ namespace HardWares.端口基类部分
         /// <param name="usbName"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectTCPIP(PortObject device, string tcpipname, out Exception exc)
+        public bool ConnectTCPIP(PortObject device, TCPIPDeviceInfo info, out Exception exc)
         {
-            EnumerateTCPIPDevices(device as TCPIPInternalInterface);
-            string res = FindResourceName(tcpipname);
-            if (res == "")
-            {
-                exc = new Exception("未找到设备");
-                return false;
-            }
-            return device.Connect(PortType.TCPIP, out exc, Encoding.ASCII, res);
+            return device.Connect(info, out exc);
         }
         #endregion
     }

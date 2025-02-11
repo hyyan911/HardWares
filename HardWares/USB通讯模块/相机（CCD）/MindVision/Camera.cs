@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Interop;
 using HardWares.端口基类;
 using HardWares.相机_CCD_;
+using HardWares.端口基类部分.设备信息;
 
 namespace HardWares.相机.MindVision
 {
@@ -37,25 +38,21 @@ namespace HardWares.相机.MindVision
         /// <param name="usbName"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectUSB(string usbName, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.Default, usbName);
+            return Connect(info, out exc);
         }
 
         /// <summary>
         /// 获取设备列表
         /// </summary>
         /// <returns></returns>
-        public List<string> GetUsbDeviceNames()
+        public List<USBDeviceInfo> GetUsbDeviceInfos()
         {
-            return new List<string>();
+            return new List<USBDeviceInfo>();
             MvApi.CameraEnumerateDevice(out tSdkCameraDevInfo[] infos);
-            List<string> result = new List<string>();
-            if (infos == null) return new List<string>();
-            foreach (var item in infos)
-            {
-                result.Add((Encoding.UTF8.GetString(item.acProductName)).Replace("\0", ""));
-            }
+            List<USBDeviceInfo> result = new List<USBDeviceInfo>();
+            if (infos == null) return new List<USBDeviceInfo>();
             return result;
         }
 
@@ -112,12 +109,12 @@ namespace HardWares.相机.MindVision
             return result;
         }
 
-        object USBInternalInterface.OpenUSBPort(List<object> param)
+        object USBInternalInterface.OpenUSBPort(USBDeviceInfo param)
         {
             MvApi.CameraEnumerateDevice(out tSdkCameraDevInfo[] infos);
             for (int i = 0; i < infos.Length; ++i)
             {
-                if ((Encoding.UTF8.GetString(infos[i].acProductName)).Replace("\0", "") == param[0].ToString())
+                if ((Encoding.UTF8.GetString(infos[i].acProductName)).Replace("\0", "") == param.USBIdentification.ToString())
                 {
                     CameraHandle handle = 0;
                     CameraSdkStatus status = MvApi.CameraInit(ref infos[i], -1, -1, ref handle);

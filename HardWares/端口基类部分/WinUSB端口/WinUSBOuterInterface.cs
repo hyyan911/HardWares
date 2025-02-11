@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HardWares.端口基类部分.设备信息;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,12 +18,12 @@ namespace HardWares.端口基类
         /// <param name="USBName"></param>
         /// <param name="guid"></param>
         /// <returns></returns>
-        bool ConnectUSB(string usbName, out Exception exc);
+        bool ConnectUSB(USBDeviceInfo info, out Exception exc);
 
         /// <summary>
         /// 获取USB设备名称
         /// </summary>
         /// <returns></returns>
-        List<string> GetUsbDeviceNames();
+        List<USBDeviceInfo> GetUsbDeviceInfos();
     }
 }

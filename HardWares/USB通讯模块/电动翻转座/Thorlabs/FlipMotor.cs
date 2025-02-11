@@ -7,29 +7,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Thorlabs.MotionControl.DeviceManagerCLI;
 using Thorlabs.MotionControl.FilterFlipperCLI;
-using Thorlabs.MotionControl.GenericMotorCLI;
-using Thorlabs.MotionControl.GenericMotorCLI.ControlParameters;
-using Thorlabs.MotionControl.GenericMotorCLI.AdvancedMotor;
-using Thorlabs.MotionControl.GenericMotorCLI.Settings;
 using Thorlabs.MotionControl.FilterFlipperCLI.Native;
+using HardWares.端口基类部分.设备信息;
 
 namespace HardWares.仪器列表.电动翻转座
 {
     public partial class FlipMotor : FlipMotorBase, WinUSBOuterInterface, USBInternalInterface
     {
-        public bool ConnectUSB(string usbName, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
         {
-            return Connect(PortType.USB, out exc, Encoding.ASCII, usbName);
+            return Connect(info, out exc);
         }
 
         /// <summary>
         /// 获取设备名
         /// </summary>
         /// <returns></returns>
-        public List<string> GetUsbDeviceNames()
+        public List<USBDeviceInfo> GetUsbDeviceInfos()
         {
             DeviceManagerCLI.BuildDeviceList();
-            return DeviceManagerCLI.GetDeviceList(37);
+            return DeviceManagerCLI.GetDeviceList(37).Select(x => new USBDeviceInfo(x, x)).ToList();
         }
 
         void USBInternalInterface.CloseUSBPort()
@@ -52,11 +49,11 @@ namespace HardWares.仪器列表.电动翻转座
             return (Instance as FilterFlipper).IsConnected;
         }
 
-        object USBInternalInterface.OpenUSBPort(List<object> param)
+        object USBInternalInterface.OpenUSBPort(USBDeviceInfo param)
         {
             DeviceManagerCLI.BuildDeviceList();
-            FilterFlipper dev = FilterFlipper.CreateFilterFlipper(param[0] as string);
-            dev.Connect(param[0] as string);
+            FilterFlipper dev = FilterFlipper.CreateFilterFlipper(param.USBIdentification);
+            dev.Connect(param.USBIdentification);
             dev.EnableDevice();
             FilterFlipperIOSettings currentDeviceSettings = dev.GetIOSettings();
             currentDeviceSettings.TransitTime = 300;

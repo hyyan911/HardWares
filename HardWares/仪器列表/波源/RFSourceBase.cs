@@ -1,17 +1,16 @@
-﻿using HardWares.仪器列表.射频波源.RIGOL_DSG_3000;
-using HardWares.端口基类;
+﻿using HardWares.端口基类;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.波源
+namespace HardWares.射频源
 {
     /// <summary>
     /// 
     /// </summary>
-    public abstract class RFSignalGeneratorBase : PortObject
+    public abstract class RFSourceBase : PortObject
     {
         /// <summary>
         /// 射频波源频率(MHz)

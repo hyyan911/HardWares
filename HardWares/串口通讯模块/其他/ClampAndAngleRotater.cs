@@ -583,6 +583,11 @@ namespace HardWares
         {
             throw new NotImplementedException();
         }
+
+        internal override Encoding GetCoder()
+        {
+            return Encoding.ASCII;
+        }
     }
 
     /// <summary>

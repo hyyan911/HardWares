@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HardWares.端口基类部分.设备信息;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,7 @@ namespace HardWares.端口基类.COM串口
         ///  创建COM接口实例
         /// </summary>
         /// <returns></returns>
-        object OpenCOMPort(List<object> param);
+        object OpenCOMPort(COMDeviceInfo info);
 
         /// <summary>
         /// COM接口是否打开

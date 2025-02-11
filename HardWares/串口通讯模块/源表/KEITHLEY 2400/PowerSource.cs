@@ -2,20 +2,53 @@
 using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
 using HardWares.端口基类部分;
+using HardWares.端口基类部分.设备信息;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HardWares.源表.KEITHLEY_2400
 {
     public partial class PowerSource : PowerSourceBase, COMInternalInterface, COMOuterInterface
     {
-        public bool ConnectCOM(string COMName, int baudrate, out Exception exc)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="exc"></param>
+        /// <returns></returns>
+        public bool ConnectCOM(COMDeviceInfo info, out Exception exc)
         {
-            return Connect(PortType.COM, out exc, Encoding.UTF8, COMName, baudrate);
+            return Connect(info, out exc);
+        }
+
+        public List<COMDeviceInfo> GetCOMDeviceInfos()
+        {
+            return COMDeviceInfo.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
+            {
+                try
+                {
+                    ser.Write("*IDN?\r");
+                    Thread.Sleep(100);
+                    string res = ser.ReadExisting();
+                    if (res.Contains("KEITHLEY") && res.Contains("MODEL 2400"))
+                    {
+                        //获取序列号
+                        string strsegs = res.Split(',')[2];
+                        res = "KEITHLEY 2400 " + strsegs;
+                        return res;
+                    }
+                    return "";
+                }
+                catch (Exception ex)
+                {
+                    return "";
+                }
+            }));
         }
 
         void COMInternalInterface.CloseCOMPort()
@@ -49,9 +82,9 @@ namespace HardWares.源表.KEITHLEY_2400
             return (Instance as SerialPort).IsOpen;
         }
 
-        object COMInternalInterface.OpenCOMPort(List<object> param)
+        object COMInternalInterface.OpenCOMPort(COMDeviceInfo info)
         {
-            SerialPort port = new SerialPort(param[0] as string, (int)param[1]);
+            SerialPort port = new SerialPort(info.COMName, info.BaudRate);
             port.Open();
             return port;
         }

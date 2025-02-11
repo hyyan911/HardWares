@@ -17,7 +17,9 @@ using System.Threading;
 using HardWares.纳米位移台.PI;
 using HardWares.仪器列表.电动翻转座;
 using HardWares.源表.KEITHLEY_2450;
-using HardWares.波源.Rigol_DSG_3060;
+using HardWares.Windows;
+using HardWares.相机_CCD_;
+using HardWares.端口基类;
 
 namespace 测试项目
 {
@@ -30,10 +32,9 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            Port.ItemsSource = new PIController().GetTCPIPDeviceNames();
         }
 
-        PIController cc = null;
+        PortObject obj = null;
         /// <summary>
         /// 连接
         /// </summary>
@@ -41,9 +42,9 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            cc = new PIController();
-            State.Content = cc.ConnectTCPIP(Port.SelectedItem.ToString(), out Exception ex).ToString();
-            if (State.Content.ToString() == "False") { cc.Dispose(); return; }
+            ConnectWindow win = new ConnectWindow(typeof(CameraBase));
+            State.Content = win.ShowDialog(this);
+            obj = win.ConnectedDevice;
             //Thread t = new Thread(() =>
             //{
             //    while (true)
@@ -63,6 +64,8 @@ namespace 测试项目
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
+            ParameterWindow win = new ParameterWindow(obj, this);
+            win.ShowDialog();
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
