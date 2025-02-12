@@ -1679,6 +1679,21 @@ double dStepAxisRange, string szParameters);
 
         #region C#接口
 
+
+        public static string GetAxisNames(int ID)
+        {
+            int count = 100;
+            IntPtr pt = Marshal.AllocHGlobal(sizeof(byte) * count);
+            PI_qSAI_ALL(ID, pt, count);
+            byte[] bt = new byte[count];
+            Marshal.Copy(pt, bt, 0, count);
+            Marshal.FreeHGlobal(pt);
+            string res = Encoding.ASCII.GetString(bt);
+            int ind = res.IndexOf("\0");
+            res = res.Substring(0, ind);
+            return res;
+        }
+
         /// <summary>
         /// 获取结果
         /// </summary>

@@ -59,7 +59,7 @@ namespace HardWares.纳米位移台.PI
             //判断是否是GCS2版本
             IsGCS2 = !IsGCS3();
             //获取轴列表
-            var retun = ProcessQueryResult(ThreadSafeQuery(ProcessCmd("SAI?", "", ""), 1000));
+            var retun = ProcessQueryResult(PIAPI2.GetAxisNames((int)Instance));
             Stages.Clear();
             foreach (var item in retun)
             {

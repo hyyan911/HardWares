@@ -21,6 +21,11 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         internal uc480.Defines.Status ConnectStatus { get; set; } = uc480.Defines.Status.NO_SUCCESS;
 
         /// <summary>
+        /// 内存指针
+        /// </summary>
+        internal Int32 MemoryIntptr { get; set; }
+
+        /// <summary>
         /// 连接设备
         /// </summary>
         /// <param name="usbName"></param>
@@ -64,6 +69,7 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
 
         void USBInternalInterface.ConnectedUSBAction()
         {
+            ConnectStatus = (Instance as uc480.Camera).Acquisition.Capture();
             (Instance as uc480.Camera).EventFrame += NewFrame;
             if (ConnectStatus != uc480.Defines.Status.SUCCESS) throw new Exception("相机未正常开启");
             (Instance as uc480.Camera).Display.Mode.Set(uc480.Defines.DisplayMode.DiB);
@@ -87,8 +93,7 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
                     if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
                     ConnectStatus = C.Memory.Allocate(out Int32 m, true);
                     if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
-                    ConnectStatus = C.Acquisition.Capture();
-                    if (ConnectStatus != uc480.Defines.Status.SUCCESS) return null;
+                    MemoryIntptr = m;
                     return C;
                 }
             }
