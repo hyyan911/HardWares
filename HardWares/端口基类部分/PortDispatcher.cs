@@ -91,7 +91,7 @@ namespace HardWares.端口基类
                             catch (Exception) { }
                         }
                     }
-                    Thread.Sleep(20);
+                    Thread.Sleep(10);
                 }
             });
             Sender.Start();
@@ -113,7 +113,7 @@ namespace HardWares.端口基类
                         }
                         catch (Exception e) { }
                     }
-                    Thread.Sleep(20);
+                    Thread.Sleep(10);
                 }
             });
             Receiver.Start();

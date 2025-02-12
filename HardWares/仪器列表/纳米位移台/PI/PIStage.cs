@@ -305,8 +305,8 @@ namespace HardWares.纳米位移台.PI
             int time = 0;
             while (IsMoving && time < timeout)
             {
-                Thread.Sleep(30);
-                time += 30;
+                Thread.Sleep(50);
+                time += 50;
             }
         }
 
