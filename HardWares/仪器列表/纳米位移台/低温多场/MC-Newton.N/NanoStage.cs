@@ -68,7 +68,7 @@ namespace HardWares.纳米位移台.低温多场旋转台
             }
         }
 
-        private double target = double.NaN;
+        internal double target = double.NaN;
         /// <summary>
         /// 闭环目标位置
         /// </summary>
@@ -87,7 +87,7 @@ namespace HardWares.纳米位移台.低温多场旋转台
         /// <returns></returns>
         public override void MoveTo(double targetvalue)
         {
-            PIController c = ParentDevice as PIController;
+            NanoController c = ParentDevice as NanoController;
             string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + target.ToString() + "]", 300);
             if (result == "") return;
             target = targetvalue;

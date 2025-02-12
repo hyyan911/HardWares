@@ -69,6 +69,10 @@ namespace 测试项目
         {
             ParameterWindow win = new ParameterWindow(obj, this);
             win.ShowDialog();
+            var p = (obj as NanoControllerBase).Stages[0].Position;
+
+            var t = (obj as NanoControllerBase).Stages[0].Target;
+
             //PowerSourceBase s = obj as PowerSourceBase;
             //var re = s.Output;
         }

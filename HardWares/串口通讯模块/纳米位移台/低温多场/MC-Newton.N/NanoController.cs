@@ -29,12 +29,8 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             return COMHelper.ConnectCOM(this, info, out exc);
         }
 
-        internal static int DevCount { get; set; } = 0;
-
         public List<COMDeviceInfo> GetCOMDeviceInfos()
         {
-            DevCount = 0;
-
             return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
             {
                 ser.Write("[1-CurPosi?] ");
@@ -42,7 +38,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
                 string result = ser.ReadExisting();
                 if (result.Contains("[") && result.Contains("]"))
                 {
-                    return "MC_Newton_N " + DevCount.ToString();
+                    return "MC_Newton_N " + ser.PortName.Replace("COM", "");
                 }
                 return "";
             }));
@@ -70,15 +66,20 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         void COMInternalInterface.ConnectedCOMAction()
         {
             string result = ThreadSafeQuery("[1-CurPosi?]", 300);
-            if (result != "")
+            if (double.Parse(result) != 0)
             {
-                Stages.Add(new NanoStage("1", this));
+                NanoStage stage = new NanoStage("1", this);
+                stage.target = stage.Position;
+                Stages.Add(stage);
             }
             result = ThreadSafeQuery("[2-CurPosi?]", 300);
-            if (result != "")
+            if (double.Parse(result) != 0)
             {
-                Stages.Add(new NanoStage("2", this));
+                NanoStage stage = new NanoStage("2", this);
+                stage.target = stage.Position;
+                Stages.Add(stage);
             }
+
         }
 
         bool COMInternalInterface.IsCOMOpen()
@@ -98,8 +99,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
 
         bool COMInternalInterface.TestCOMAction()
         {
-            string str = ThreadSafeQuery("[1-CurPosi?]", 300);
-            if (str == "") return false;
+            string str1 = ThreadSafeQuery("[1-CurPosi?]", 100);
+            string str12 = ThreadSafeQuery("[2-CurPosi?]", 100);
+            if (double.Parse(str1) == 0 && double.Parse(str12) == 0) return false;
             return true;
         }
     }
