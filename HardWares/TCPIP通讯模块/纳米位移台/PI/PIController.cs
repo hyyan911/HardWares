@@ -27,6 +27,17 @@ namespace HardWares.纳米位移台.PI
     public partial class PIController : NanoControllerBase, TCPIPInternalInterface, TCPIPOuterInterface
     {
 
+        private static string GetTCPIPProductName(string arg)
+        {
+            int ind = arg.IndexOf("--");
+            if (ind != -1)
+            {
+                return arg.Substring(0, ind);
+            }
+            return arg;
+        }
+
+
         bool TCPIPInternalInterface.TestTCPIPAction()
         {
             string s = PIAPI2.QIDN((int)Instance);
@@ -140,11 +151,23 @@ namespace HardWares.纳米位移台.PI
         {
             List<string> names = PIAPI2.EnumerateTCPIP();
 
+            names = names.Where((x) =>
+            {
+                foreach (var item in DevTypes)
+                {
+                    if (x.Contains(item)) return true;
+                }
+                return false;
+            }).ToList();
+
             return names.Select(x =>
             {
                 Regex reg = new Regex("[(].*[)]");
                 var res = reg.Match(x);
-                return new TCPIPDeviceInfo(GetUSBProductName(x), res.Value, 50000);
+                string address = res.Value.Replace("(", "").Replace(")", "");
+                int ind = address.LastIndexOf(':');
+                address = address.Substring(0, ind);
+                return new TCPIPDeviceInfo(GetTCPIPProductName(x), address, 50000);
             }).ToList();
         }
     }

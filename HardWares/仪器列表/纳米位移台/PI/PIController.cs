@@ -36,6 +36,9 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         public override List<StageBase> Stages { get; set; } = new List<StageBase>();
 
+        internal static string[] DevTypes = new string[] { "C-702", "C-843", "C-848", "C-880", "E-621", "E-625", "E-665", "E-816",
+            "E816", "E-516", "C-663","C-863","MERCURY","MERCURY_GCS1","E-710","E-727","E-873","E-761","IGITAL PIEZO CONTROLLER" };
+
         #region 属性部分
         internal bool IsGCS2 { get; set; } = true;
 

@@ -158,6 +158,15 @@ namespace HardWares.纳米位移台.PI
         {
             var r = PIAPI2.EnumerateUSB();
 
+            r = r.Where((x) =>
+            {
+                foreach (var item in DevTypes)
+                {
+                    if (x.Contains(item)) return true;
+                }
+                return false;
+            }).ToList();
+
             return r.Select(x =>
             {
                 return new USBDeviceInfo(x, x.Split(' ').Last());
