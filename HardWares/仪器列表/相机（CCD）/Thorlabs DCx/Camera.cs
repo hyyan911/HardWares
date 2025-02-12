@@ -109,21 +109,26 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
 
         private bool capture;
 
-        private object obj = new object();
-
+        private Bitmap tmpBMP;
         public Bitmap FrameBuffer = null;
 
         private void NewFrame(object sender, EventArgs e)
         {
             if (capture) // 检查是否需要保存图片
             {
-                (Instance as uc480.Camera).Memory.GetActive(out Int32 mid);
-                (Instance as uc480.Camera).Memory.Lock(mid);
-                lock (obj)
+                uc480.Camera Camera = sender as uc480.Camera;
+
+                Int32 s32MemID;
+                Camera.Memory.GetActive(out s32MemID);
+
+                Camera.Memory.Lock(s32MemID);
+                Camera.Memory.ToBitmap(s32MemID, out tmpBMP);
+                lock (cameralockobj)
                 {
-                    (Instance as uc480.Camera).Memory.CopyToBitmap(mid, out FrameBuffer);
+                    FrameBuffer?.Dispose();
+                    FrameBuffer = new Bitmap(tmpBMP);
                 }
-                (Instance as uc480.Camera).Memory.Unlock(mid);
+                Camera.Memory.Unlock(s32MemID);
                 capture = false; // 重置标志
             }
         }
@@ -149,7 +154,11 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
                 time += 20;
             }
             if (time > waittime)
+            {
+                capture = false;
+                BrokenFrameCount += 1;
                 return null;
+            }
             return FrameBuffer;
         }
 

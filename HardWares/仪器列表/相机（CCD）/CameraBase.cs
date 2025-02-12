@@ -12,6 +12,7 @@ namespace HardWares.相机_CCD_
 {
     public abstract class CameraBase : PortObject
     {
+        protected object cameralockobj = new object();
         /// <summary>
         /// 获取图片
         /// </summary>
@@ -29,9 +30,12 @@ namespace HardWares.相机_CCD_
                     return null;
                 }
                 bmap.RotateFlip(FlipType);
-                source = CodeHelper.ImageConverter.BitmapToBitmapSource(bmap);
-                bmap.Dispose();
-                source.Freeze();
+                lock (cameralockobj)
+                {
+                    source = CodeHelper.ImageConverter.BitmapToBitmapSource(bmap);
+                    bmap.Dispose();
+                    source.Freeze();
+                }
                 GC.Collect();
                 return source;
             }
