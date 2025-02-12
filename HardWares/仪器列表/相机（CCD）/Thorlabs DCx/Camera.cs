@@ -122,13 +122,15 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
                 Camera.Memory.GetActive(out s32MemID);
 
                 Camera.Memory.Lock(s32MemID);
-                Camera.Memory.ToBitmap(s32MemID, out tmpBMP);
+                Camera.Memory.CopyToBitmap(s32MemID, out tmpBMP);
                 lock (cameralockobj)
                 {
                     FrameBuffer?.Dispose();
                     FrameBuffer = new Bitmap(tmpBMP);
                 }
                 Camera.Memory.Unlock(s32MemID);
+                Camera.Memory.Free(s32MemID);
+                Camera.Memory.Allocate(true);
                 capture = false; // 重置标志
             }
         }
