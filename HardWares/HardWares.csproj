@@ -155,6 +155,7 @@
     <Compile Include="串口通讯模块\示波器\汉泰\OscilloScope.cs" />
     <Compile Include="串口通讯模块\PID\PIDControlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="串口通讯模块\纳米位移台\低温多场\MC-Newton.N\NanoController.cs" />
     <Compile Include="仪器列表\Lock In\LockInBase.cs" />
     <Compile Include="仪器列表\Lock In\Zurich LockIn\LockIn.cs" />
     <Compile Include="仪器列表\信号发生器\SignalGeneratorBase.cs" />
@@ -182,6 +183,8 @@
     <Compile Include="仪器列表\纳米位移台\PI\PIController.cs" />
     <Compile Include="仪器列表\纳米位移台\PI\PIStage.cs" />
     <Compile Include="仪器列表\纳米位移台\StageBase.cs" />
+    <Compile Include="仪器列表\纳米位移台\低温多场\MC-Newton.N\NanoController.cs" />
+    <Compile Include="仪器列表\纳米位移台\低温多场\MC-Newton.N\NanoStage.cs" />
     <Compile Include="数据处理\DataProcess.cs" />
     <Compile Include="数据处理\SCPI指令\SCPIGenerator.cs" />
     <Compile Include="端口基类部分\COM串口\COMOuterInterface.cs" />
@@ -241,7 +244,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="串口通讯模块\信号发生器\" />
-    <Folder Include="串口通讯模块\纳米位移台\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="连接窗口\ConnectWindow.xaml">
