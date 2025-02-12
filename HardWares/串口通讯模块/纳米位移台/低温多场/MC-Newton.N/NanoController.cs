@@ -34,7 +34,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
             {
                 ser.Write("[1-CurPosi?] ");
-                Thread.Sleep(100);
+                Thread.Sleep(200);
                 string result = ser.ReadExisting();
                 if (result.Contains("[") && result.Contains("]"))
                 {
@@ -99,8 +99,8 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
 
         bool COMInternalInterface.TestCOMAction()
         {
-            string str1 = ThreadSafeQuery("[1-CurPosi?]", 100);
-            string str12 = ThreadSafeQuery("[2-CurPosi?]", 100);
+            string str1 = ThreadSafeQuery("[1-CurPosi?]", 200);
+            string str12 = ThreadSafeQuery("[2-CurPosi?]", 200);
             if (double.Parse(str1) == 0 && double.Parse(str12) == 0) return false;
             return true;
         }

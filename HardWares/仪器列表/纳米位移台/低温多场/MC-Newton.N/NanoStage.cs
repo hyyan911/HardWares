@@ -103,7 +103,7 @@ namespace HardWares.纳米位移台.低温多场旋转台
         {
             MoveTo(targetvalue);
             int time = 0;
-            while (Math.Abs(Position - targetvalue) < 0.01 && time < timeout)
+            while (Math.Abs(Position - targetvalue) > 0.01 && time < timeout)
             {
                 Thread.Sleep(50);
                 time += 50;
