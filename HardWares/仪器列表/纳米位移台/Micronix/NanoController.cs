@@ -19,7 +19,7 @@ using HardWares.端口基类部分.设备信息;
 using HardWares.端口基类部分.PortHelper;
 using HardWares.纳米位移台.PI;
 
-namespace HardWares.纳米位移台.低温多场.MC_Newton_N
+namespace HardWares.纳米位移台.Micronix
 {
     public partial class NanoController : NanoControllerBase
     {
@@ -51,8 +51,52 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         #region 基本通讯方法
         internal override string ThreadUnsafeQuery(string instruction, int waittingtime)
         {
-            return COMHelper.ThreadUnsafeQuery(this, instruction, waittingtime)[0];
+            return ProcessResult(COMHelper.ThreadUnsafeQuery(this, instruction, waittingtime));
         }
+
+        internal string ProcessCmd(string axisind, string cmd, params string[] ps)
+        {
+            string res = "";
+            res += axisind + cmd;
+            foreach (var item in ps)
+            {
+                res += item + ",";
+            }
+            if (res.Last() == ',') res = res.Remove(res.Length - 1, 1);
+            res += "\n\r";
+            return res;
+        }
+
+        internal string ProcessResult(List<string> result)
+        {
+            foreach (var item in result)
+            {
+                string str = item.Replace("\n", "");
+                str = str.Replace("\n", "");
+                if (str.Trim() != "") return str.Trim();
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 处理数字
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        internal double ProcessNum(string result)
+        {
+            try
+            {
+                string num = result.Substring(4, result.Length - 4 + 1);
+                return double.Parse(num);
+            }
+            catch (Exception)
+            {
+
+                return double.NaN;
+            }
+        }
+
         #endregion
 
 

@@ -155,6 +155,7 @@
     <Compile Include="串口通讯模块\示波器\汉泰\OscilloScope.cs" />
     <Compile Include="串口通讯模块\PID\PIDControlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="串口通讯模块\纳米位移台\Micronix\NanoController.cs" />
     <Compile Include="串口通讯模块\纳米位移台\低温多场\MC-Newton.N\NanoController.cs" />
     <Compile Include="仪器列表\Lock In\LockInBase.cs" />
     <Compile Include="仪器列表\Lock In\Zurich LockIn\LockIn.cs" />
@@ -179,6 +180,8 @@
     <Compile Include="仪器列表\相机（CCD）\MindVision\Camera.cs" />
     <Compile Include="仪器列表\相机（CCD）\Thorlabs DCx\Camera.cs" />
     <Compile Include="仪器列表\相机（CCD）\摄像头\Camera.cs" />
+    <Compile Include="仪器列表\纳米位移台\Micronix\NanoController.cs" />
+    <Compile Include="仪器列表\纳米位移台\Micronix\NanoStage.cs" />
     <Compile Include="仪器列表\纳米位移台\NanoControllerBase.cs" />
     <Compile Include="仪器列表\纳米位移台\PI\PIController.cs" />
     <Compile Include="仪器列表\纳米位移台\PI\PIStage.cs" />

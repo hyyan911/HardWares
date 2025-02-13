@@ -31,6 +31,11 @@ namespace HardWares.纳米位移台
         public abstract double Target { get; }
 
         /// <summary>
+        /// 速度
+        /// </summary>
+        public abstract double Velocity { get; set; }
+
+        /// <summary>
         /// 移动到目标位置
         /// </summary>
         /// <param name="targetvalue"></param>

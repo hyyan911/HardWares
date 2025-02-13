@@ -12,10 +12,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HardWares.纳米位移台.低温多场.MC_Newton_N
+namespace HardWares.纳米位移台.Micronix
 {
     /// <summary>
-    /// 低温多场旋转台
+    /// Micronix位移台
     /// </summary>
     public class NanoStage : StageBase
     {
@@ -62,9 +62,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             get
             {
                 NanoController c = ParentDevice as NanoController;
-                string result = c.ThreadSafeQuery("[" + AxisName + "-CurPosi?]", 300);
-                if (result == "") return double.NaN;
-                return double.Parse(result);
+                return c.ProcessNum(c.ThreadSafeQuery(c.ProcessCmd(GetAxisInd(), "POS?"), 300));
             }
         }
 
@@ -80,7 +78,6 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             }
         }
 
-        internal double velocity = 5;
         /// <summary>
         /// 速度
         /// </summary>
@@ -88,15 +85,61 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         {
             get
             {
-                return velocity;
+                NanoController c = ParentDevice as NanoController;
+                return c.ProcessNum(c.ThreadSafeQuery(c.ProcessCmd(GetAxisInd(), "VEL?"), 300));
             }
             set
             {
                 NanoController c = ParentDevice as NanoController;
-                string result = c.ThreadSafeQuery("[" + AxisName + "-SetSpeed:" + value.ToString() + "]", 300);
-                if (result == "") return;
-                velocity = value;
+                c.AddMessage(c.ProcessCmd(GetAxisInd(), "VEL", value.ToString()));
             }
+        }
+
+        /// <summary>
+        /// 速度上限
+        /// </summary>
+        public double VelocityLimit
+        {
+            get
+            {
+                NanoController c = ParentDevice as NanoController;
+                return c.ProcessNum(c.ThreadSafeQuery(c.ProcessCmd(GetAxisInd(), "VMX?"), 300));
+            }
+        }
+
+        /// <summary>
+        /// 加速度
+        /// </summary>
+        public double Acceleration
+        {
+            get
+            {
+                NanoController c = ParentDevice as NanoController;
+                return c.ProcessNum(c.ThreadSafeQuery(c.ProcessCmd(GetAxisInd(), "ACC?"), 300));
+            }
+            set
+            {
+                NanoController c = ParentDevice as NanoController;
+                c.AddMessage(c.ProcessCmd(GetAxisInd(), "ACC", value.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// 加速度上限
+        /// </summary>
+        public double AccelerationLimit
+        {
+            get
+            {
+                NanoController c = ParentDevice as NanoController;
+                return c.ProcessNum(c.ThreadSafeQuery(c.ProcessCmd(GetAxisInd(), "AMX?"), 300));
+            }
+        }
+
+        private string GetAxisInd()
+        {
+            int ind = AxisName.LastIndexOf('_');
+            return AxisName.Substring(ind, AxisName.Length - ind - 1);
         }
 
         /// <summary>
@@ -106,15 +149,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// <returns></returns>
         public override void MoveTo(double targetvalue)
         {
-            if (targetvalue > 150 || targetvalue < -150)
-            {
-                return;
-            }
             NanoController c = ParentDevice as NanoController;
-            string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + Math.Round(target, 6).ToString() + "]", 300);
-            if (result == "") return;
+            c.AddMessage(c.ProcessCmd(GetAxisInd(), "MVA", targetvalue.ToString()));
             target = targetvalue;
-            c.AddMessage("[" + AxisName + "-MovTarg]");
         }
 
         /// <summary>
@@ -122,7 +159,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveToAndWait(double targetvalue, int timeout)
+        public override void MoveToAndWait(double targetvalue, int timeout = 50)
         {
             MoveTo(targetvalue);
             int time = 0;
@@ -140,7 +177,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// <param name="timeout"></param>
         public override void MoveStepAndWait(double step, int timeout)
         {
-            MoveToAndWait(target + step, timeout);
+            NanoController c = ParentDevice as NanoController;
+            c.AddMessage(c.ProcessCmd(GetAxisInd(), "MVR", step.ToString()));
+            target += step;
         }
 
         #endregion
@@ -158,8 +197,6 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             result.Add(new Parameter("Position", "当前位置", Position.GetType(), this, true) { IsReadOnly = true });
 
             result.Add(new Parameter("Target", "目标位置", Target.GetType(), this, true) { IsReadOnly = true });
-
-            result.Add(new Parameter("Velocity", "速度(°/s或mm/s)", Velocity.GetType(), this, true) { IsReadOnly = false });
 
             return result;
         }

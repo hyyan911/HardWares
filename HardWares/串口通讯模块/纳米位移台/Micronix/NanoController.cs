@@ -17,12 +17,13 @@ using HardWares.端口基类.COM串口;
 using HardWares.端口基类部分;
 using HardWares.端口基类部分.设备信息;
 using HardWares.端口基类部分.PortHelper;
+using System.Runtime.ConstrainedExecution;
 
-namespace HardWares.纳米位移台.低温多场.MC_Newton_N
+namespace HardWares.纳米位移台.Micronix
 {
     public partial class NanoController : NanoControllerBase, COMInternalInterface, COMOuterInterface
     {
-        COMHelper COMHelper = new COMHelper(']', Encoding.ASCII);
+        COMHelper COMHelper = new COMHelper('\r', Encoding.ASCII);
         public bool ConnectCOM(COMDeviceInfo info, out Exception exc)
         {
             return COMHelper.ConnectCOM(this, info, out exc);
@@ -32,12 +33,19 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         {
             return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
             {
-                ser.Write("[1-CurPosi?] ");
+                ser.Write("1VER?\n\r");
+                ser.Write("2VER?\n\r");
+                ser.Write("3VER?\n\r");
+                ser.Write("4VER?\n\r");
+                ser.Write("5VER?\n\r");
+                ser.Write("6VER?\n\r");
+                ser.Write("7VER?\n\r");
+                ser.Write("8VER?\n\r");
                 Thread.Sleep(200);
                 string result = ser.ReadExisting();
-                if (result.Contains("[") && result.Contains("]"))
+                if (result.Trim() != "")
                 {
-                    return "MC_Newton_N " + ser.PortName.Replace("COM", "");
+                    return "Micronix" + ser.PortName.Replace("COM", "");
                 }
                 return "";
             }));
@@ -64,19 +72,15 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
 
         void COMInternalInterface.ConnectedCOMAction()
         {
-            string result = ThreadSafeQuery("[1-CurPosi?]", 300);
-            if (double.Parse(result) != 0)
+            for (int i = 1; i <= 8; i++)
             {
-                NanoStage stage = new NanoStage("1", this);
-                stage.target = stage.Position;
-                Stages.Add(stage);
-            }
-            result = ThreadSafeQuery("[2-CurPosi?]", 300);
-            if (double.Parse(result) != 0)
-            {
-                NanoStage stage = new NanoStage("2", this);
-                stage.target = stage.Position;
-                Stages.Add(stage);
+                string result = ThreadSafeQuery(i.ToString() + "VER?\n\r", 300);
+                if (result.Trim() != "")
+                {
+                    NanoStage stage = new NanoStage(result + "_" + i.ToString(), this);
+                    stage.target = stage.Position;
+                    Stages.Add(stage);
+                }
             }
 
         }
@@ -93,14 +97,25 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
 
         void COMInternalInterface.ReceiveCOMAct()
         {
-            COMHelper.ReceiveCOMAct(this, new List<string>() { "ReachTarg", "MovStop" });
+            COMHelper.ReceiveCOMAct(this);
         }
 
         bool COMInternalInterface.TestCOMAction()
         {
-            string str1 = ThreadSafeQuery("[1-CurPosi?]", 200);
-            string str12 = ThreadSafeQuery("[2-CurPosi?]", 200);
-            if (double.Parse(str1) == 0 && double.Parse(str12) == 0) return false;
+            (Instance as SerialPort).Write("1VER?\n\r");
+            (Instance as SerialPort).Write("2VER?\n\r");
+            (Instance as SerialPort).Write("3VER?\n\r");
+            (Instance as SerialPort).Write("4VER?\n\r");
+            (Instance as SerialPort).Write("5VER?\n\r");
+            (Instance as SerialPort).Write("6VER?\n\r");
+            (Instance as SerialPort).Write("7VER?\n\r");
+            (Instance as SerialPort).Write("8VER?\n\r");
+            Thread.Sleep(200);
+            string result = (Instance as SerialPort).ReadExisting();
+            if (result.Trim() != "")
+            {
+                return true;
+            }
             return true;
         }
     }
