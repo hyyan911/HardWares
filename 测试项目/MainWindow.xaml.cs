@@ -48,37 +48,31 @@ namespace 测试项目
             ConnectWindow win = new ConnectWindow(typeof(NanoControllerBase));
             State.Content = win.ShowDialog(this);
             obj = win.ConnectedDevice;
-            //Thread t = new Thread(() =>
-            //{
-            //    while (true)
-            //    {
-            //        MeasureGroup ta = cc.Measure();
-            //        Dispatcher.Invoke(() =>
-            //        {
-            //            tar.Content = ta.Voltage.ToString();
-            //            pos.Content = ta.Current.ToString();
-            //        });
-            //        Thread.Sleep(20);
-            //    }
-            //});
-            //t.Start();
+            Thread t = new Thread(() =>
+            {
+                while (true)
+                {
+                    var ta = (obj as NanoControllerBase).Stages[0].Position;
+                    Dispatcher.Invoke(() =>
+                    {
+                        tar.Content = ta.ToString();
+                        pos.Content = ta.ToString();
+                    });
+                    Thread.Sleep(50);
+                }
+            });
+            t.Start();
 
         }
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            ParameterWindow win = new ParameterWindow(obj, this);
-            win.ShowDialog();
-            var p = (obj as NanoControllerBase).Stages[0].Position;
-
-            var t = (obj as NanoControllerBase).Stages[0].Target;
-
-            //PowerSourceBase s = obj as PowerSourceBase;
-            //var re = s.Output;
+            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(0.01, 100);
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
+            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(-0.01, 100);
         }
     }
 }

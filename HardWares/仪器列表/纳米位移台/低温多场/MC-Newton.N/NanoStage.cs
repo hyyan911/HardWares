@@ -88,7 +88,7 @@ namespace HardWares.纳米位移台.低温多场旋转台
         public override void MoveTo(double targetvalue)
         {
             NanoController c = ParentDevice as NanoController;
-            string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + target.ToString() + "]", 300);
+            string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + Math.Round(target, 6).ToString() + "]", 300);
             if (result == "") return;
             target = targetvalue;
             c.AddMessage("[" + AxisName + "-MovTarg]");
