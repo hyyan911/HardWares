@@ -454,13 +454,27 @@ namespace HardWares.端口基类
                 }
 
                 PortArranger?.Close();
-
+                try
+                {
+                    ClosePort();
+                }
+                catch (Exception)
+                {
+                }
                 exc = new Exception("端口打开失败");
                 return false;
             }
             catch (Exception ee)
             {
                 exc = new Exception("接口出现异常：" + ee.Message);
+                PortArranger?.Close();
+                try
+                {
+                    ClosePort();
+                }
+                catch (Exception)
+                {
+                }
                 return false;
             }
         }
