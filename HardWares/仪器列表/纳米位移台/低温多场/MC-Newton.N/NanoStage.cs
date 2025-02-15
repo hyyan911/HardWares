@@ -144,6 +144,12 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             }
         }
 
+
+        /// <summary>
+        ///位置单位
+        /// </summary>
+        public override string PositionUnit { get; internal set; } = "mm";
+
         /// <summary>
         /// 移动指定偏移量
         /// </summary>

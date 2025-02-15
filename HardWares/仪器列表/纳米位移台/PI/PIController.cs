@@ -91,22 +91,37 @@ namespace HardWares.纳米位移台.PI
         internal override string ThreadUnsafeQuery(string instruction, int waittingtime)
         {
             //检查是否有对应函数
+           
             string cmd = instruction.Split(' ')[0].Trim();
             if (CommandSet.Contains(cmd) == false && !(cmd.Length == 1) && instruction != "*IDN?\n" && instruction != "HLP?\n") return "";
 
-            QueryReturnedData = null;
-            QueryState = false;
             if (instruction.Length % 2 != 0)
             {
                 instruction += "\0";
             }
             AddMessage(Encoding.ASCII.GetBytes(instruction).ToList());
             int time = 0;
+
+            QueryReturnedData = new List<string>();
+            QueryState = false;
+
             Thread.Sleep(50);
-            while (QueryState == false && time < waittingtime)
+
+            if (instruction.Contains("HLP"))
             {
-                Thread.Sleep(30);
-                time += 30;
+                while ((QueryReturnedData.Count == 0 || !QueryReturnedData.Last().Contains("end of help")) && time < waittingtime)
+                {
+                    Thread.Sleep(30);
+                    time += 30;
+                }
+            }
+            else
+            {
+                while (QueryState == false && time < waittingtime)
+                {
+                    Thread.Sleep(30);
+                    time += 30;
+                }
             }
             if (QueryReturnedData == null) return "";
             string query = "";

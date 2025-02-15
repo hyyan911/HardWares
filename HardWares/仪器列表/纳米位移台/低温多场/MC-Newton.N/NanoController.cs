@@ -38,7 +38,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
 
         internal override Encoding GetCoder()
         {
-            return Encoding.ASCII;
+            return Encoding.UTF8;
         }
 
         /// <summary>

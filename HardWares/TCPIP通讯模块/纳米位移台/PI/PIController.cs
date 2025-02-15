@@ -110,6 +110,11 @@ namespace HardWares.纳米位移台.PI
             IsGCS2 = !IsGCS3();
             //获取轴列表
             var retun = ProcessQueryResult(PIAPI2.GetAxisNames((int)Instance));
+            string unit = "mm";
+            if (CommandSet.Contains("PUN?"))
+            {
+                unit = ProcessQueryResult(ThreadSafeQuery(ProcessCmd("PUN?", "", ""), 300))[0];
+            }
             Stages.Clear();
             foreach (var item in retun)
             {
@@ -126,7 +131,7 @@ namespace HardWares.纳米位移台.PI
             if (retu.Count != 0)
             {
                 QueryState = true;
-                QueryReturnedData = new List<string>();
+                if (QueryReturnedData == null) QueryReturnedData = new List<string>();
                 foreach (var item in retu)
                 {
                     QueryReturnedData.Add(Encoding.ASCII.GetString(item.ToArray()));

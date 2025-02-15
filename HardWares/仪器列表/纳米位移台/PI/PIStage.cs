@@ -62,7 +62,7 @@ namespace HardWares.纳米位移台.PI
         #region 通讯部分
 
         /// <summary>
-        /// 当前位置
+        /// 当前位置(微米)
         /// </summary>
         public override double Position
         {
@@ -302,6 +302,11 @@ namespace HardWares.纳米位移台.PI
             }
         }
 
+        /// <summary>
+        ///位置单位
+        /// </summary>
+        public override string PositionUnit { get; internal set; } = "μm";
+
 
         /// <summary>
         /// 移动到指定位置
@@ -339,12 +344,9 @@ namespace HardWares.纳米位移台.PI
         /// <param name="timeout"></param>
         public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
         {
-            if (ServoState)
-            {
-                double target = Target;
-                target += step;
-                MoveToAndWait(target, timeout, autoTimeout);
-            }
+            double target = Target;
+            target += step;
+            MoveToAndWait(target, timeout, autoTimeout);
         }
         #region Reference
         /// <summary>

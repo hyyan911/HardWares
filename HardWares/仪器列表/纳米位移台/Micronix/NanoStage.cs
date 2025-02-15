@@ -107,6 +107,12 @@ namespace HardWares.纳米位移台.Micronix
             }
         }
 
+
+        /// <summary>
+        ///位置单位
+        /// </summary>
+        public override string PositionUnit { get; internal set; } = "mm";
+
         /// <summary>
         /// 加速度
         /// </summary>

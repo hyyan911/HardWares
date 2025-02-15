@@ -67,13 +67,13 @@ namespace 测试项目
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            ((obj as NanoControllerBase).Stages[0] as NanoStage).Velocity = 5;
-            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(2, 100, true);
+            string v = (obj as NanoControllerBase).Stages[0].PositionUnit;
+            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(0.01, 500, true);
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
-            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(-2, 100, true);
+            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(-0.01, 100, true);
         }
     }
 }

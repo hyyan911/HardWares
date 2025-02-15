@@ -90,7 +90,7 @@ namespace HardWares.纳米位移台.PI
             if (retu.Count != 0)
             {
                 QueryState = true;
-                QueryReturnedData = new List<string>();
+                if (QueryReturnedData == null) QueryReturnedData = new List<string>();
                 foreach (var item in retu)
                 {
                     QueryReturnedData.Add(Encoding.ASCII.GetString(item.ToArray()));

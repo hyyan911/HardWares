@@ -36,6 +36,11 @@ namespace HardWares.纳米位移台
         public abstract double Velocity { get; set; }
 
         /// <summary>
+        /// 位置单位
+        /// </summary>
+        public abstract string PositionUnit { get; internal set; }
+
+        /// <summary>
         /// 移动到目标位置
         /// </summary>
         /// <param name="targetvalue"></param>
