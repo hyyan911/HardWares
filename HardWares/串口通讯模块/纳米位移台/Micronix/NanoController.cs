@@ -23,7 +23,7 @@ namespace HardWares.纳米位移台.Micronix
 {
     public partial class NanoController : NanoControllerBase, COMInternalInterface, COMOuterInterface
     {
-        COMHelper COMHelper = new COMHelper('\r', Encoding.ASCII);
+        COMHelper COMHelper = new COMHelper('\n', Encoding.ASCII);
         public bool ConnectCOM(COMDeviceInfo info, out Exception exc)
         {
             return COMHelper.ConnectCOM(this, info, out exc);
@@ -34,16 +34,23 @@ namespace HardWares.纳米位移台.Micronix
             return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
             {
                 ser.Write("1VER?\n\r");
+                Thread.Sleep(50);
                 ser.Write("2VER?\n\r");
+                Thread.Sleep(50);
                 ser.Write("3VER?\n\r");
+                Thread.Sleep(50);
                 ser.Write("4VER?\n\r");
+                Thread.Sleep(50);
                 ser.Write("5VER?\n\r");
+                Thread.Sleep(50);
                 ser.Write("6VER?\n\r");
+                Thread.Sleep(50);
                 ser.Write("7VER?\n\r");
+                Thread.Sleep(50);
                 ser.Write("8VER?\n\r");
-                Thread.Sleep(200);
+                Thread.Sleep(400);
                 string result = ser.ReadExisting();
-                if (result.Trim() != "")
+                if (DevNames.Where(x => result.Contains(x)).Count() != 0)
                 {
                     return "Micronix" + ser.PortName.Replace("COM", "");
                 }
@@ -74,7 +81,7 @@ namespace HardWares.纳米位移台.Micronix
         {
             for (int i = 1; i <= 8; i++)
             {
-                string result = ThreadSafeQuery(i.ToString() + "VER?\n\r", 300);
+                string result = ThreadSafeQuery(i.ToString() + "VER?\n\r", 500);
                 if (result.Trim() != "")
                 {
                     NanoStage stage = new NanoStage(result + "_" + i.ToString(), this);
@@ -102,21 +109,12 @@ namespace HardWares.纳米位移台.Micronix
 
         bool COMInternalInterface.TestCOMAction()
         {
-            (Instance as SerialPort).Write("1VER?\n\r");
-            (Instance as SerialPort).Write("2VER?\n\r");
-            (Instance as SerialPort).Write("3VER?\n\r");
-            (Instance as SerialPort).Write("4VER?\n\r");
-            (Instance as SerialPort).Write("5VER?\n\r");
-            (Instance as SerialPort).Write("6VER?\n\r");
-            (Instance as SerialPort).Write("7VER?\n\r");
-            (Instance as SerialPort).Write("8VER?\n\r");
-            Thread.Sleep(200);
-            string result = (Instance as SerialPort).ReadExisting();
+            string result = ThreadSafeQuery("1VER?\n\r2VER?\n\r3VER?\n\r4VER?\n\r5VER?\n\r6VER?\n\r7VER?\n\r8VER?\n\r", 400);
             if (result.Trim() != "")
             {
                 return true;
             }
-            return true;
+            return false;
         }
     }
 }

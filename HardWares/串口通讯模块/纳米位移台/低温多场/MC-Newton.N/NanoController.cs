@@ -64,21 +64,6 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
 
         void COMInternalInterface.ConnectedCOMAction()
         {
-            string result = ThreadSafeQuery("[1-CurPosi?]", 300);
-            if (double.Parse(result) != 0)
-            {
-                NanoStage stage = new NanoStage("1", this);
-                stage.target = stage.Position;
-                Stages.Add(stage);
-            }
-            result = ThreadSafeQuery("[2-CurPosi?]", 300);
-            if (double.Parse(result) != 0)
-            {
-                NanoStage stage = new NanoStage("2", this);
-                stage.target = stage.Position;
-                Stages.Add(stage);
-            }
-
         }
 
         bool COMInternalInterface.IsCOMOpen()
@@ -93,14 +78,28 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
 
         void COMInternalInterface.ReceiveCOMAct()
         {
-            COMHelper.ReceiveCOMAct(this, new List<string>() { "ReachTarg", "MovStop" });
+            COMHelper.ReceiveCOMAct(this, new List<string>() { "MovStop", "ReachTarg" });
         }
 
         bool COMInternalInterface.TestCOMAction()
         {
-            string str1 = ThreadSafeQuery("[1-CurPosi?]", 200);
-            string str12 = ThreadSafeQuery("[2-CurPosi?]", 200);
-            if (double.Parse(str1) == 0 && double.Parse(str12) == 0) return false;
+            string result = ThreadSafeQuery("[1-CurPosi?]", 300);
+            if (double.Parse(result) != 0)
+            {
+                NanoStage stage = new NanoStage("1", this);
+                stage.target = stage.Position;
+                Stages.Add(stage);
+                AddMessage("[1-ServOn]");
+            }
+            Thread.Sleep(100);
+            result = ThreadSafeQuery("[2-CurPosi?]", 300);
+            if (double.Parse(result) != 0)
+            {
+                NanoStage stage = new NanoStage("2", this);
+                stage.target = stage.Position;
+                Stages.Add(stage);
+                AddMessage("[2-ServOn]");
+            }
             return true;
         }
     }

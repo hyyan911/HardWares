@@ -62,7 +62,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             get
             {
                 NanoController c = ParentDevice as NanoController;
-                string result = c.ThreadSafeQuery("[" + AxisName + "-CurPosi?]", 300);
+                string result = c.ThreadSafeQuery("[" + AxisName + "-CurPosi?]", 500);
                 if (result == "") return double.NaN;
                 return double.Parse(result);
             }
@@ -93,7 +93,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             set
             {
                 NanoController c = ParentDevice as NanoController;
-                string result = c.ThreadSafeQuery("[" + AxisName + "-SetSpeed:" + value.ToString() + "]", 300);
+                string result = c.ThreadSafeQuery("[" + AxisName + "-SetSpeed:" + value.ToString() + "]", 500);
                 if (result == "") return;
                 velocity = value;
             }
@@ -110,26 +110,37 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             {
                 return;
             }
-            NanoController c = ParentDevice as NanoController;
-            string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + Math.Round(target, 6).ToString() + "]", 300);
-            if (result == "") return;
             target = targetvalue;
+            NanoController c = ParentDevice as NanoController;
+            string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + Math.Round(target, 6).ToString() + "]", 500);
+            if (result == "") return;
             c.AddMessage("[" + AxisName + "-MovTarg]");
         }
-
         /// <summary>
         /// 移动到指定位置
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveToAndWait(double targetvalue, int timeout)
+        public override void MoveToAndWait(double targetvalue, int timeout, bool autoTimeout)
         {
             MoveTo(targetvalue);
             int time = 0;
-            while (Math.Abs(Position - targetvalue) > 0.01 && time < timeout)
+            if (autoTimeout) timeout = 30000;
+            double det = Math.Abs(Position - targetvalue);
+            while ((double.IsNaN(det) || det > 1e-2) && time < timeout)
             {
-                Thread.Sleep(50);
-                time += 50;
+                if (det < 0.1)
+                {
+                    (ParentDevice as NanoController).AddMessage("[" + AxisName + "-MovTarg]");
+                    Thread.Sleep(100);
+                    (ParentDevice as NanoController).AddMessage("[" + AxisName + "-MovStop]");
+                }
+                else
+                {
+                    Thread.Sleep(100);
+                }
+                time += 100;
+                det = Math.Abs(Position - targetvalue);
             }
         }
 
@@ -138,9 +149,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// </summary>
         /// <param name="step"></param>
         /// <param name="timeout"></param>
-        public override void MoveStepAndWait(double step, int timeout)
+        public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
         {
-            MoveToAndWait(target + step, timeout);
+            MoveToAndWait(target + step, timeout, autoTimeout);
         }
 
         #endregion

@@ -89,7 +89,6 @@ namespace HardWares.相机_CCD_.摄像头
             return result;
         }
 
-        /// <summary>
         /// 获取单帧图片
         /// </summary>
         /// <param name="waittime"></param>
@@ -105,7 +104,12 @@ namespace HardWares.相机_CCD_.摄像头
                 time += 20;
             }
             if (time > waittime)
+            {
+                capture = false;
+                BrokenFrameCount += 1;
                 return null;
+            }
+            capture = false;
             return FrameBuffer;
         }
 

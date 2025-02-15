@@ -46,13 +46,13 @@ namespace HardWares.纳米位移台
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public abstract void MoveToAndWait(double targetvalue, int timeout);
+        public abstract void MoveToAndWait(double targetvalue, int timeout, bool autoTimmeout);
 
         /// <summary>
         /// 移动指定偏移量
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public abstract void MoveStepAndWait(double step, int timeout);
+        public abstract void MoveStepAndWait(double step, int timeout, bool autoTimmeout);
     }
 }

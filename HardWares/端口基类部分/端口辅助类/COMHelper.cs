@@ -122,8 +122,12 @@ namespace HardWares.端口基类部分.PortHelper
                 List<string> res = new List<string>();
                 foreach (var item in retu)
                 {
-                    string st = coder.GetString(retu[0].ToArray());
-                    if (FilterStr == null) res.Add(st);
+                    string st = coder.GetString(item.ToArray());
+                    if (FilterStr == null)
+                    {
+                        res.Add(st);
+                        continue;
+                    }
                     if (FilterStr.Where(x => st.Contains(x)).Count() == 0) res.Add(st);
                 }
                 device.QueryState = true;

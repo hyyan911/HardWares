@@ -657,13 +657,22 @@ namespace HardWares.端口基类
         bool isQuereEnd = true;
         internal string ThreadSafeQuery(string messagetosend, int timeout)
         {
+
             while (!isQuereEnd)
             {
                 Thread.Sleep(10);
             }
             isQuereEnd = false;
-            string result = ThreadUnsafeQuery(messagetosend, timeout);
-            isQuereEnd = true;
+            string result = "";
+            try
+            {
+                result = ThreadUnsafeQuery(messagetosend, timeout);
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                isQuereEnd = true;
+            }
             return result;
         }
 

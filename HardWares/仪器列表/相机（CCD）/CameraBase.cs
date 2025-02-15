@@ -13,6 +13,9 @@ namespace HardWares.相机_CCD_
     public abstract class CameraBase : PortObject
     {
         protected object cameralockobj = new object();
+
+        WriteableBitmap source = null;
+
         /// <summary>
         /// 获取图片
         /// </summary>
@@ -20,28 +23,25 @@ namespace HardWares.相机_CCD_
         /// <returns></returns>
         public BitmapSource GrabFrame(uint waittime)
         {
-            BitmapSource source = null;
-            Bitmap bmap = null;
             try
             {
-                bmap = InnerGrabFrame(waittime);
+                Bitmap bmap = InnerGrabFrame(waittime);
+                if (bmap == null) source = null;
+                else
+                {
+                    bmap.RotateFlip(FlipType);
+                    source = CodeHelper.ImageConverter.UpdateWritableBitmap(bmap, source);
+                }
                 if (bmap == null)
                 {
+                    ++BrokenFrameCount;
                     return null;
                 }
-                bmap.RotateFlip(FlipType);
-                lock (cameralockobj)
-                {
-                    source = CodeHelper.ImageConverter.BitmapToBitmapSource(bmap);
-                    bmap.Dispose();
-                    source.Freeze();
-                }
-                GC.Collect();
-                return source;
+                return (BitmapSource)source?.GetAsFrozen();
             }
             catch (Exception ex)
             {
-                bmap.Dispose();
+                source = null;
                 ++BrokenFrameCount;
                 return null;
             }

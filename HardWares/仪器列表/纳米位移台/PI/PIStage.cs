@@ -281,6 +281,27 @@ namespace HardWares.纳米位移台.PI
             }
         }
 
+        /// <summary>
+        /// 速度
+        /// </summary>
+        public override double Velocity
+        {
+            get
+            {
+                PIController c = ParentDevice as PIController;
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("VEL?", AxisName, ""), 1000))[0], out double position))
+                {
+                    return double.NaN;
+                }
+                return position;
+            }
+            set
+            {
+                PIController c = ParentDevice as PIController;
+                c.Send(c.ProcessCmd("VEL", AxisName, value.ToString()));
+            }
+        }
+
 
         /// <summary>
         /// 移动到指定位置
@@ -298,11 +319,12 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveToAndWait(double targetvalue, int timeout)
+        public override void MoveToAndWait(double targetvalue, int timeout, bool autoTimeout)
         {
             PIController c = ParentDevice as PIController;
             c.Send(c.ProcessCmd("MOV", AxisName, targetvalue.ToString()));
             int time = 0;
+            if (autoTimeout) timeout = 50;
             while (IsMoving && time < timeout)
             {
                 Thread.Sleep(50);
@@ -315,13 +337,13 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <param name="step"></param>
         /// <param name="timeout"></param>
-        public override void MoveStepAndWait(double step, int timeout)
+        public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
         {
             if (ServoState)
             {
                 double target = Target;
                 target += step;
-                MoveToAndWait(target, timeout);
+                MoveToAndWait(target, timeout, autoTimeout);
             }
         }
         #region Reference
@@ -391,6 +413,14 @@ namespace HardWares.纳米位移台.PI
                 result.Add(p);
             }
 
+            p = c.CreateParameterRef("VEL", "VEL?", "Velocity", st.Velocity.GetType(), st);
+            if (p != null)
+            {
+                p.Description = "闭环速度";
+                p.IsStatic = true;
+                result.Add(p);
+            }
+
             p = c.CreateParameterRef("EAX", "EAX?", "Enable", st.Enable.GetType(), st);
             if (p != null)
             {
@@ -422,6 +452,7 @@ namespace HardWares.纳米位移台.PI
                 p.IsStatic = true;
                 result.Add(p);
             }
+
 
             p = c.CreateParameterRef("CMN", "CMN?", "ServoRangeLo", st.ServoRangeLo.GetType(), st);
             if (p != null)

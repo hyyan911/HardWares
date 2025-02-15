@@ -139,7 +139,7 @@ namespace HardWares.纳米位移台.Micronix
         private string GetAxisInd()
         {
             int ind = AxisName.LastIndexOf('_');
-            return AxisName.Substring(ind, AxisName.Length - ind - 1);
+            return AxisName.Substring(ind + 1, AxisName.Length - ind - 1);
         }
 
         /// <summary>
@@ -159,15 +159,19 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveToAndWait(double targetvalue, int timeout = 50)
+        public override void MoveToAndWait(double targetvalue, int timeout, bool autoTimeout)
         {
             MoveTo(targetvalue);
             int time = 0;
-            while (Math.Abs(Position - targetvalue) > 0.01 && time < timeout)
+            if (autoTimeout) timeout = 50;
+            double det = Math.Abs(Position - target);
+            while ((double.IsNaN(det) || det > 1e-4) && time < timeout)
             {
                 Thread.Sleep(50);
                 time += 50;
+                det = Math.Abs(Position - target);
             }
+            target = Position;
         }
 
         /// <summary>
@@ -175,11 +179,20 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         /// <param name="step"></param>
         /// <param name="timeout"></param>
-        public override void MoveStepAndWait(double step, int timeout)
+        public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
         {
             NanoController c = ParentDevice as NanoController;
             c.AddMessage(c.ProcessCmd(GetAxisInd(), "MVR", step.ToString()));
             target += step;
+            int time = 0;
+            if (autoTimeout) timeout = 50;
+            double det = Math.Abs(Position - target);
+            while ((double.IsNaN(det) || det > 1e-4) && time < timeout)
+            {
+                Thread.Sleep(50);
+                time += 50;
+                det = Math.Abs(Position - target);
+            }
         }
 
         #endregion
@@ -197,6 +210,14 @@ namespace HardWares.纳米位移台.Micronix
             result.Add(new Parameter("Position", "当前位置", Position.GetType(), this, true) { IsReadOnly = true });
 
             result.Add(new Parameter("Target", "目标位置", Target.GetType(), this, true) { IsReadOnly = true });
+
+            result.Add(new Parameter("Velocity", "速度", Velocity.GetType(), this, true) { IsReadOnly = false });
+
+            result.Add(new Parameter("VelocityLimit", "速度上限", VelocityLimit.GetType(), this, true) { IsReadOnly = true });
+
+            result.Add(new Parameter("Acceleration", "加速度", Acceleration.GetType(), this, true) { IsReadOnly = false });
+
+            result.Add(new Parameter("AccelerationLimit", "加速度上限", AccelerationLimit.GetType(), this, true) { IsReadOnly = true });
 
             return result;
         }

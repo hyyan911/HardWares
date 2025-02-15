@@ -28,7 +28,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// <summary>
         /// 产品型号
         /// </summary>
-        public override string ProductIdentifier { get; internal set; } = "Micronix";
+        public override string ProductIdentifier { get; internal set; } = "MC.Newton.N";
 
         /// <summary>
         /// 位移台列表
@@ -51,7 +51,29 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         #region 基本通讯方法
         internal override string ThreadUnsafeQuery(string instruction, int waittingtime)
         {
-            return COMHelper.ThreadUnsafeQuery(this, instruction, waittingtime)[0];
+            return ProcessResult(COMHelper.ThreadUnsafeQuery(this, instruction, waittingtime));
+        }
+
+        internal string ProcessResult(List<string> result)
+        {
+            List<string> res = new List<string>();
+            foreach (var item in result)
+            {
+                string v = item.Replace("[", "");
+                v = v.Replace("]", "");
+                if (item == "") continue;
+                if (item.Contains("ReachTarg")) continue;
+                if (item.Contains("MovStop")) continue;
+                if (!item.Contains(":")) continue;
+                res.Add(v);
+            }
+            if (res.Count == 0) return "";
+            var r = res[0].Split(':');
+            if (r.Count() < 1)
+            {
+                return "";
+            }
+            return r[1];
         }
         #endregion
 

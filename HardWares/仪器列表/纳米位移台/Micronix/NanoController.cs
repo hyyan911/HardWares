@@ -30,6 +30,9 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         public override string ProductIdentifier { get; internal set; } = "Micronix";
 
+
+        internal string[] DevNames = new string[] { "MMC-110" };
+
         /// <summary>
         /// 位移台列表
         /// </summary>
@@ -87,8 +90,9 @@ namespace HardWares.纳米位移台.Micronix
         {
             try
             {
-                string num = result.Substring(4, result.Length - 4 + 1);
-                return double.Parse(num);
+                string num = result.Replace("#", "");
+                var res = num.Split(',');
+                return double.Parse(res.Last());
             }
             catch (Exception)
             {

@@ -23,6 +23,7 @@ using HardWares.相机_CCD_;
 using HardWares.端口基类;
 using HardWares.源表;
 using HardWares.纳米位移台;
+using HardWares.纳米位移台.低温多场.MC_Newton_N;
 
 namespace 测试项目
 {
@@ -62,17 +63,17 @@ namespace 测试项目
                 }
             });
             t.Start();
-
         }
 
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(0.01, 100);
+            ((obj as NanoControllerBase).Stages[0] as NanoStage).Velocity = 5;
+            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(2, 100, true);
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
-            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(-0.01, 100);
+            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(-2, 100, true);
         }
     }
 }
