@@ -108,8 +108,9 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         }
 
         private bool capture;
-
-        private Bitmap tmpBMP;
+        /// <summary>
+        /// 
+        /// </summary>
         public Bitmap FrameBuffer = null;
 
         private void NewFrame(object sender, EventArgs e)
@@ -119,18 +120,16 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
                 uc480.Camera Camera = sender as uc480.Camera;
 
                 Int32 s32MemID;
-                Camera.Memory.GetActive(out s32MemID);
-
-                Camera.Memory.Lock(s32MemID);
-                Camera.Memory.CopyToBitmap(s32MemID, out tmpBMP);
                 lock (cameralockobj)
                 {
-                    FrameBuffer?.Dispose();
-                    FrameBuffer = new Bitmap(tmpBMP);
+                    Camera.Memory.GetActive(out s32MemID);
+                    Camera.Memory.Lock(s32MemID);
+                    Camera.Memory.CopyToArray(s32MemID, out byte[] data);
+                    FrameBuffer = CodeHelper.ImageConverter.ConvertFromRGBA(data, CameraPixelWidthCount, CameraPixelHeightCount, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                    new PixelFormat(Camera).Get(out ColorMode colorMode);
+                    Camera.Memory.Unlock(s32MemID);
+                    Camera.Memory.Clear(s32MemID, colorMode);
                 }
-                Camera.Memory.Unlock(s32MemID);
-                Camera.Memory.Free(s32MemID);
-                Camera.Memory.Allocate(true);
                 capture = false; // 重置标志
             }
         }
