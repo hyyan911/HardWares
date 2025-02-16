@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SpinCore.SpinAPI;
 
-namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
+namespace HardWares.板卡.Spincore_PulseBlaster
 {
     public partial class PulseBlaster : PulseBlasterBase, WinUSBOuterInterface, USBInternalInterface
     {

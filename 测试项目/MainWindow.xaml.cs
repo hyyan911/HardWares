@@ -27,6 +27,7 @@ using HardWares.纳米位移台.低温多场.MC_Newton_N;
 using HardWares.仪器列表.板卡.Spincore_PulseBlaster;
 //using NationalInstruments.DAQmx;
 using HardWares.仪器列表.板卡;
+using HardWares.板卡;
 
 namespace 测试项目
 {
@@ -39,7 +40,7 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-           // Port.ItemsSource = DaqSystem.Local.GetTerminals(TerminalTypes.All);
+            // Port.ItemsSource = DaqSystem.Local.GetTerminals(TerminalTypes.All);
         }
 
         PortObject obj = null;

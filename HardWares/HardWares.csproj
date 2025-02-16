@@ -90,7 +90,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="SpinAPI.NET, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\SpinAPI.NET.dll</HintPath>
+      <HintPath>..\..\..\SpinAPI.NET_source\bin\x86\Release\SpinAPI.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -160,7 +160,9 @@
     <Compile Include="仪器列表\信号发生器\SignalGeneratorBase.cs" />
     <Compile Include="仪器列表\信号发生器\WaveFormTypes.cs" />
     <Compile Include="仪器列表\板卡\PulseBlasterBase.cs" />
+    <Compile Include="仪器列表\板卡\Spincore PulseBlaster\CommandTypes.cs" />
     <Compile Include="仪器列表\板卡\Spincore PulseBlaster\PulseBlaster.cs" />
+    <Compile Include="仪器列表\板卡\Spincore PulseBlaster\CommandLine.cs" />
     <Compile Include="仪器列表\波源\OutputShapes.cs" />
     <Compile Include="仪器列表\波源\Rigol\RIGOL DSG 3060\RFSource.cs" />
     <Compile Include="仪器列表\波源\RFSourceBase.cs" />
@@ -252,6 +254,15 @@
     <Content Include="Resources\SpinAPI.NET.dll" />
     <Content Include="Resources\SpinAPI.NET.xml" />
     <Content Include="Resources\spinapi64.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.DeviceManagerCLI.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.FilterFlipperCLI.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.GenericMotorCLI.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.PrivateInternal.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.Tools.Common.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.Tools.Logging.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.Tools.WPF.dll" />
+    <Content Include="Resources\Thorlabs.MotionControl.Tools.WPF.UI.dll" />
+    <Content Include="Resources\Xceed.Wpf.Toolkit.dll" />
     <Content Include="通讯模块\串口通讯模块\示波器\汉泰\HTMarch.dll" />
     <None Include="Resources\PI_GCS2_DLL.dll" />
     <None Include="Resources\PI_GCS2_DLL_x64.dll" />
