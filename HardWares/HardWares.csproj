@@ -54,7 +54,8 @@
     <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
-    <Reference Include="CodeHelper">
+    <Reference Include="CodeHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CodeHelper\bin\Debug\CodeHelper.dll</HintPath>
     </Reference>
     <Reference Include="Controls">
@@ -72,6 +73,14 @@
     </Reference>
     <Reference Include="MVSDK">
       <HintPath>Resources\MVSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.Common, Version=19.1.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\NationalInstruments.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.DAQmx, Version=24.6.45.49156, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.Visa, Version=23.8.0.49286, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -138,25 +147,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TCPIP通讯模块\Zurich LockIn\LockIn.cs" />
-    <Compile Include="TCPIP通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
-    <Compile Include="TCPIP通讯模块\纳米位移台\PI\PIController.cs" />
-    <Compile Include="USB通讯模块\射频源\Rigol\Rigol DSG 3060\RFSource.cs" />
-    <Compile Include="USB通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
-    <Compile Include="USB通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />
-    <Compile Include="USB通讯模块\相机（CCD）\MindVision\Camera.cs" />
-    <Compile Include="USB通讯模块\相机（CCD）\Thorlabs DCx\Camera.cs" />
-    <Compile Include="USB通讯模块\相机（CCD）\摄像头\Camera.cs" />
-    <Compile Include="USB通讯模块\纳米位移台\PI\PIController.cs" />
-    <Compile Include="串口通讯模块\其他\ClampAndAngleRotater.cs" />
-    <Compile Include="串口通讯模块\温度控制器\SRS PTC10\TemperatureController.cs" />
     <Compile Include="APIS\PI\PIAPI2.0.cs" />
-    <Compile Include="串口通讯模块\源表\KEITHLEY 2400\PowerSource.cs" />
-    <Compile Include="串口通讯模块\示波器\汉泰\OscilloScope.cs" />
-    <Compile Include="串口通讯模块\PID\PIDControlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="串口通讯模块\纳米位移台\Micronix\NanoController.cs" />
-    <Compile Include="串口通讯模块\纳米位移台\低温多场\MC-Newton.N\NanoController.cs" />
+    <Compile Include="仪器列表\apd\APDBase.cs" />
+    <Compile Include="仪器列表\apd\Exclitas SPCM-AQRH\APD.cs" />
     <Compile Include="仪器列表\Lock In\LockInBase.cs" />
     <Compile Include="仪器列表\Lock In\Zurich LockIn\LockIn.cs" />
     <Compile Include="仪器列表\信号发生器\SignalGeneratorBase.cs" />
@@ -207,6 +201,9 @@
     <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceHelperBase.cs" />
     <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceTCPIPHelper.cs" />
     <Compile Include="端口基类部分\端口辅助类\visa资源辅助类\VISAResourceUSBHelper.cs" />
+    <Compile Include="端口基类部分\自定义接口\CustomInternalInterface.cs" />
+    <Compile Include="端口基类部分\自定义接口\CustomOuterInterface.cs" />
+    <Compile Include="端口基类部分\设备信息类\CustomDeviceInfo.cs" />
     <Compile Include="端口基类部分\设备信息类\DeviceInfoBase.cs" />
     <Compile Include="端口基类部分\设备信息类\COMDeviceInfo.cs" />
     <Compile Include="端口基类部分\设备信息类\USBDeviceInfo.cs" />
@@ -217,8 +214,31 @@
     <Compile Include="连接窗口\ParameterWindow.xaml.cs">
       <DependentUpon>ParameterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="通讯模块\DAQmx\DAQmxTaskBase.cs" />
+    <Compile Include="通讯模块\DAQmx\DAQmx\InputDAQmxTask.cs" />
+    <Compile Include="通讯模块\DAQmx\DAQmx\OutputDAQmxTask.cs" />
+    <Compile Include="通讯模块\tcpip通讯模块\Zurich LockIn\LockIn.cs" />
+    <Compile Include="通讯模块\tcpip通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
+    <Compile Include="通讯模块\tcpip通讯模块\纳米位移台\PI\PIController.cs" />
+    <Compile Include="通讯模块\usb通讯模块\射频源\Rigol\Rigol DSG 3060\RFSource.cs" />
+    <Compile Include="通讯模块\usb通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
+    <Compile Include="通讯模块\usb通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />
+    <Compile Include="通讯模块\usb通讯模块\相机（CCD）\MindVision\Camera.cs" />
+    <Compile Include="通讯模块\usb通讯模块\相机（CCD）\Thorlabs DCx\Camera.cs" />
+    <Compile Include="通讯模块\usb通讯模块\相机（CCD）\摄像头\Camera.cs" />
+    <Compile Include="通讯模块\usb通讯模块\纳米位移台\PI\PIController.cs" />
+    <Compile Include="通讯模块\串口通讯模块\PID\PIDControlHelper.cs" />
+    <Compile Include="通讯模块\串口通讯模块\其他\ClampAndAngleRotater.cs" />
+    <Compile Include="通讯模块\串口通讯模块\温度控制器\SRS PTC10\TemperatureController.cs" />
+    <Compile Include="通讯模块\串口通讯模块\源表\KEITHLEY 2400\PowerSource.cs" />
+    <Compile Include="通讯模块\串口通讯模块\示波器\汉泰\OscilloScope.cs" />
+    <Compile Include="通讯模块\串口通讯模块\纳米位移台\Micronix\NanoController.cs" />
+    <Compile Include="通讯模块\串口通讯模块\纳米位移台\低温多场\MC-Newton.N\NanoController.cs" />
+    <Compile Include="通讯模块\自定义模块\APD\Exclitas SPCM-AQRH\APD.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\NationalInstruments.DAQmx.xml" />
+    <Content Include="通讯模块\串口通讯模块\示波器\汉泰\HTMarch.dll" />
     <None Include="Resources\PI_GCS2_DLL.dll" />
     <None Include="Resources\PI_GCS2_DLL_x64.dll" />
     <Resource Include="Image\downArrow.png">
@@ -227,6 +247,8 @@
     <Resource Include="Image\loading.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Resources\NationalInstruments.Common.dll" />
+    <Content Include="Resources\NationalInstruments.DAQmx.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.DeviceManager.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.FilterFlipper.dll" />
     <Content Include="Resources\uc480_64.dll" />
@@ -234,9 +256,6 @@
     <Content Include="Resources\ziDotNET-win64.dll" />
     <Content Include="Resources\ziDotNETCore-win32.dll" />
     <Content Include="Resources\ziDotNETCore-win64.dll" />
-    <Content Include="串口通讯模块\示波器\汉泰\HTMarch.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -246,7 +265,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="串口通讯模块\信号发生器\" />
+    <Folder Include="自定义模块\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="连接窗口\ConnectWindow.xaml">

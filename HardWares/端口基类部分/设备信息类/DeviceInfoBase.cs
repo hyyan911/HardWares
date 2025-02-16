@@ -64,6 +64,18 @@ namespace HardWares.端口基类部分.设备信息
                 return false;
             }
 
+            if (this is CustomDeviceInfo)
+            {
+                CustomDeviceInfo source = this as CustomDeviceInfo;
+                CustomDeviceInfo tat = target as CustomDeviceInfo;
+                if (source.Params.Count != tat.Params.Count) return false;
+                for (int i = 0; i < source.Params.Count; i++)
+                {
+                    if (source.Params[i] != tat.Params[i]) return false;
+                }
+                return true;
+            }
+
             return false;
         }
 
@@ -91,6 +103,12 @@ namespace HardWares.端口基类部分.设备信息
             {
                 var v = this as TCPIPDeviceInfo;
                 result = new TCPIPDeviceInfo(v.DeviceName, v.IPAddress, v.Port);
+            }
+
+            if (this is CustomDeviceInfo)
+            {
+                var v = this as CustomDeviceInfo;
+                result = new CustomDeviceInfo(v.DeviceName, v.Params);
             }
 
             return result;
