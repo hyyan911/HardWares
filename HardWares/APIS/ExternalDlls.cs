@@ -41,6 +41,17 @@ namespace HardWares.APIS
                 importer = new DllImporter();
                 importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "ziDotNETCore-win32" + ".dll"), Resources.ziDotNETCore_win32);
             }
+
+            if (DllImporter.GetArchitecture() == Architecture.X64 || DllImporter.GetArchitecture() == Architecture.Arm64)
+            {
+                importer = new DllImporter();
+                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "spinapi" + ".dll"), Resources.spinapi64);
+            }
+            else
+            {
+                importer = new DllImporter();
+                importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "spinapi" + ".dll"), Resources.spinapi);
+            }
         }
     }
 }

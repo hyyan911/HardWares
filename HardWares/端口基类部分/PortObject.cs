@@ -418,7 +418,7 @@ namespace HardWares.端口基类
         /// 连接
         /// </summary>
         /// <returns></returns>
-        internal virtual bool Connect(DeviceInfoBase info, out Exception exc, bool reconnect = false)
+        internal virtual bool Connect(DeviceInfoBase info, out Exception exc, bool PortArrangerAvailable = true, bool reconnect = false)
         {
             PortType = info.PortType;
             try
@@ -451,7 +451,8 @@ namespace HardWares.端口基类
                 //根据不同设备初始化参数
                 InitAction(Instance);
 
-                PortArranger = new PortDispatcher(this, GetCoder());
+                if (PortArrangerAvailable)
+                    PortArranger = new PortDispatcher(this, GetCoder());
 
                 //发送测试信息
                 Internal_Is_Connected = TestAction();

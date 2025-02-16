@@ -142,6 +142,7 @@
     <Compile Include="APIS\ExternalDlls.cs" />
     <Compile Include="APIS\PI\Options.cs" />
     <Compile Include="APIS\PI\PIAPI.cs" />
+    <Compile Include="APIS\SpinCore PulseBluster\SpinCoreAPI.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -155,6 +156,8 @@
     <Compile Include="仪器列表\Lock In\Zurich LockIn\LockIn.cs" />
     <Compile Include="仪器列表\信号发生器\SignalGeneratorBase.cs" />
     <Compile Include="仪器列表\信号发生器\WaveFormTypes.cs" />
+    <Compile Include="仪器列表\板卡\PulseBlasterBase.cs" />
+    <Compile Include="仪器列表\板卡\Spincore PulseBlaster\PulseBlaster.cs" />
     <Compile Include="仪器列表\波源\OutputShapes.cs" />
     <Compile Include="仪器列表\波源\Rigol\RIGOL DSG 3060\RFSource.cs" />
     <Compile Include="仪器列表\波源\RFSourceBase.cs" />
@@ -220,6 +223,7 @@
     <Compile Include="通讯模块\tcpip通讯模块\Zurich LockIn\LockIn.cs" />
     <Compile Include="通讯模块\tcpip通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
     <Compile Include="通讯模块\tcpip通讯模块\纳米位移台\PI\PIController.cs" />
+    <Compile Include="通讯模块\usb通讯模块\spincore pulseblaster\PulseBlaster.cs" />
     <Compile Include="通讯模块\usb通讯模块\射频源\Rigol\Rigol DSG 3060\RFSource.cs" />
     <Compile Include="通讯模块\usb通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
     <Compile Include="通讯模块\usb通讯模块\电动翻转座\Thorlabs\FlipMotor.cs" />
@@ -238,6 +242,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\NationalInstruments.DAQmx.xml" />
+    <Content Include="Resources\spinapi.dll" />
+    <Content Include="Resources\spinapi64.dll" />
     <Content Include="通讯模块\串口通讯模块\示波器\汉泰\HTMarch.dll" />
     <None Include="Resources\PI_GCS2_DLL.dll" />
     <None Include="Resources\PI_GCS2_DLL_x64.dll" />

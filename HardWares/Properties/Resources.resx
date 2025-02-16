@@ -124,6 +124,12 @@
   <data name="PI_GCS2_DLL_x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PI_GCS2_DLL_x64.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="spinapi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spinapi.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="spinapi64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spinapi64.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Thorlabs.MotionControl.DeviceManager" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Thorlabs.MotionControl.DeviceManager.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
