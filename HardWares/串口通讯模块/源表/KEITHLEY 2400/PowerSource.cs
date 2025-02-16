@@ -22,9 +22,9 @@ namespace HardWares.源表.KEITHLEY_2400
         /// <param name="info"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectCOM(COMDeviceInfo info, out Exception exc)
+        public bool ConnectCOM(COMDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         public List<COMDeviceInfo> GetCOMDeviceInfos()

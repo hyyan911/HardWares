@@ -24,10 +24,6 @@ namespace HardWares.纳米位移台.PI
     /// </summary>
     public partial class PIController : NanoControllerBase, USBInternalInterface, WinUSBOuterInterface
     {
-        private static string GetUSBProductName(string arg)
-        {
-            return arg;
-        }
 
         /// <summary>
         /// 枚举所有此类型USB设备
@@ -144,9 +140,9 @@ namespace HardWares.纳米位移台.PI
         /// <param name="info"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         /// <summary>

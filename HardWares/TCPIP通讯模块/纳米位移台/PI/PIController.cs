@@ -143,9 +143,9 @@ namespace HardWares.纳米位移台.PI
         {
         }
 
-        public bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc)
+        public bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         /// <summary>

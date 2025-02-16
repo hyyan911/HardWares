@@ -22,7 +22,7 @@ namespace HardWares.端口基类
         /// <param name="TCPIPName"></param>
         /// <param name="baudrate"></param>
         /// <returns></returns>
-        bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc);
+        bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc, bool reconnect = false);
 
         /// <summary>
         /// 获取USB设备名称

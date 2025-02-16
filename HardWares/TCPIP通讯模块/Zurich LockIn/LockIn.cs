@@ -24,9 +24,9 @@ namespace HardWares.Lock_In.Zurich_LockIn
         /// <param name="info"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc)
+        public bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         /// <summary>

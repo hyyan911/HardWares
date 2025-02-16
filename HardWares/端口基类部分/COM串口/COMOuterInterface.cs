@@ -22,7 +22,7 @@ namespace HardWares.端口基类
         /// <param name="COMName"></param>
         /// <param name="baudrate"></param>
         /// <returns></returns>
-        bool ConnectCOM(COMDeviceInfo info, out Exception exc);
+        bool ConnectCOM(COMDeviceInfo info, out Exception exc, bool reconnect = false);
 
         /// <summary>
         /// 

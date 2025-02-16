@@ -38,9 +38,9 @@ namespace HardWares.相机.MindVision
         /// <param name="usbName"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         /// <summary>

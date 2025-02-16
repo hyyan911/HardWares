@@ -418,17 +418,31 @@ namespace HardWares.端口基类
         /// 连接
         /// </summary>
         /// <returns></returns>
-        internal virtual bool Connect(DeviceInfoBase info, out Exception exc)
+        internal virtual bool Connect(DeviceInfoBase info, out Exception exc, bool reconnect = false)
         {
             PortType = info.PortType;
             try
             {
-                //检查已有设备中是否存在此设备,如果有则关闭后重新连接
-                foreach (var item in DeviceInfos)
+                if (reconnect)
                 {
-                    if (item.Key.CompareParam(info))
+                    //检查已有设备中是否存在此设备,如果有则关闭后重新连接
+                    foreach (var item in DeviceInfos)
                     {
-                        item.Value.Dispose();
+                        if (item.Key.CompareParam(info))
+                        {
+                            item.Value.Dispose();
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var item in DeviceInfos)
+                    {
+                        if (item.Key.CompareParam(info))
+                        {
+                            exc = new Exception("设备已存在,无法连接诶");
+                            return false;
+                        }
                     }
                 }
 

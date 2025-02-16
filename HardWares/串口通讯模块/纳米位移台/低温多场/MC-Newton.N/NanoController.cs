@@ -23,9 +23,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
     public partial class NanoController : NanoControllerBase, COMInternalInterface, COMOuterInterface
     {
         COMHelper COMHelper = new COMHelper(']', Encoding.ASCII);
-        public bool ConnectCOM(COMDeviceInfo info, out Exception exc)
+        public bool ConnectCOM(COMDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return COMHelper.ConnectCOM(this, info, out exc);
+            return COMHelper.ConnectCOM(this, info, out exc, reconnect);
         }
 
         public List<COMDeviceInfo> GetCOMDeviceInfos()

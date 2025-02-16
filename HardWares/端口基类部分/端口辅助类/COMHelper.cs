@@ -96,9 +96,9 @@ namespace HardWares.端口基类部分.PortHelper
         /// <param name="info"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectCOM(PortObject device, COMDeviceInfo info, out Exception exc)
+        public bool ConnectCOM(PortObject device, COMDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return device.Connect(info, out exc);
+            return device.Connect(info, out exc, reconnect);
         }
 
         public bool IsCOMOpen(PortObject device)

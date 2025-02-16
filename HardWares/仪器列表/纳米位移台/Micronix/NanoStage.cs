@@ -188,6 +188,7 @@ namespace HardWares.纳米位移台.Micronix
         public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
         {
             NanoController c = ParentDevice as NanoController;
+            c.AddMessage(c.ProcessCmd(GetAxisInd(), "STP", step.ToString()));
             c.AddMessage(c.ProcessCmd(GetAxisInd(), "MVR", step.ToString()));
             target += step;
             int time = 0;

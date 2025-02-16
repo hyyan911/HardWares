@@ -39,9 +39,9 @@ namespace HardWares.射频源.Rigol_DSG_3060
             catch (Exception) { return ""; }
         }
 
-        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return USBVISA.ConnectUSB(this, info, out exc);
+            return USBVISA.ConnectUSB(this, info, out exc, reconnect);
         }
 
         public List<USBDeviceInfo> GetUsbDeviceInfos()

@@ -18,7 +18,7 @@ namespace HardWares.端口基类
         /// <param name="USBName"></param>
         /// <param name="guid"></param>
         /// <returns></returns>
-        bool ConnectUSB(USBDeviceInfo info, out Exception exc);
+        bool ConnectUSB(USBDeviceInfo info, out Exception exc, bool reconnect = false);
 
         /// <summary>
         /// 获取USB设备名称

@@ -32,9 +32,9 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
         /// <param name="exc"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         /// <summary>

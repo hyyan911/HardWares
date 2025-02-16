@@ -14,9 +14,9 @@ namespace HardWares.仪器列表.电动翻转座
 {
     public partial class FlipMotor : FlipMotorBase, WinUSBOuterInterface, USBInternalInterface
     {
-        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         /// <summary>

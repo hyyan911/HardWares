@@ -44,9 +44,9 @@ namespace HardWares.射频源.Rigol_DSG_3060
         /// <param name="DeviceName"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectTCPIP(TCPIPDeviceInfo DeviceName, out Exception exc)
+        public bool ConnectTCPIP(TCPIPDeviceInfo DeviceName, out Exception exc, bool reconnect = false)
         {
-            return TCPVISA.ConnectTCPIP(this, DeviceName, out exc);
+            return TCPVISA.ConnectTCPIP(this, DeviceName, out exc, reconnect);
         }
 
         /// <summary>

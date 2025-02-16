@@ -68,9 +68,9 @@ namespace HardWares.源表.KEITHLEY_2450
             return VISA.TestUSBPort(this);
         }
 
-        public bool ConnectUSB(USBDeviceInfo info, out Exception exc)
+        public bool ConnectUSB(USBDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return VISA.ConnectUSB(this, info, out exc);
+            return VISA.ConnectUSB(this, info, out exc, reconnect);
         }
 
         /// <summary>

@@ -47,9 +47,9 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <param name="info"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectCOM(COMDeviceInfo info, out Exception exc)
+        public bool ConnectCOM(COMDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc);
+            return Connect(info, out exc, reconnect);
         }
 
         void COMInternalInterface.ConnectedCOMAction()

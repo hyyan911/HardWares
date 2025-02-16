@@ -141,9 +141,9 @@ namespace HardWares.端口基类部分.PortHelper
         /// <param name="usbName"></param>
         /// <param name="exc"></param>
         /// <returns></returns>
-        public bool ConnectUSB(PortObject device, USBDeviceInfo info, out Exception exc)
+        public bool ConnectUSB(PortObject device, USBDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return device.Connect(info, out exc);
+            return device.Connect(info, out exc, reconnect);
         }
         #endregion
     }
