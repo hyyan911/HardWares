@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpinCore.SpinAPI;
 
 namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
 {
@@ -14,7 +15,8 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
     {
         public void CloseUSBPort()
         {
-            SpinCoreAPI.pb_close();
+            (Instance as SpinAPI).StopProgramming();
+            (Instance as SpinAPI).Stop();
         }
 
         /// <summary>
@@ -44,7 +46,8 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
         public List<USBDeviceInfo> GetUsbDeviceInfos()
         {
             List<USBDeviceInfo> infos = new List<USBDeviceInfo>();
-            int count = SpinCoreAPI.pb_count_boards();
+            SpinAPI news = new SpinAPI();
+            int count = news.BoardCount;
             for (int i = 0; i < count; i++)
             {
                 bool exist = false;
@@ -60,7 +63,7 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
                     }
                 }
                 if (!exist)
-                    infos.Add(new USBDeviceInfo("Spincore PulseBlaster" + "-" + i.ToString(), i.ToString()));
+                    infos.Add(new USBDeviceInfo("Spincore PulseBlaster" + news.Version + "-" + i.ToString(), i.ToString()));
             }
             return infos;
         }
@@ -72,7 +75,7 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
 
         public object OpenUSBPort(USBDeviceInfo info)
         {
-            return int.Parse(info.USBIdentification);
+            return new SpinAPI();
         }
 
         public void ReceiveUSBAct()
@@ -82,16 +85,20 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
 
         public bool TestUSBAction()
         {
-            int result = SpinCoreAPI.pb_select_board((int)Instance);
+            int result = (Instance as SpinAPI).Status;
             if (result < 0) return false;
             return true;
         }
 
         public void USBInitAction(object PortInstance)
         {
-            SpinCoreAPI.pb_close();
-            SpinCoreAPI.pb_init();
-            SpinCoreAPI.pb_core_clock(400);
+            try
+            {
+                ClosePort();
+            }
+            catch { }
+           (Instance as SpinAPI).Init();
+            (Instance as SpinAPI).SetClock(400);
         }
 
         public byte[] USBPortRead()

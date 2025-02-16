@@ -74,11 +74,11 @@
     <Reference Include="MVSDK">
       <HintPath>Resources\MVSDK.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.Common, Version=19.1.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.Common, Version=19.0.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\NationalInstruments.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.DAQmx, Version=24.6.45.49156, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=x86">
+    <Reference Include="NationalInstruments.DAQmx, Version=20.0.45.49152, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
@@ -88,6 +88,10 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="SpinAPI.NET, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\SpinAPI.NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -142,7 +146,6 @@
     <Compile Include="APIS\ExternalDlls.cs" />
     <Compile Include="APIS\PI\Options.cs" />
     <Compile Include="APIS\PI\PIAPI.cs" />
-    <Compile Include="APIS\SpinCore PulseBluster\SpinCoreAPI.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -241,8 +244,13 @@
     <Compile Include="通讯模块\自定义模块\APD\Exclitas SPCM-AQRH\APD.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\NationalInstruments.Common.dll" />
+    <Content Include="Resources\NationalInstruments.Common.xml" />
+    <Content Include="Resources\NationalInstruments.DAQmx.dll" />
     <Content Include="Resources\NationalInstruments.DAQmx.xml" />
     <Content Include="Resources\spinapi.dll" />
+    <Content Include="Resources\SpinAPI.NET.dll" />
+    <Content Include="Resources\SpinAPI.NET.xml" />
     <Content Include="Resources\spinapi64.dll" />
     <Content Include="通讯模块\串口通讯模块\示波器\汉泰\HTMarch.dll" />
     <None Include="Resources\PI_GCS2_DLL.dll" />
@@ -253,8 +261,6 @@
     <Resource Include="Image\loading.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Resources\NationalInstruments.Common.dll" />
-    <Content Include="Resources\NationalInstruments.DAQmx.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.DeviceManager.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.FilterFlipper.dll" />
     <Content Include="Resources\uc480_64.dll" />

@@ -90,7 +90,7 @@ namespace HardWares.相机_CCD_.摄像头
         }
 
         /// 获取单帧图片
-        /// </summary>
+        /// <summary>
         /// <param name="waittime"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>

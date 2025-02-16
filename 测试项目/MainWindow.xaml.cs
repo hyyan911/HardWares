@@ -24,6 +24,9 @@ using HardWares.端口基类;
 using HardWares.源表;
 using HardWares.纳米位移台;
 using HardWares.纳米位移台.低温多场.MC_Newton_N;
+using HardWares.仪器列表.板卡.Spincore_PulseBlaster;
+//using NationalInstruments.DAQmx;
+using HardWares.仪器列表.板卡;
 
 namespace 测试项目
 {
@@ -36,6 +39,7 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
+           // Port.ItemsSource = DaqSystem.Local.GetTerminals(TerminalTypes.All);
         }
 
         PortObject obj = null;
@@ -46,7 +50,7 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(NanoControllerBase));
+            ConnectWindow win = new ConnectWindow(typeof(PulseBlasterBase));
             State.Content = win.ShowDialog(this);
             obj = win.ConnectedDevice;
             Thread t = new Thread(() =>
