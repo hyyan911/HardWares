@@ -22,8 +22,37 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
         /// </summary>
         Task DaqContinusReceiveTask = null;
 
-        string DaqContinusTriggerTaskName = "";
-        string DaqContinusReceiveTaskName = "";
+        string DaqContinusTriggerChannelName = "";
+        /// <summary>
+        /// 连续测量输出信号触发通道(get方法返回所有可用的通道列表，set方法设置通道名)
+        /// </summary>
+        public object DaqContinusTriggerChannelNames
+        {
+            get
+            {
+                return DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.CO, PhysicalChannelAccess.All).ToList();
+            }
+            set
+            {
+                DaqContinusTriggerChannelName = value.ToString();
+            }
+        }
+
+        string DaqContinusReceiveChannelName = "";
+        /// <summary>
+        /// 连续连续测量接收任务通道
+        /// </summary>
+        public object DaqContinusReceiveChannelNames
+        {
+            get
+            {
+                return DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList();
+            }
+            set
+            {
+                DaqContinusReceiveChannelName = value.ToString();
+            }
+        }
 
         /// <summary>
         /// 连接，参数列表：1：输入DAQmx通道名,2.输出触发信号DAXmx通道名
@@ -96,6 +125,8 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
 
         object CustomInternalInterface.OpenCustomPort(CustomDeviceInfo info)
         {
+            DaqContinusReceiveChannelName = info.Params[0];
+            DaqContinusTriggerChannelName = info.Params[1];
             return null;
         }
 

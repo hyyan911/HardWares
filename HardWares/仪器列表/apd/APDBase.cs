@@ -14,16 +14,12 @@ namespace HardWares.APD
         /// <summary>
         /// 开始连续采样
         /// </summary>
-        public abstract void BeginContinusSample();
+        public abstract void BeginContinusSample(double SampleFreq);
         /// <summary>
-        /// 获取计数
+        /// 获取计数率(/s)
         /// </summary>
         /// <returns></returns>
-        public abstract int GetContinusCount();
-        /// <summary>
-        /// 光子数采样频率
-        /// </summary>
-        public abstract double SampleFreq { get; set; }
+        public abstract double GetContinusCountRatio();
 
         /// <summary>
         /// 结束连续采样
