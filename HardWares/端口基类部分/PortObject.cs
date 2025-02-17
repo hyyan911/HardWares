@@ -638,7 +638,7 @@ namespace HardWares.端口基类
         public FileObject GenerateParamsFile()
         {
             List<Parameter> param = AvailableParameterNames();
-            CodeHelper.FileObject file = new CodeHelper.FileObject();
+            FileObject file = new FileObject();
             List<string> paramnames = new List<string>();
             List<string> paramvalues = new List<string>();
             foreach (var item in param)
@@ -649,6 +649,13 @@ namespace HardWares.端口基类
                 {
                     paramnames.Add(item.ParameterName);
                     paramvalues.Add(Enum.GetName(item.ParamType, value));
+                    continue;
+                }
+                if (value is KeyValuePair<string, List<string>>)
+                {
+                    paramnames.Add(item.ParameterName);
+                    paramvalues.Add(((KeyValuePair<string, List<string>>)value).Key);
+                    continue;
                 }
                 else
                 {
@@ -686,10 +693,17 @@ namespace HardWares.端口基类
                                 if (typeof(Enum).IsAssignableFrom(item1.ParamType))
                                 {
                                     item1.WriteValue(Enum.Parse(item1.ParamType, paramvalues[paramnames.IndexOf(item)]));
+                                    continue;
+                                }
+                                if (item1.ParamType.IsAssignableFrom(typeof(KeyValuePair<string, List<string>>)))
+                                {
+                                    item1.WriteValue(paramvalues[paramnames.IndexOf(item)]);
+                                    continue;
                                 }
                                 else
                                 {
                                     item1.WriteValue(Convert.ChangeType(paramvalues[paramnames.IndexOf(item)], item1.ParamType));
+                                    continue;
                                 }
                             }
                         }
