@@ -141,8 +141,11 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
 
         object CustomInternalInterface.OpenCustomPort(CustomDeviceInfo info)
         {
-            DaqContinusReceiveChannelName = info.Params[0];
-            DaqContinusTriggerChannelName = info.Params[1];
+            if (info.Params.Count == 2)
+            {
+                DaqContinusReceiveChannelName = info.Params[0];
+                DaqContinusTriggerChannelName = info.Params[1];
+            }
             return null;
         }
 

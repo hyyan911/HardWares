@@ -110,6 +110,7 @@ namespace HardWares.Windows
                     {
                         Connecting.Visibility = Visibility.Hidden;
                         Connected.Visibility = Visibility.Visible;
+                        CloseBtn.IsEnabled = true;
                     });
                     ConnectInfo = info;
                     ConnectedDevice = obj;

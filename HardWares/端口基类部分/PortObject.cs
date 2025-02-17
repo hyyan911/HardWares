@@ -455,7 +455,7 @@ namespace HardWares.端口基类
         /// 连接
         /// </summary>
         /// <returns></returns>
-        internal virtual bool Connect(DeviceInfoBase info, out Exception exc, bool PortArrangerAvailable = true, bool reconnect = false)
+        internal virtual bool Connect(DeviceInfoBase info, out Exception exc, bool reconnect = false, bool PortArrangerAvailable = true)
         {
             PortType = info.PortType;
             try
