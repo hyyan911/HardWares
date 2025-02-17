@@ -28,6 +28,8 @@ using HardWares.仪器列表.板卡.Spincore_PulseBlaster;
 //using NationalInstruments.DAQmx;
 using HardWares.仪器列表.板卡;
 using HardWares.板卡;
+using HardWares.APD;
+using HardWares.APD.Exclitas_SPCM_AQRH;
 
 namespace 测试项目
 {
@@ -40,7 +42,6 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            // Port.ItemsSource = DaqSystem.Local.GetTerminals(TerminalTypes.All);
         }
 
         PortObject obj = null;
@@ -51,34 +52,35 @@ namespace 测试项目
         /// <param name="e"></param>
         private void Connect(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(PulseBlasterBase));
-            State.Content = win.ShowDialog(this);
+            ConnectWindow win = new ConnectWindow(typeof(APDBase));
+            win.ShowDialog(this);
             obj = win.ConnectedDevice;
-            Thread t = new Thread(() =>
+            ParameterWindow w = new ParameterWindow(obj, this);
+            w.ShowDialog();
+        }
+
+        Thread t = null;
+        private void RightMove(object sender, RoutedEventArgs e)
+        {
+            (obj as APD).BeginContinusSample(100);
+            t = new Thread(() =>
             {
                 while (true)
                 {
-                    var ta = (obj as NanoControllerBase).Stages[0].Position;
+                    var ta = (obj as APD).GetContinusCountRatio();
                     Dispatcher.Invoke(() =>
                     {
-                        tar.Content = ta.ToString();
-                        pos.Content = ta.ToString();
+                        count.Content = ta.ToString();
                     });
-                    Thread.Sleep(50);
                 }
             });
             t.Start();
         }
 
-        private void RightMove(object sender, RoutedEventArgs e)
-        {
-            string v = (obj as NanoControllerBase).Stages[0].PositionUnit;
-            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(0.01, 500, true);
-        }
-
         private void LeftMove(object sender, RoutedEventArgs e)
         {
-            (obj as NanoControllerBase).Stages[0].MoveStepAndWait(-0.01, 100, true);
+            (obj as APD).EndContinusSample();
+            t.Abort();
         }
     }
 }

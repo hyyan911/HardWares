@@ -58,7 +58,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CodeHelper\bin\Debug\CodeHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Controls">
+    <Reference Include="Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Controls\Controls\bin\x86\Debug\Controls.dll</HintPath>
     </Reference>
     <Reference Include="InTheHand.Net.Bluetooth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea38caa273134499, processorArchitecture=MSIL">
@@ -73,10 +74,6 @@
     </Reference>
     <Reference Include="MVSDK">
       <HintPath>Resources\MVSDK.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.Common, Version=19.0.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\NationalInstruments.Common.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.DAQmx, Version=20.0.45.49152, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

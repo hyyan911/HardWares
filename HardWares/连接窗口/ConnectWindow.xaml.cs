@@ -204,6 +204,19 @@ namespace HardWares.Windows
                     RefreshTasks.Dequeue();
                     return;
                 }
+                if (obj is CustomOuterInterface)
+                {
+                    PortHelper.EndJudgeFunc = new Func<bool>(() => { return RefreshThreadEndTag; });
+                    connectinfos.AddRange((obj as CustomOuterInterface).GetCustomDeviceInfos());
+                    PortHelper.EndJudgeFunc = null;
+                }
+                if (RefreshThreadEndTag)
+                {
+                    EndRefreshBehaviour();
+                    RefreshThreadEndTag = false;
+                    RefreshTasks.Dequeue();
+                    return;
+                }
                 Dispatcher.Invoke(() =>
                 {
                     foreach (var item in connectinfos)

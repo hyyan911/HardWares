@@ -22,7 +22,11 @@ namespace HardWares
         /// <summary>
         /// 网络设备
         /// </summary>
-        TCPIP = 2
+        TCPIP = 2,
+        /// <summary>
+        /// 自定义设备
+        /// </summary>
+        CUSTOM = 3
 
     }
 }

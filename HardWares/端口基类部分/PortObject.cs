@@ -13,6 +13,7 @@ using CodeHelper;
 using HardWares.APIS;
 using HardWares.端口基类;
 using HardWares.端口基类.COM串口;
+using HardWares.端口基类.Custom串口;
 using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
 using HardWares.端口基类部分.PortHelper;
@@ -200,6 +201,10 @@ namespace HardWares.端口基类
             {
                 (this as TCPIPInternalInterface).TCPIPInitAction(PortInstance);
             }
+            if (PortType == PortType.CUSTOM)
+            {
+                (this as CustomInternalInterface).CustomInitAction(PortInstance);
+            }
         }
 
         /// <summary>
@@ -218,6 +223,10 @@ namespace HardWares.端口基类
             if (PortType == PortType.TCPIP)
             {
                 return (this as TCPIPInternalInterface).TestTCPIPAction();
+            }
+            if (PortType == PortType.CUSTOM)
+            {
+                return (this as CustomInternalInterface).TestCustomAction();
             }
             return false;
         }
@@ -240,6 +249,10 @@ namespace HardWares.端口基类
             {
                 (this as TCPIPInternalInterface).TCPIPPortWrite(value);
             }
+            if (PortType == PortType.CUSTOM)
+            {
+                (this as CustomInternalInterface).CustomPortWrite(value);
+            }
         }
 
         /// <summary>
@@ -259,6 +272,10 @@ namespace HardWares.端口基类
             if (PortType == PortType.TCPIP)
             {
                 return (this as TCPIPInternalInterface).TCPIPPortRead();
+            }
+            if (PortType == PortType.CUSTOM)
+            {
+                return (this as CustomInternalInterface).CustomPortRead();
             }
             return new byte[0];
         }
@@ -281,6 +298,10 @@ namespace HardWares.端口基类
             {
                 (this as TCPIPInternalInterface).CloseTCPIPPort();
             }
+            if (PortType == PortType.CUSTOM)
+            {
+                (this as CustomInternalInterface).CloseCustomPort();
+            }
         }
 
         /// <summary>
@@ -300,6 +321,10 @@ namespace HardWares.端口基类
             if (PortType == PortType.TCPIP)
             {
                 return (this as TCPIPInternalInterface).OpenTCPIPPort(info as TCPIPDeviceInfo);
+            }
+            if (PortType == PortType.CUSTOM)
+            {
+                return (this as CustomInternalInterface).OpenCustomPort(info as CustomDeviceInfo);
             }
             return null;
         }
@@ -322,6 +347,10 @@ namespace HardWares.端口基类
             {
                 return (this as TCPIPInternalInterface).IsTCPIPOpen();
             }
+            if (PortType == PortType.CUSTOM)
+            {
+                return (this as CustomInternalInterface).IsCustomOpen();
+            }
             return false;
         }
 
@@ -342,6 +371,10 @@ namespace HardWares.端口基类
             {
                 (this as TCPIPInternalInterface).ConnectedTCPIPAction();
             }
+            if (PortType == PortType.CUSTOM)
+            {
+                (this as CustomInternalInterface).ConnectedCustomAction();
+            }
         }
 
         /// <summary>
@@ -361,6 +394,10 @@ namespace HardWares.端口基类
             if (PortType == PortType.TCPIP)
             {
                 (this as TCPIPInternalInterface).ReceiveTCPIPAct();
+            }
+            if (PortType == PortType.CUSTOM)
+            {
+                (this as CustomInternalInterface).ReceiveCustomAct();
             }
         }
 

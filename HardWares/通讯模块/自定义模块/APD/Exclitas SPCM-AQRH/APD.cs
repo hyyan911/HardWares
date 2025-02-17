@@ -30,7 +30,7 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
         {
             get
             {
-                return DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.CO, PhysicalChannelAccess.All).ToList();
+                return new KeyValuePair<string, List<string>>(DaqContinusTriggerChannelName, DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.CO, PhysicalChannelAccess.All).ToList());
             }
             set
             {
@@ -40,17 +40,33 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
 
         string DaqContinusReceiveChannelName = "";
         /// <summary>
-        /// 连续连续测量接收任务通道
+        /// APD输入计数器通道(get方法返回所有可用的通道列表，set方法设置通道名)
         /// </summary>
         public object DaqContinusReceiveChannelNames
         {
             get
             {
-                return DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList();
+                return new KeyValuePair<string, List<string>>(DaqContinusReceiveChannelName, DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.CI, PhysicalChannelAccess.All).ToList());
             }
             set
             {
                 DaqContinusReceiveChannelName = value.ToString();
+            }
+        }
+
+        string APDDataChannelName = "";
+        /// <summary>
+        /// APD数据采集通道(get方法返回所有可用的通道列表，set方法设置通道名)
+        /// </summary>
+        public object APDDataChannelNames
+        {
+            get
+            {
+                return new KeyValuePair<string, List<string>>(APDDataChannelName, DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList());
+            }
+            set
+            {
+                APDDataChannelName = value.ToString();
             }
         }
 
@@ -81,7 +97,7 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
                     ++count;
                 }
             }
-            return new List<CustomDeviceInfo>() { new CustomDeviceInfo("Exclitas_SPCM_AQRH " + count.ToString()) };
+            return new List<CustomDeviceInfo>() { new CustomDeviceInfo("Exclitas_SPCM_AQRH " + count.ToString()) { Params = new List<string>() { "", "" } } };
         }
 
         void CustomInternalInterface.CloseCustomPort()

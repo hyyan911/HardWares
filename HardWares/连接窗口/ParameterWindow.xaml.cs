@@ -100,6 +100,7 @@ namespace HardWares.Windows
                 comboBox.ImagePlace = ButtonTemplate.ImagePlace;
                 comboBox.IconMargin = ButtonTemplate.IconMargin;
                 comboBox.PanelWidth = 200;
+                comboBox.MaxPanelHeight = 400;
                 comboBox.FontSize = 15;
                 foreach (string item in Enum.GetNames(paramvalue.GetType()))
                 {
@@ -130,6 +131,32 @@ namespace HardWares.Windows
                 if (paramobj.IsReadOnly)
                 {
                     chooser.IsHitTestVisible = false;
+                }
+                return grid;
+            }
+            if (paramvalue is KeyValuePair<string, List<string>>)
+            {
+                ComboBox comboBox = new ComboBox();
+                ButtonTemplate.CloneStyleTo(comboBox);
+                comboBox.TextAreaRatio = ButtonTemplate.TextAreaRatio;
+                comboBox.IconSource = ButtonTemplate.IconSource;
+                comboBox.ImagePlace = ButtonTemplate.ImagePlace;
+                comboBox.IconMargin = ButtonTemplate.IconMargin;
+                comboBox.PanelWidth = 200;
+                comboBox.MaxPanelHeight = 400;
+                comboBox.FontSize = 15;
+                foreach (string item in ((KeyValuePair<string, List<string>>)paramvalue).Value)
+                {
+                    DecoratedButton btn = new DecoratedButton() { Text = item };
+                    ButtonTemplate.CloneStyleTo(btn);
+                    comboBox.Items.Add(btn);
+                }
+                comboBox.Select(((KeyValuePair<string, List<string>>)paramvalue).Key);
+                grid.Children.Add(comboBox);
+                Grid.SetColumn(comboBox, 1);
+                if (paramobj.IsReadOnly)
+                {
+                    comboBox.IsHitTestVisible = false;
                 }
                 return grid;
             }
@@ -196,7 +223,10 @@ namespace HardWares.Windows
                 {
                     if (g.Children[1] is ComboBox)
                     {
-                        p.WriteValue(Enum.Parse(p.ParamType, (g.Children[1] as ComboBox).SelectedItem.Text));
+                        if (typeof(Enum).IsAssignableFrom(p.ParamType))
+                            p.WriteValue(Enum.Parse(p.ParamType, (g.Children[1] as ComboBox).SelectedItem.Text));
+                        if (p.ParamType.IsAssignableFrom(typeof(KeyValuePair<string, List<string>>)))
+                            p.WriteValue((g.Children[1] as ComboBox).SelectedItem.Text);
                         continue;
                     }
                     if (g.Children[1] is Chooser)
@@ -231,7 +261,10 @@ namespace HardWares.Windows
                     if (g.Children[1] is ComboBox)
                     {
                         //更新参数
-                        (g.Children[1] as ComboBox).Select(Enum.GetName(p.ParamType, (int)p.ReadValue()));
+                        if (typeof(Enum).IsAssignableFrom(p.ParamType))
+                            (g.Children[1] as ComboBox).Select(Enum.GetName(p.ParamType, (int)p.ReadValue()));
+                        if (p.ParamType.IsAssignableFrom(typeof(KeyValuePair<string, List<string>>)))
+                            (g.Children[1] as ComboBox).Select(((KeyValuePair<string, List<string>>)p.ReadValue()).Key);
                         continue;
                     }
                     if (g.Children[1] is Chooser)

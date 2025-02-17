@@ -16,11 +16,14 @@ namespace HardWares.端口基类部分.设备信息
 
         public CustomDeviceInfo(string deviceName, params string[] @params) : base(deviceName)
         {
+            DeviceName = deviceName;
+            PortType = PortType.CUSTOM;
             Params = @params.ToList();
         }
 
         public CustomDeviceInfo(string deviceName, List<string> @params) : base(deviceName)
         {
+            DeviceName = deviceName;
             Params = @params.ToList();
         }
     }

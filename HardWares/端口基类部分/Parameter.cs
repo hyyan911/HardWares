@@ -72,7 +72,7 @@ namespace HardWares.端口基类部分
         /// <param name="value"></param>
         public dynamic ReadValue()
         {
-            return Convert.ChangeType(Parent.GetType().GetProperty(ParameterName).GetValue(Parent), ParamType);
+            return Parent.GetType().GetProperty(ParameterName).GetValue(Parent);
         }
     }
 }

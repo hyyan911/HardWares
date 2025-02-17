@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Canvas>
-        <ComboBox Name="Port" Height="47" Width="163" Canvas.Left="105" Canvas.Top="90" />
-        <Button Content="连接" Click="Connect" Height="39" Width="122" Canvas.Left="303" Canvas.Top="94" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label Name="State" Height="47" Width="177" Canvas.Left="449" Canvas.Top="90"/>
-        <Label x:Name="pos" Height="47" Width="178" Canvas.Left="281" Canvas.Top="245" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label x:Name="tar" Height="47" Width="177" Canvas.Left="282" Canvas.Top="173" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label Height="47" Width="177" Canvas.Left="82" Canvas.Top="173" HorizontalAlignment="Left" VerticalAlignment="Top" Content="目标位置："/>
-        <Label Height="47" Width="177" Canvas.Left="82" Canvas.Top="245" Content="当前位置：" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox Name="Outputchs" Height="47" Width="163" Canvas.Left="105" Canvas.Top="90" />
+        <Button Content="连接" Click="Connect" Height="39" Width="122" Canvas.Left="525" Canvas.Top="98" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label x:Name="count" Height="47" Width="178" Canvas.Left="281" Canvas.Top="245" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Height="47" Width="177" Canvas.Left="82" Canvas.Top="245" Content="计数" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button Content="移动0.1mm" Canvas.Left="153" Canvas.Top="327" Click="LeftMove"/>
         <Button Content="移动0.1mm" Canvas.Left="297" Canvas.Top="327" HorizontalAlignment="Left" VerticalAlignment="Center"  Click="RightMove"/>
+        <ComboBox x:Name="Inputchs" Height="47" Width="163" Canvas.Left="324" Canvas.Top="90" />
+        <Label Height="47" Width="177" Canvas.Left="324" Canvas.Top="43" Content="输入通道" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Height="47" Width="177" Canvas.Left="105" Canvas.Top="43" Content="输出通道" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Canvas>
 </Window>
