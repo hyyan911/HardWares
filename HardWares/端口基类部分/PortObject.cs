@@ -678,9 +678,9 @@ namespace HardWares.端口基类
             try
             {
                 List<Parameter> param = AvailableParameterNames();
-                if (param.Count != file.Descriptions.Count) return;
                 List<string> paramnames = file.ExtractString("ParamNames");
                 List<string> paramvalues = file.ExtractString("ParamValues");
+                if (param.Count != paramnames.Count) return;
                 foreach (var item in paramnames)
                 {
                     foreach (var item1 in param)

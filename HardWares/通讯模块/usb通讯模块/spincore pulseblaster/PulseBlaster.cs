@@ -98,7 +98,8 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             }
             catch { }
            (Instance as SpinAPI).Init();
-            (Instance as SpinAPI).SetClock(400);
+            (Instance as SpinAPI).SetClock(500);
+            ChannelInds = Enumerable.Range(0, 21);
         }
 
         public byte[] USBPortRead()

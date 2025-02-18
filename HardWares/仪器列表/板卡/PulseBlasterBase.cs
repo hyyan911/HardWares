@@ -27,5 +27,11 @@ namespace HardWares.板卡
         /// 
         /// </summary>
         public abstract void SetCommands(List<CommandLine> lines);
+
+
+        /// <summary>
+        /// 通道序号列表
+        /// </summary>
+        public IEnumerable<int> ChannelInds { get; internal set; }
     }
 }
