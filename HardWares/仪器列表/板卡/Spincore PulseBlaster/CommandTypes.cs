@@ -20,6 +20,10 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
         /// </summary>
         Wait = 1,
         /// <summary>
+        /// 分支,转到上一个指令
+        /// </summary>
+        Branch = 2,
+        /// <summary>
         /// 结束指令
         /// </summary>
         End = 2,

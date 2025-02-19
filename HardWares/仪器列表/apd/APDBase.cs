@@ -14,7 +14,7 @@ namespace HardWares.APD
         /// <summary>
         /// 开始连续采样
         /// </summary>
-        public abstract void BeginSample(bool IsOuterTrigger, double SampleFreq, int sampleCount);
+        public abstract void BeginSample(APDTriggerChannels channel, int sampleCount);
         /// <summary>
         /// 获取计数率(/s)
         /// </summary>
@@ -27,4 +27,11 @@ namespace HardWares.APD
         public abstract void EndSample();
         #endregion
     }
+
+    public enum APDTriggerChannels
+    {
+        Channel1 = 0,
+        Channel2 = 1
+    }
+
 }

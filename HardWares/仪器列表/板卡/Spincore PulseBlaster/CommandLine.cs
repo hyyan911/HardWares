@@ -10,13 +10,6 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
 
     public abstract class CommandBase
     {
-
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    public class CommandLine : CommandBase
-    {
         /// <summary>
         /// 需要拉到高电平的通道序号
         /// </summary>
@@ -29,12 +22,35 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
         /// <summary>
         /// 
         /// </summary>
-        public CommandTypes CommandTpye { get; set; } = CommandTypes.Continue;
-
+        internal CommandTypes CommandTpye { get; set; } = CommandTypes.Continue;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CommandLine : CommandBase
+    {
         public CommandLine(List<int> channelIndexes, int timeLength)
         {
             ChannelIndexes = channelIndexes;
             TimeLength = timeLength;
+        }
+    }
+
+    /// <summary>
+    /// 分支语句
+    /// </summary>
+    public class BranchCommandLine : CommandBase
+    {
+        /// <summary>
+        /// 需要跳转的指令序号
+        /// </summary>
+        public int BranchTo { get; set; } = 0;
+
+        public BranchCommandLine(List<int> channelIndexes, int timeLength, int branchTo)
+        {
+            ChannelIndexes = channelIndexes;
+            TimeLength = timeLength;
+            BranchTo = branchTo;
         }
     }
 

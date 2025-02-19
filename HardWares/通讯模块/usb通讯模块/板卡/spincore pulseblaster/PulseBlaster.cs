@@ -15,8 +15,21 @@ namespace HardWares.板卡.Spincore_PulseBlaster
     {
         public void CloseUSBPort()
         {
-            (Instance as SpinAPI).StopProgramming();
-            (Instance as SpinAPI).Stop();
+            try
+            {
+                (Instance as SpinAPI).StopProgramming();
+            }
+            catch (Exception) { }
+            try
+            {
+                (Instance as SpinAPI).Stop();
+            }
+            catch (Exception) { }
+            try
+            {
+                (Instance as SpinAPI).Close();
+            }
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -55,7 +68,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
                 {
                     if (item.Value.GetType().Name == GetType().Name)
                     {
-                        if ((int)item.Value.Instance == i)
+                        if (item.Value.ProductName.Contains("-" + i.ToString()))
                         {
                             exist = true;
                             break;
@@ -85,7 +98,9 @@ namespace HardWares.板卡.Spincore_PulseBlaster
 
         public bool TestUSBAction()
         {
+            (Instance as SpinAPI).Init();
             int result = (Instance as SpinAPI).Status;
+            (Instance as SpinAPI).Close();
             if (result < 0) return false;
             return true;
         }
@@ -100,6 +115,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
            (Instance as SpinAPI).Init();
             (Instance as SpinAPI).SetClock(500);
             ChannelInds = Enumerable.Range(0, 21);
+            (Instance as SpinAPI).Close();
         }
 
         public byte[] USBPortRead()

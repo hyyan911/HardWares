@@ -43,7 +43,7 @@ namespace HardWares.APIS
             }
 
             importer = new DllImporter();
-            importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "spinapi64.dll"), Resources.spinapi64);
+            importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "spinapi64.dll"), Resources.spinapi);
             importer = new DllImporter();
             importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "spinapi.dll"), Resources.spinapi);
         }

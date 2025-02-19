@@ -12,7 +12,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
     /// <summary>
     /// 
     /// </summary>
-    public partial class PulseBlaster
+    public partial class PulseBlaster : PulseBlasterBase
     {
         /// <summary>
         /// 
@@ -33,7 +33,9 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             }
             set
             {
+                (Instance as SpinAPI).Init();
                 (Instance as SpinAPI).SetFrequency(value);
+                (Instance as SpinAPI).Close();
                 frequency = value;
             }
         }
@@ -47,6 +49,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         /// </summary>
         internal void BeginProgram()
         {
+            (Instance as SpinAPI).Init();
             (Instance as SpinAPI).StartProgramming(ProgramTarget.PULSE_PROGRAM);
         }
 
@@ -56,7 +59,9 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         /// <exception cref="NotImplementedException"></exception>
         public override void End()
         {
+            (Instance as SpinAPI).Init();
             (Instance as SpinAPI).Stop();
+            (Instance as SpinAPI).Close();
         }
 
         /// <summary>
@@ -65,6 +70,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         internal void EndProgram()
         {
             (Instance as SpinAPI).StopProgramming();
+            (Instance as SpinAPI).Close();
         }
 
         /// <summary>
@@ -73,24 +79,26 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         /// <exception cref="NotImplementedException"></exception>
         public override void Start()
         {
+            (Instance as SpinAPI).Init();
             (Instance as SpinAPI).Start();
+            (Instance as SpinAPI).Close();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public override void SetCommands(List<CommandLine> lines)
+        public override void SetCommands(List<CommandBase> lines)
         {
             BeginProgram();
             foreach (var item in lines)
             {
-                if (item == lines.Last()) item.CommandTpye = CommandTypes.End;
+                if (item == lines.Last() && item.CommandTpye != CommandTypes.Branch) item.CommandTpye = CommandTypes.End;
                 AddCommand(item);
             }
             EndProgram();
         }
 
-        internal void AddCommand(CommandLine line)
+        internal void AddCommand(CommandBase line)
         {
             int flag = 0;
             for (int i = 0; i < line.ChannelIndexes.Count; i++)
@@ -103,7 +111,16 @@ namespace HardWares.板卡.Spincore_PulseBlaster
                 flag |= temp;
             }
             int noperiod = 0b111 << 21;
-            (Instance as SpinAPI).PBInstDirect(noperiod | flag, ConvertToOpCode(line.CommandTpye), 0, line.TimeLength);
+            int instruct = 0;
+            if (line is BranchCommandLine)
+                instruct = (line as BranchCommandLine).BranchTo;
+            try
+            {
+                (Instance as SpinAPI).PBInst(noperiod | flag, ConvertToOpCode(line.CommandTpye), instruct, line.TimeLength, TimeUnit.ns);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         internal OpCode ConvertToOpCode(CommandTypes commandtype)

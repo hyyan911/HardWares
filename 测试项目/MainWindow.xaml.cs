@@ -30,6 +30,9 @@ using HardWares.仪器列表.板卡;
 using HardWares.板卡;
 using HardWares.APD;
 using HardWares.APD.Exclitas_SPCM_AQRH;
+using NationalInstruments.DAQmx;
+using HardWares.板卡.DAQmxChannel;
+using HardWares.端口基类部分.设备信息;
 
 namespace 测试项目
 {
@@ -42,45 +45,62 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
+            var ll = DaqSystem.Local.Tasks.Select(x => DaqSystem.Local.GetSavedTaskInfo(x)).ToList();
         }
 
-        PortObject obj = null;
+        APDBase apd = null;
+
+        PulseBlasterBase pb = null;
+
         /// <summary>
         /// 连接
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Connect(object sender, RoutedEventArgs e)
+        private void ConnectAPD(object sender, RoutedEventArgs e)
         {
             ConnectWindow win = new ConnectWindow(typeof(APDBase));
             win.ShowDialog(this);
-            obj = win.ConnectedDevice;
-            ParameterWindow w = new ParameterWindow(obj, this);
+            apd = win.ConnectedDevice as APDBase;
+            ParameterWindow w = new ParameterWindow(apd, this);
             w.ShowDialog();
         }
 
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            (obj as APD).BeginContinusSample(100);
-            t = new Thread(() =>
-            {
-                while (true)
-                {
-                    var ta = (obj as APD).GetContinusCountRatio();
-                    Dispatcher.Invoke(() =>
-                    {
-                        count.Content = ta.ToString();
-                    });
-                }
-            });
-            t.Start();
+            PulseBlaster pp = new PulseBlaster();
+            pp.ConnectUSB(new USBDeviceInfo("1", "/counter/PFI36"), out Exception ex, false);
+            pp.PulseFrequency = 100;
+            pp.Start();
+            apd.BeginSample(APDTriggerChannels.Channel2, 2);
+            var res = apd.GetCounts();
+            if (res.Count != 0) { count.Content = res[0]; }
+            apd.EndSample();
+            pp.End();
+            pp.Dispose();
+            //pb.SetCommands(new List<CommandBase>() { new CommandLine(new List<int>() { 4 }, 50),
+            //    new CommandLine(new List<int>() { }, 200),
+            //    new CommandLine(new List<int>() { 4}, 50),
+            //new CommandLine(new List<int>() { }, 200)});
+            //apd.BeginSample(APDTriggerChannels.Channel2, 2);
+            //pb.Start();
+            //Thread.Sleep(50);
+            //var res = apd.GetCounts();
+            //if (res.Count != 0) { count.Content = res[0]; }
+            //pb.End();
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
-            (obj as APD).EndContinusSample();
-            t.Abort();
+        }
+
+        int channel = 5;
+        private void ConnectPB(object sender, RoutedEventArgs e)
+        {
+            ConnectWindow win = new ConnectWindow(typeof(PulseBlasterBase));
+            win.ShowDialog(this);
+            pb = win.ConnectedDevice as PulseBlasterBase;
         }
     }
 }

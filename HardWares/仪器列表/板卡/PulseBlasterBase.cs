@@ -13,6 +13,7 @@ namespace HardWares.板卡
     /// </summary>
     public abstract class PulseBlasterBase : PortObject
     {
+
         /// <summary>
         /// 开始输出信号
         /// </summary>
@@ -26,7 +27,7 @@ namespace HardWares.板卡
         /// <summary>
         /// 
         /// </summary>
-        public abstract void SetCommands(List<CommandLine> lines);
+        public abstract void SetCommands(List<CommandBase> lines);
 
 
         /// <summary>

@@ -14,79 +14,55 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
     public partial class APD : APDBase, CustomInternalInterface, CustomOuterInterface
     {
         /// <summary>
-        /// 输出信号触发任务
-        /// </summary>
-        Task DaqContinusTriggerTask = null;
-        /// <summary>
-        /// 外部触发任务
-        /// </summary>
-        Task DaqOutTriggerTask = null;
-        /// <summary>
         /// 接收任务
         /// </summary>
         Task DaqContinusReceiveTask = null;
 
-        string DaqContinusTriggerChannelName = "";
-        /// <summary>
-        /// 连续测量输出信号触发通道(get方法返回所有可用的通道列表，set方法设置通道名)
-        /// </summary>
-        public object DaqContinusTriggerChannelNames
-        {
-            get
-            {
-                return new KeyValuePair<string, List<string>>(DaqContinusTriggerChannelName, DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.CO, PhysicalChannelAccess.All).ToList());
-            }
-            set
-            {
-                DaqContinusTriggerChannelName = value.ToString();
-            }
-        }
-
-        string DaqContinusReceiveChannelName = "";
+        string APDReceiveChannelName = "";
         /// <summary>
         /// APD输入计数器通道(get方法返回所有可用的通道列表，set方法设置通道名)
         /// </summary>
-        public object DaqContinusReceiveChannelNames
+        public object APDReceiveChannelNames
         {
             get
             {
-                return new KeyValuePair<string, List<string>>(DaqContinusReceiveChannelName, DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.CI, PhysicalChannelAccess.All).ToList());
+                return new KeyValuePair<string, List<string>>(APDReceiveChannelName, DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList());
             }
             set
             {
-                DaqContinusReceiveChannelName = value.ToString();
+                APDReceiveChannelName = value.ToString();
             }
         }
 
-        string APDDataChannelName = "";
+        string CounterOutTriggerChannel1Name = "";
         /// <summary>
-        /// APD数据采集通道(get方法返回所有可用的通道列表，set方法设置通道名)
+        /// 外部触发计数通道1(比如外部板卡信号，外部信号边沿触发一次，计数器返回当前计数)(get方法返回所有可用的通道列表，set方法设置通道名)
         /// </summary>
-        public object APDDataChannelNames
+        public object CounterOutTriggerChannel1Names
         {
             get
             {
-                return new KeyValuePair<string, List<string>>(APDDataChannelName, DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList());
+                return new KeyValuePair<string, List<string>>(CounterOutTriggerChannel1Name, DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList());
             }
             set
             {
-                APDDataChannelName = value.ToString();
+                CounterOutTriggerChannel1Name = value.ToString();
             }
         }
 
-        string DaqCounterOutTriggerChannelName = "";
+        string CounterOutTriggerChannel2Name = "";
         /// <summary>
-        /// 外部触发计数通道(比如外部板卡信号，外部信号边沿触发一次，计数器返回当前计数)(get方法返回所有可用的通道列表，set方法设置通道名)
+        /// 外部触发计数通道2(比如外部板卡信号，外部信号边沿触发一次，计数器返回当前计数)(get方法返回所有可用的通道列表，set方法设置通道名)
         /// </summary>
-        public object DaqCounterOutTriggerChannelNames
+        public object CounterOutTriggerChannel2Names
         {
             get
             {
-                return new KeyValuePair<string, List<string>>(DaqCounterOutTriggerChannelName, DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList());
+                return new KeyValuePair<string, List<string>>(CounterOutTriggerChannel2Name, DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList());
             }
             set
             {
-                DaqCounterOutTriggerChannelName = value.ToString();
+                CounterOutTriggerChannel2Name = value.ToString();
             }
         }
 
@@ -161,10 +137,11 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
 
         object CustomInternalInterface.OpenCustomPort(CustomDeviceInfo info)
         {
-            if (info.Params.Count == 2)
+            if (info.Params.Count == 3)
             {
-                DaqContinusReceiveChannelName = info.Params[0];
-                DaqContinusTriggerChannelName = info.Params[1];
+                APDReceiveChannelName = info.Params[0];
+                CounterOutTriggerChannel1Name = info.Params[1];
+                CounterOutTriggerChannel2Name = info.Params[2];
             }
             return null;
         }
