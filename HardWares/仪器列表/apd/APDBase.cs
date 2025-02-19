@@ -14,17 +14,17 @@ namespace HardWares.APD
         /// <summary>
         /// 开始连续采样
         /// </summary>
-        public abstract void BeginContinusSample(double SampleFreq);
+        public abstract void BeginSample(bool IsOuterTrigger, double SampleFreq, int sampleCount);
         /// <summary>
         /// 获取计数率(/s)
         /// </summary>
         /// <returns></returns>
-        public abstract double GetContinusCountRatio();
+        public abstract List<int> GetCounts();
 
         /// <summary>
         /// 结束连续采样
         /// </summary>
-        public abstract void EndContinusSample();
+        public abstract void EndSample();
         #endregion
     }
 }

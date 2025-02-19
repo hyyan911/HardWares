@@ -43,30 +43,30 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             return "";
         }
 
-        bool IsContinusSampling = false;
-        bool IsSampling = false;
+        bool IsAPDSampling = false;
+        bool IsReading = false;
         /// <summary>
         /// 获取计数(/s)
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public override double GetContinusCountRatio()
+        public override List<int> GetCounts()
         {
-            if (!IsContinusSampling)
+            if (!IsAPDSampling)
             {
-                return 0;
+                return new List<int>();
             }
             try
             {
-                IsSampling = true;
-                var counts = countReader.ReadMultiSampleInt32(2);
-                IsSampling = false;
-                return (counts[1] - counts[0]) * sampleFreq;
+                IsReading = true;
+                var counts = countReader.ReadMultiSampleInt32(-1);
+                IsReading = false;
+                return counts.ToList();
             }
             catch (Exception ex)
             {
-                IsSampling = false;
-                return 0;
+                IsReading = false;
+                return new List<int>();
             }
         }
 
@@ -74,14 +74,14 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
         CounterSingleChannelReader countReader = null;
 
         /// <summary>
-        /// 开始连续采样
+        /// 开始连续采样(IsOuterTrigger表示是否使用外部源触发计数,sampleCount表示采样数，仅在IsOutTrigger为True时有效,SampleFreq表示连续采样频率，仅在IsOutTrigger为False时有效)
         /// </summary>
-        public override void BeginContinusSample(double SampleFreq)
+        public override void BeginSample(bool IsOuterTrigger, double SampleFreq, int sampleCount)
         {
             try
             {
                 sampleFreq = SampleFreq;
-                IsSampling = false;
+                IsReading = false;
                 #region 结束旧任务
                 try
                 {
@@ -103,27 +103,52 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
                     DaqContinusReceiveTask?.Dispose();
                 }
                 catch (Exception) { }
+                try
+                {
+                    DaqOutTriggerTask?.Dispose();
+                }
+                catch (Exception) { }
+                try
+                {
+                    DaqOutTriggerTask?.Dispose();
+                }
+                catch (Exception) { }
                 #endregion
 
-                #region 触发DAQ任务
-                DaqContinusTriggerTask = new NationalInstruments.DAQmx.Task();
-                DaqContinusTriggerTask.COChannels.CreatePulseChannelFrequency(DaqContinusTriggerChannelName, string.Empty, COPulseFrequencyUnits.Hertz, COPulseIdleState.Low, 0, SampleFreq, 0.5);
-                DaqContinusTriggerTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, 2);
-                #endregion
+                if (!IsOuterTrigger)
+                {
+                    #region 触发DAQ任务
+                    DaqContinusTriggerTask = new NationalInstruments.DAQmx.Task();
+                    DaqContinusTriggerTask.COChannels.CreatePulseChannelFrequency(DaqContinusTriggerChannelName, string.Empty, COPulseFrequencyUnits.Hertz, COPulseIdleState.Low, 0, SampleFreq, 0.5);
+                    DaqContinusTriggerTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, 2);
+                    #endregion
+                    #region 采样DAQ任务
+                    DaqContinusReceiveTask = new NationalInstruments.DAQmx.Task();
+                    CIChannel channel = DaqContinusReceiveTask.CIChannels.CreateCountEdgesChannel(DaqContinusReceiveChannelName, string.Empty, CICountEdgesActiveEdge.Rising, 0, CICountEdgesCountDirection.Up);
+                    channel.DataTransferMechanism = CIDataTransferMechanism.Dma;
+                    DaqContinusReceiveTask.Timing.ConfigureSampleClock(APDDataChannelName, 10, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, 2);
+                    #endregion
 
-                #region 采样DAQ任务
-                DaqContinusReceiveTask = new NationalInstruments.DAQmx.Task();
-                CIChannel channel = DaqContinusReceiveTask.CIChannels.CreateCountEdgesChannel(DaqContinusReceiveChannelName, string.Empty, CICountEdgesActiveEdge.Rising, 0, CICountEdgesCountDirection.Up);
-                channel.DataTransferMechanism = CIDataTransferMechanism.Dma;
-                DaqContinusReceiveTask.Timing.ConfigureSampleClock(APDDataChannelName, 10, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, 2);
-                #endregion
+                    DaqContinusTriggerTask.Start();
+                    DaqContinusReceiveTask.Start();
 
-                DaqContinusTriggerTask.Start();
-                DaqContinusReceiveTask.Start();
 
-                countReader = new CounterSingleChannelReader(DaqContinusReceiveTask.Stream);
+                    countReader = new CounterSingleChannelReader(DaqContinusReceiveTask.Stream);
+                }
+                else
+                {
+                    DaqOutTriggerTask = new NationalInstruments.DAQmx.Task();
+                    CIChannel channel = DaqOutTriggerTask.CIChannels.CreateCountEdgesChannel(DaqCounterOutTriggerChannelName, string.Empty, CICountEdgesActiveEdge.Rising, 0, CICountEdgesCountDirection.Up);
+                    DaqContinusReceiveTask.Timing.ConfigureSampleClock(APDDataChannelName, 1, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, sampleCount);
+                    channel.DataTransferMechanism = CIDataTransferMechanism.Dma;
+                    DaqOutTriggerTask.Timing.ConfigureImplicit(SampleQuantityMode.FiniteSamples, sampleCount);
+                    DaqOutTriggerTask.Start();
+
+
+                    countReader = new CounterSingleChannelReader(DaqOutTriggerTask.Stream);
+                }
                 //设置采样
-                IsContinusSampling = true;
+                IsAPDSampling = true;
             }
             catch (Exception ex)
             {
@@ -134,13 +159,13 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
         /// <summary>
         /// 终止连续采样
         /// </summary>
-        public override void EndContinusSample()
+        public override void EndSample()
         {
-            while (IsSampling)
+            while (IsReading)
             {
                 Thread.Sleep(30);
             }
-            IsContinusSampling = false;
+            IsAPDSampling = false;
             #region 结束任务
             try
             {
@@ -160,6 +185,16 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             try
             {
                 DaqContinusReceiveTask?.Dispose();
+            }
+            catch (Exception) { }
+            try
+            {
+                DaqOutTriggerTask?.Stop();
+            }
+            catch (Exception) { }
+            try
+            {
+                DaqOutTriggerTask?.Dispose();
             }
             catch (Exception) { }
             #endregion

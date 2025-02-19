@@ -18,6 +18,10 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
         /// </summary>
         Task DaqContinusTriggerTask = null;
         /// <summary>
+        /// 外部触发任务
+        /// </summary>
+        Task DaqOutTriggerTask = null;
+        /// <summary>
         /// 接收任务
         /// </summary>
         Task DaqContinusReceiveTask = null;
@@ -67,6 +71,22 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             set
             {
                 APDDataChannelName = value.ToString();
+            }
+        }
+
+        string DaqCounterOutTriggerChannelName = "";
+        /// <summary>
+        /// 外部触发计数通道(比如外部板卡信号，外部信号边沿触发一次，计数器返回当前计数)(get方法返回所有可用的通道列表，set方法设置通道名)
+        /// </summary>
+        public object DaqCounterOutTriggerChannelNames
+        {
+            get
+            {
+                return new KeyValuePair<string, List<string>>(DaqCounterOutTriggerChannelName, DaqSystem.Local.GetTerminals(TerminalTypes.All).ToList());
+            }
+            set
+            {
+                DaqCounterOutTriggerChannelName = value.ToString();
             }
         }
 
