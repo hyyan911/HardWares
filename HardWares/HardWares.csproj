@@ -87,7 +87,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="SpinAPI.NET, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\SpinAPI.NET_source\bin\x64\Release\SpinAPI.NET.dll</HintPath>
+      <HintPath>Resources\SpinAPI.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -247,6 +247,8 @@
     <Content Include="Resources\NationalInstruments.DAQmx.dll" />
     <Content Include="Resources\NationalInstruments.DAQmx.xml" />
     <Content Include="Resources\spinapi.dll" />
+    <Content Include="Resources\SpinAPI.NET.dll" />
+    <Content Include="Resources\SpinAPI.NET.xml" />
     <Content Include="Resources\spinapi64.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.DeviceManagerCLI.dll" />
     <Content Include="Resources\Thorlabs.MotionControl.FilterFlipperCLI.dll" />
