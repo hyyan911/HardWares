@@ -27,6 +27,10 @@ namespace HardWares.板卡.DAQmxChannel
         /// </summary>
         public double PulseFrequency { get; set; } = 100;
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
         public override List<Parameter> AvailableParameterNames()
         {
             List<Parameter> pms = new List<Parameter>();
@@ -89,8 +93,9 @@ namespace HardWares.板卡.DAQmxChannel
                         ch.PulseTerminal = Instance as string;
                         OutputTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, 2);
                         OutputTask.Start();
+                        return;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         try
                         {

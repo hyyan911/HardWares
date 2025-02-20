@@ -19,7 +19,7 @@ namespace HardWares.APD
         /// 获取计数率(/s)
         /// </summary>
         /// <returns></returns>
-        public abstract List<int> GetCounts();
+        public abstract List<int> GetCounts(int timeout);
 
         /// <summary>
         /// 结束连续采样

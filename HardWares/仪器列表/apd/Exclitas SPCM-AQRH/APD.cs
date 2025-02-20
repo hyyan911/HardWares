@@ -51,25 +51,25 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public override List<int> GetCounts()
+        public override List<int> GetCounts(int timeout)
         {
-            if (!IsAPDSampling)
+            int time = 0;
+            while (CounterBuffer.Count < sampleCount && time < timeout)
             {
-                return new List<int>();
+                time += 5;
+                Thread.Sleep(5);
             }
-            try
+            lock (CounterBuffer)
             {
-                IsReading = true;
-                var counts = countReader.ReadMultiSampleInt32(sampleCount);
-                IsReading = false;
-                return counts.ToList();
-            }
-            catch (Exception ex)
-            {
-                IsReading = false;
-                return new List<int>();
+                var res = CounterBuffer.ToArray().ToList();
+                CounterBuffer.Clear();
+                return res;
             }
         }
+
+        Thread SampleThread = null;
+
+        List<int> CounterBuffer = new List<int>();
 
         CounterSingleChannelReader countReader = null;
 
@@ -108,6 +108,22 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
                         this.sampleCount = sampleCount == 1 ? 2 : sampleCount;
                         countReader = new CounterSingleChannelReader(DaqContinusReceiveTask.Stream);
                         IsAPDSampling = true;
+                        SampleThread = new Thread(() =>
+                          {
+                              while (IsAPDSampling)
+                              {
+                                  lock (CounterBuffer)
+                                  {
+                                      try
+                                      {
+                                          CounterBuffer.AddRange(countReader.ReadMultiSampleInt32(-1));
+                                          Thread.Sleep(5);
+                                      }
+                                      catch (Exception ex) { }
+                                  }
+                              }
+                          });
+                        SampleThread.Start();
                         return;
                     }
                     catch (Exception ex)
@@ -140,11 +156,11 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
         /// </summary>
         public override void EndSample()
         {
-            while (IsReading)
-            {
-                Thread.Sleep(30);
-            }
             IsAPDSampling = false;
+            while (SampleThread.ThreadState != ThreadState.Stopped)
+            {
+                Thread.Sleep(10);
+            }
             #region 结束任务
             try
             {

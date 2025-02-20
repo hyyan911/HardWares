@@ -74,7 +74,7 @@ namespace 测试项目
             pp.PulseFrequency = 100;
             pp.Start();
             apd.BeginSample(APDTriggerChannels.Channel2, 2);
-            var res = apd.GetCounts();
+            var res = apd.GetCounts(1000);
             if (res.Count != 0) { count.Content = res[0]; }
             apd.EndSample();
             pp.End();

@@ -37,7 +37,7 @@ namespace HardWares.相机_CCD_
                     ++BrokenFrameCount;
                     return null;
                 }
-                return (BitmapSource)source?.GetAsFrozen();
+                return source;
             }
             catch (Exception ex)
             {

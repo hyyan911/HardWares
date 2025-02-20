@@ -330,10 +330,11 @@ namespace HardWares.纳米位移台.PI
             c.Send(c.ProcessCmd("MOV", AxisName, targetvalue.ToString()));
             int time = 0;
             if (autoTimeout) timeout = 50;
+            if (timeout <= 0) return;
             while (IsMoving && time < timeout)
             {
-                Thread.Sleep(50);
-                time += 50;
+                Thread.Sleep(10);
+                time += 10;
             }
         }
 
