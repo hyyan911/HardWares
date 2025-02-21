@@ -103,7 +103,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         {
             int flag = 0;
             OpCode commandtype = OpCode.CONTINUE;
-            int time = 20;
+            int time = 100;
             List<int> inds = new List<int>();
             if (line is CommandLine)
             {
@@ -144,7 +144,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
 
             try
             {
-                (Instance as SpinAPI).PBInst(noperiod | flag, commandtype, instruct, time, TimeUnit.ns);
+                (Instance as SpinAPI).PBInstDirect(noperiod | flag, commandtype, instruct, time);
             }
             catch (Exception)
             {

@@ -34,6 +34,22 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             }
         }
 
+        string CounterChannelName = "";
+        /// <summary>
+        /// 计数器通道(get方法返回所有可用的通道列表，set方法设置通道名)
+        /// </summary>
+        public object CounterChannelNames
+        {
+            get
+            {
+                return new KeyValuePair<string, List<string>>(CounterChannelName, DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.CI, PhysicalChannelAccess.External).ToList());
+            }
+            set
+            {
+                CounterChannelName = value.ToString();
+            }
+        }
+
         string CounterOutTriggerChannel1Name = "";
         /// <summary>
         /// 外部触发计数通道1(比如外部板卡信号，外部信号边沿触发一次，计数器返回当前计数)(get方法返回所有可用的通道列表，set方法设置通道名)
@@ -140,6 +156,7 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             if (info.Params.Count == 3)
             {
                 APDReceiveChannelName = info.Params[0];
+                CounterChannelName = info.Params[2];
                 CounterOutTriggerChannel1Name = info.Params[1];
                 CounterOutTriggerChannel2Name = info.Params[2];
             }

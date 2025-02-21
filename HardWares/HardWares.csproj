@@ -133,9 +133,9 @@
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>Resources\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
-    <Reference Include="ziDotNET-win32, Version=1.0.9097.7136, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="ziDotNET-win64, Version=1.0.7236.1208, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\ziDotNET-win32.dll</HintPath>
+      <HintPath>Resources\ziDotNET-win64.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

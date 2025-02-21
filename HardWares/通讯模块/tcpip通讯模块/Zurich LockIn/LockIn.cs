@@ -16,8 +16,7 @@ namespace HardWares.Lock_In.Zurich_LockIn
 {
     public partial class LockIn : LockInBase, TCPIPInternalInterface, TCPIPOuterInterface
     {
-        private static ziDotNET ZurichClient = null;
-
+        private string DevID { get; set; } = "";
         /// <summary>
         /// 
         /// </summary>
@@ -26,7 +25,7 @@ namespace HardWares.Lock_In.Zurich_LockIn
         /// <returns></returns>
         public bool ConnectTCPIP(TCPIPDeviceInfo info, out Exception exc, bool reconnect = false)
         {
-            return Connect(info, out exc, reconnect);
+            return Connect(info, out exc, reconnect, false);
         }
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace HardWares.Lock_In.Zurich_LockIn
         /// <returns></returns>
         public List<TCPIPDeviceInfo> GetTCPIPDeviceInfos()
         {
-            if (ZurichClient == null) ZurichClient = new ziDotNET();
+            var ZurichClient = new ziDotNET();
             return ZurichClient.discoveryFindAll().Select(x => new TCPIPDeviceInfo(x, "", 0)).ToList();
         }
 
@@ -55,34 +54,37 @@ namespace HardWares.Lock_In.Zurich_LockIn
 
         object TCPIPInternalInterface.OpenTCPIPPort(TCPIPDeviceInfo param)
         {
-            ziDotNET core = new ziDotNET();
-            core.connect();
-            return core;
+            var ZurichClient = new ziDotNET();
+            DevID = ZurichClient.discoveryFind(param.DeviceName);
+            string host = ZurichClient.discoveryGetValueS(param.DeviceName, "serveraddress");
+            long port = ZurichClient.discoveryGetValueI(param.DeviceName, "serverport");
+            long api = ZurichClient.discoveryGetValueI(param.DeviceName, "apilevel");
+            ZurichClient.init(host, Convert.ToUInt16(port), (ZIAPIVersion_enum)api);
+            return ZurichClient;
         }
 
         void TCPIPInternalInterface.ReceiveTCPIPAct()
         {
-            throw new NotImplementedException();
+            return;
         }
 
         void TCPIPInternalInterface.TCPIPInitAction(object PortInstance)
         {
-            throw new NotImplementedException();
         }
 
         byte[] TCPIPInternalInterface.TCPIPPortRead()
         {
-            throw new NotImplementedException();
+            return new byte[0];
         }
 
         void TCPIPInternalInterface.TCPIPPortWrite(byte[] value)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         bool TCPIPInternalInterface.TestTCPIPAction()
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

@@ -33,6 +33,7 @@ using HardWares.APD.Exclitas_SPCM_AQRH;
 using NationalInstruments.DAQmx;
 using HardWares.板卡.DAQmxChannel;
 using HardWares.端口基类部分.设备信息;
+using HardWares.Lock_In;
 
 namespace 测试项目
 {
@@ -69,26 +70,13 @@ namespace 测试项目
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            PulseBlaster pp = new PulseBlaster();
-            pp.ConnectUSB(new USBDeviceInfo("1", "/counter/PFI36"), out Exception ex, false);
-            pp.PulseFrequency = 100;
-            pp.Start();
-            apd.BeginSample(APDTriggerChannels.Channel2, 2);
+            pb.SetCommands(new List<CommandBase>() { new LoopStartCommandLine(1000), new CommandLine(new List<int> { 3, 4, 5 }, 100000), new LoopEndCommandLine(0) });
+            apd.BeginSample(APDTriggerChannels.Channel2, 1000);
+            pb.Start();
+            Thread.Sleep(3000);
             var res = apd.GetCounts(1000);
-            if (res.Count != 0) { count.Content = res[0]; }
             apd.EndSample();
-            pp.End();
-            pp.Dispose();
-            //pb.SetCommands(new List<CommandBase>() { new CommandLine(new List<int>() { 4 }, 50),
-            //    new CommandLine(new List<int>() { }, 200),
-            //    new CommandLine(new List<int>() { 4}, 50),
-            //new CommandLine(new List<int>() { }, 200)});
-            //apd.BeginSample(APDTriggerChannels.Channel2, 2);
-            //pb.Start();
-            //Thread.Sleep(50);
-            //var res = apd.GetCounts();
-            //if (res.Count != 0) { count.Content = res[0]; }
-            //pb.End();
+            pb.End();
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
