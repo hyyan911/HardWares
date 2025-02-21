@@ -158,7 +158,6 @@
     <Compile Include="仪器列表\信号发生器\WaveFormTypes.cs" />
     <Compile Include="仪器列表\板卡\DAQmxOutptuChannel\PulseBlaster.cs" />
     <Compile Include="仪器列表\板卡\PulseBlasterBase.cs" />
-    <Compile Include="仪器列表\板卡\Spincore PulseBlaster\CommandTypes.cs" />
     <Compile Include="仪器列表\板卡\Spincore PulseBlaster\PulseBlaster.cs" />
     <Compile Include="仪器列表\板卡\Spincore PulseBlaster\CommandLine.cs" />
     <Compile Include="仪器列表\波源\OutputShapes.cs" />

@@ -92,8 +92,9 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             BeginProgram();
             foreach (var item in lines)
             {
-                if (item == lines.Last() && item.CommandTpye != CommandTypes.Branch) item.CommandTpye = CommandTypes.End;
                 AddCommand(item);
+                if (item == lines.Last())
+                    AddCommand(new EndCommandLine());
             }
             EndProgram();
         }
@@ -101,44 +102,53 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         internal void AddCommand(CommandBase line)
         {
             int flag = 0;
-            for (int i = 0; i < line.ChannelIndexes.Count; i++)
+            OpCode commandtype = OpCode.CONTINUE;
+            int time = 20;
+            List<int> inds = new List<int>();
+            if (line is CommandLine)
             {
-                if (line.ChannelIndexes[i] > 20 || line.ChannelIndexes[i] < 0)
+                inds = (line as CommandLine).ChannelIndexes;
+                time = (line as CommandLine).TimeLength;
+            }
+            for (int i = 0; i < inds.Count; i++)
+            {
+                if (inds[i] > 20 || inds[i] < 0)
                 {
                     continue;
                 }
-                int temp = 0b1 << line.ChannelIndexes[i];
+                int temp = 0b1 << inds[i];
                 flag |= temp;
             }
             int noperiod = 0b111 << 21;
             int instruct = 0;
             if (line is BranchCommandLine)
+            {
                 instruct = (line as BranchCommandLine).BranchTo;
+                commandtype = OpCode.BRANCH;
+            }
+            if (line is LoopStartCommandLine)
+            {
+                instruct = (line as LoopStartCommandLine).NumberOfLoop;
+                commandtype = OpCode.LOOP;
+            }
+            if (line is LoopEndCommandLine)
+            {
+                instruct = (line as LoopEndCommandLine).IndexOfLoopStart;
+                commandtype = OpCode.END_LOOP;
+            }
+            if (line is EndCommandLine)
+            {
+                instruct = 0;
+                commandtype = OpCode.STOP;
+            }
+
             try
             {
-                (Instance as SpinAPI).PBInst(noperiod | flag, ConvertToOpCode(line.CommandTpye), instruct, line.TimeLength, TimeUnit.ns);
+                (Instance as SpinAPI).PBInst(noperiod | flag, commandtype, instruct, time, TimeUnit.ns);
             }
             catch (Exception)
             {
             }
-        }
-
-        internal OpCode ConvertToOpCode(CommandTypes commandtype)
-        {
-            if (commandtype == CommandTypes.Continue)
-            {
-                return OpCode.CONTINUE;
-            }
-            if (commandtype == CommandTypes.Wait)
-            {
-                return OpCode.CONTINUE;
-            }
-            if (commandtype == CommandTypes.Wait)
-            {
-                return OpCode.WAIT;
-            }
-
-            return OpCode.CONTINUE;
         }
 
         public override void ValidateParams()

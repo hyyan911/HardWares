@@ -10,30 +10,34 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
 
     public abstract class CommandBase
     {
-        /// <summary>
-        /// 需要拉到高电平的通道序号
-        /// </summary>
-        public List<int> ChannelIndexes { get; set; } = new List<int>();
-        /// <summary>
-        /// 持续时间(ns)
-        /// </summary>
-        public int TimeLength { get; set; } = 0;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        internal CommandTypes CommandTpye { get; set; } = CommandTypes.Continue;
     }
     /// <summary>
     /// 
     /// </summary>
     public class CommandLine : CommandBase
     {
+        /// <summary>
+        /// 需要拉到高电平的通道序号
+        /// </summary>
+        public List<int> ChannelIndexes { get; set; } = new List<int>();
+
+        /// <summary>
+        /// 持续时间(ns)
+        /// </summary>
+        public int TimeLength { get; set; } = 0;
+
         public CommandLine(List<int> channelIndexes, int timeLength)
         {
             ChannelIndexes = channelIndexes;
             TimeLength = timeLength;
         }
+    }
+
+    /// <summary>
+    /// 结束语句
+    /// </summary>
+    public class EndCommandLine : CommandBase
+    {
     }
 
     /// <summary>
@@ -46,11 +50,41 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
         /// </summary>
         public int BranchTo { get; set; } = 0;
 
-        public BranchCommandLine(List<int> channelIndexes, int timeLength, int branchTo)
+        public BranchCommandLine(int branchTo)
         {
-            ChannelIndexes = channelIndexes;
-            TimeLength = timeLength;
             BranchTo = branchTo;
+        }
+    }
+
+    /// <summary>
+    /// 循环开始语句
+    /// </summary>
+    public class LoopStartCommandLine : CommandBase
+    {
+        /// <summary>
+        /// 循环次数
+        /// </summary>
+        public int NumberOfLoop { get; set; } = 0;
+
+        public LoopStartCommandLine(int numberofLoop)
+        {
+            NumberOfLoop = numberofLoop;
+        }
+    }
+
+    /// <summary>
+    /// 循环结束语句
+    /// </summary>
+    public class LoopEndCommandLine : CommandBase
+    {
+        /// <summary>
+        /// 循环次数
+        /// </summary>
+        public int IndexOfLoopStart { get; set; } = 0;
+
+        public LoopEndCommandLine(int indexOfLoopStart)
+        {
+            IndexOfLoopStart = indexOfLoopStart;
         }
     }
 

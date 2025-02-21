@@ -17,11 +17,6 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         {
             try
             {
-                (Instance as SpinAPI).StopProgramming();
-            }
-            catch (Exception) { }
-            try
-            {
                 (Instance as SpinAPI).Stop();
             }
             catch (Exception) { }
