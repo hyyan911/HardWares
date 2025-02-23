@@ -31,7 +31,6 @@ using HardWares.板卡;
 using HardWares.APD;
 using HardWares.APD.Exclitas_SPCM_AQRH;
 using NationalInstruments.DAQmx;
-using HardWares.板卡.DAQmxChannel;
 using HardWares.端口基类部分.设备信息;
 using HardWares.Lock_In;
 
@@ -46,7 +45,6 @@ namespace 测试项目
         public MainWindow()
         {
             InitializeComponent();
-            var ll = DaqSystem.Local.Tasks.Select(x => DaqSystem.Local.GetSavedTaskInfo(x)).ToList();
         }
 
         APDBase apd = null;

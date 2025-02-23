@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using NationalInstruments.DAQmx;
 using Task = NationalInstruments.DAQmx.Task;
 
-namespace HardWares.板卡.DAQmxChannel
+namespace HardWares.板卡.DAQmxCounterSignalChannel
 {
     /// <summary>
     /// 

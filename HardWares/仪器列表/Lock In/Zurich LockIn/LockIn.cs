@@ -99,12 +99,12 @@ namespace HardWares.Lock_In.Zurich_LockIn
             get
             {
                 var value = (Instance as ziDotNET).getInt(CombinePath(DevID, "pids", "0", "enable"));
-                if (value == 0) return true;
-                return false;
+                if (value == 0) return false;
+                return true;
             }
             set
             {
-                (Instance as ziDotNET).setInt(CombinePath(DevID, "pids", "0", "enable"), value ? 0 : 1);
+                (Instance as ziDotNET).setInt(CombinePath(DevID, "pids", "0", "enable"), value ? 1 : 0);
             }
         }
 

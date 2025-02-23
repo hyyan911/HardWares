@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.板卡.DAQmxChannel
+namespace HardWares.板卡.DAQmxCounterSignalChannel
 {
     /// <summary>
     /// 
@@ -18,7 +18,7 @@ namespace HardWares.板卡.DAQmxChannel
         /// <summary>
         /// 
         /// </summary>
-        public override string ProductIdentifier { get; internal set; } = "DAQmx输出通道";
+        public override string ProductIdentifier { get; internal set; } = "DAQmx计数器信号输出通道";
 
         public override event ParamsChangeEventHandler ParamsChangedEvent;
 

@@ -156,7 +156,7 @@
     <Compile Include="仪器列表\Lock In\Zurich LockIn\LockIn.cs" />
     <Compile Include="仪器列表\信号发生器\SignalGeneratorBase.cs" />
     <Compile Include="仪器列表\信号发生器\WaveFormTypes.cs" />
-    <Compile Include="仪器列表\板卡\DAQmxOutptuChannel\PulseBlaster.cs" />
+    <Compile Include="仪器列表\板卡\DAQmxCounterOutChannel\PulseBlaster.cs" />
     <Compile Include="仪器列表\板卡\PulseBlasterBase.cs" />
     <Compile Include="仪器列表\板卡\Spincore PulseBlaster\PulseBlaster.cs" />
     <Compile Include="仪器列表\板卡\Spincore PulseBlaster\CommandLine.cs" />
@@ -179,6 +179,8 @@
     <Compile Include="仪器列表\相机（CCD）\MindVision\Camera.cs" />
     <Compile Include="仪器列表\相机（CCD）\Thorlabs DCx\Camera.cs" />
     <Compile Include="仪器列表\相机（CCD）\摄像头\Camera.cs" />
+    <Compile Include="仪器列表\纳米位移台\DAQmx控制位移台\NanoController.cs" />
+    <Compile Include="仪器列表\纳米位移台\DAQmx控制位移台\NanoStage.cs" />
     <Compile Include="仪器列表\纳米位移台\Micronix\NanoController.cs" />
     <Compile Include="仪器列表\纳米位移台\Micronix\NanoStage.cs" />
     <Compile Include="仪器列表\纳米位移台\NanoControllerBase.cs" />
@@ -222,7 +224,7 @@
     <Compile Include="通讯模块\tcpip通讯模块\Zurich LockIn\LockIn.cs" />
     <Compile Include="通讯模块\tcpip通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
     <Compile Include="通讯模块\tcpip通讯模块\纳米位移台\PI\PIController.cs" />
-    <Compile Include="通讯模块\usb通讯模块\板卡\DAQmxOutputChannel\PulseBlaster.cs" />
+    <Compile Include="通讯模块\usb通讯模块\板卡\DAQmxCounterOutChannel\PulseBlaster.cs" />
     <Compile Include="通讯模块\usb通讯模块\板卡\spincore pulseblaster\PulseBlaster.cs" />
     <Compile Include="通讯模块\usb通讯模块\射频源\Rigol\Rigol DSG 3060\RFSource.cs" />
     <Compile Include="通讯模块\usb通讯模块\源表\KEITHLEY 2450\PowerSource.cs" />
@@ -230,6 +232,7 @@
     <Compile Include="通讯模块\usb通讯模块\相机（CCD）\MindVision\Camera.cs" />
     <Compile Include="通讯模块\usb通讯模块\相机（CCD）\Thorlabs DCx\Camera.cs" />
     <Compile Include="通讯模块\usb通讯模块\相机（CCD）\摄像头\Camera.cs" />
+    <Compile Include="通讯模块\usb通讯模块\纳米位移台\DAQmx控制位移台\NanoController.cs" />
     <Compile Include="通讯模块\usb通讯模块\纳米位移台\PI\PIController.cs" />
     <Compile Include="通讯模块\串口通讯模块\PID\PIDControlHelper.cs" />
     <Compile Include="通讯模块\串口通讯模块\其他\ClampAndAngleRotater.cs" />

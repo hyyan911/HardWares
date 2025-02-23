@@ -19,13 +19,15 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             {
                 (Instance as SpinAPI).Stop();
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
             try
             {
                 (Instance as SpinAPI).Close();
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
         }
+
+        internal override bool AutoDispose { get; set; } = false;
 
         /// <summary>
         /// 

@@ -38,8 +38,16 @@ namespace HardWares.端口基类
         /// </summary>
         ~PortObject()
         {
-            Dispose();
+            if (AutoDispose)
+            {
+                Dispose();
+            }
         }
+
+        /// <summary>
+        /// 是否在销毁对象时调用Dispose方法
+        /// </summary>
+        internal virtual bool AutoDispose { get; set; } = true;
 
         /// <summary>
         /// 参数是否可用（对使用同类型的不同型号设备而言，参数列表可能有所区别。此时需要一个方法来告诉外部调用程序连接的设备哪些参数可用。需要在继承的设备类中重写）
