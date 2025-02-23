@@ -51,7 +51,7 @@ namespace 测试项目
 
         APDBase apd = null;
 
-        PulseBlasterBase pb = null;
+        LockInBase pb = null;
 
         /// <summary>
         /// 连接
@@ -70,13 +70,8 @@ namespace 测试项目
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            pb.SetCommands(new List<CommandBase>() { new LoopStartCommandLine(1000), new CommandLine(new List<int> { 3, 4, 5 }, 100000), new LoopEndCommandLine(0) });
-            apd.BeginSample(APDTriggerChannels.Channel2, 1000);
-            pb.Start();
-            Thread.Sleep(3000);
-            var res = apd.GetCounts(1000);
-            apd.EndSample();
-            pb.End();
+            pb.PIDOutput = !pb.PIDOutput;
+            count.Content = pb.DemodR;
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
@@ -86,9 +81,9 @@ namespace 测试项目
         int channel = 5;
         private void ConnectPB(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(PulseBlasterBase));
+            ConnectWindow win = new ConnectWindow(typeof(LockInBase));
             win.ShowDialog(this);
-            pb = win.ConnectedDevice as PulseBlasterBase;
+            pb = win.ConnectedDevice as LockInBase;
         }
     }
 }

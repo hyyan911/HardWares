@@ -104,12 +104,8 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveTo(double targetvalue)
+        public override void InnerMoveTo(double targetvalue)
         {
-            if (targetvalue > 150 || targetvalue < -150)
-            {
-                return;
-            }
             target = targetvalue;
             NanoController c = ParentDevice as NanoController;
             string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + Math.Round(target, 6).ToString() + "]", 500);
@@ -121,11 +117,10 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveToAndWait(double targetvalue, int timeout, bool autoTimeout)
+        public override void InnerMoveToAndWait(double targetvalue, int timeout)
         {
             MoveTo(targetvalue);
             int time = 0;
-            if (autoTimeout) timeout = 30000;
             double det = Math.Abs(Position - targetvalue);
             while ((double.IsNaN(det) || det > 1e-2) && time < timeout)
             {
@@ -155,9 +150,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// </summary>
         /// <param name="step"></param>
         /// <param name="timeout"></param>
-        public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
+        public override void MoveStepAndWait(double step, int timeout)
         {
-            MoveToAndWait(target + step, timeout, autoTimeout);
+            MoveToAndWait(target + step, timeout);
         }
 
         #endregion
@@ -177,6 +172,10 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             result.Add(new Parameter("Target", "目标位置", Target.GetType(), this, true) { IsReadOnly = true });
 
             result.Add(new Parameter("Velocity", "速度(°/s或mm/s)", Velocity.GetType(), this, true) { IsReadOnly = false });
+
+            result.Add(new Parameter("CustomRangeLo", "自定义位置下限(°或mm)", CustomRangeLo.GetType(), this, true) { IsReadOnly = false });
+
+            result.Add(new Parameter("CustomRangeHi", "自定义位置上限(°或mm)", CustomRangeHi.GetType(), this, true) { IsReadOnly = false });
 
             return result;
         }

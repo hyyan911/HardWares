@@ -153,7 +153,7 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveTo(double targetvalue)
+        public override void InnerMoveTo(double targetvalue)
         {
             NanoController c = ParentDevice as NanoController;
             c.AddMessage(c.ProcessCmd(GetAxisInd(), "MVA", targetvalue.ToString()));
@@ -165,11 +165,10 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveToAndWait(double targetvalue, int timeout, bool autoTimeout)
+        public override void InnerMoveToAndWait(double targetvalue, int timeout)
         {
             MoveTo(targetvalue);
             int time = 0;
-            if (autoTimeout) timeout = 50;
             double det = Math.Abs(Position - target);
             while ((double.IsNaN(det) || det > 1e-4) && time < timeout)
             {
@@ -185,14 +184,13 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         /// <param name="step"></param>
         /// <param name="timeout"></param>
-        public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
+        public override void MoveStepAndWait(double step, int timeout)
         {
+            if (target + step < CustomRangeLo || target + step > CustomRangeHi) return;
             NanoController c = ParentDevice as NanoController;
             c.AddMessage(c.ProcessCmd(GetAxisInd(), "STP", step.ToString()));
             c.AddMessage(c.ProcessCmd(GetAxisInd(), "MVR", step.ToString()));
-            target += step;
             int time = 0;
-            if (autoTimeout) timeout = 50;
             double det = Math.Abs(Position - target);
             while ((double.IsNaN(det) || det > 1e-4) && time < timeout)
             {
@@ -225,6 +223,10 @@ namespace HardWares.纳米位移台.Micronix
             result.Add(new Parameter("Acceleration", "加速度", Acceleration.GetType(), this, true) { IsReadOnly = false });
 
             result.Add(new Parameter("AccelerationLimit", "加速度上限", AccelerationLimit.GetType(), this, true) { IsReadOnly = true });
+
+            result.Add(new Parameter("CustomRangeLo", "自定义位置下限(mm)", CustomRangeLo.GetType(), this, true) { IsReadOnly = false });
+
+            result.Add(new Parameter("CustomRangeHi", "自定义位置上限(mm)", CustomRangeHi.GetType(), this, true) { IsReadOnly = false });
 
             return result;
         }

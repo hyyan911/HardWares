@@ -103,7 +103,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         {
             int flag = 0;
             OpCode commandtype = OpCode.CONTINUE;
-            int time = 100;
+            int time = 20;
             List<int> inds = new List<int>();
             if (line is CommandLine)
             {

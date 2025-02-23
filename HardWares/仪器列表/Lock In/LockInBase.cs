@@ -31,5 +31,44 @@ namespace HardWares.Lock_In
         /// PID设定值
         /// </summary>
         public abstract double SetPoint { get; set; }
+
+        /// <summary>
+        /// PID输出
+        /// </summary>
+        public abstract bool PIDOutput { get; set; }
+
+        /// <summary>
+        /// 解调器X值
+        /// </summary>
+        public abstract double DemodX { get; }
+
+        /// <summary>
+        /// 解调器Y值
+        /// </summary>
+        public abstract double DemodY { get; }
+
+        /// <summary>
+        /// 解调器R值
+        /// </summary>
+        public abstract double DemodR { get; }
+
+        /// <summary>
+        /// 解调器幅角值
+        /// </summary>
+        public abstract double DemodAngle { get; }
+
+        /// <summary>
+        /// 当前PID值
+        /// </summary>
+        public abstract double PIDValue { get; }
+        /// <summary>
+        /// PID输出下限
+        /// </summary>
+        public abstract double PIDOutputLowerLimit { get; }
+
+        /// <summary>
+        /// PID输出上限
+        /// </summary>
+        public abstract double PIDOutputUpperLimit { get; }
     }
 }

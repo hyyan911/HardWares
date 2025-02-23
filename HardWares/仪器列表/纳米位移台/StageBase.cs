@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -26,6 +27,16 @@ namespace HardWares.纳米位移台
         public abstract double Position { get; }
 
         /// <summary>
+        /// 自定义位置下限(mm)
+        /// </summary>
+        public double CustomRangeLo { get; set; } = 0;
+
+        /// <summary>
+        /// 自定义位置上限(mm)
+        /// </summary>
+        public double CustomRangeHi { get; set; } = 0;
+
+        /// <summary>
         /// 闭环目标位置
         /// </summary>
         public abstract double Target { get; }
@@ -44,20 +55,32 @@ namespace HardWares.纳米位移台
         /// 移动到目标位置
         /// </summary>
         /// <param name="targetvalue"></param>
-        public abstract void MoveTo(double targetvalue);
+        public void MoveTo(double targetvalue)
+        {
+            if (targetvalue < CustomRangeLo || targetvalue > CustomRangeHi) return;
+            InnerMoveTo(targetvalue);
+        }
+
+        public abstract void InnerMoveTo(double target);
 
         /// <summary>
         /// 移动到指定位置并等待移动完成
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public abstract void MoveToAndWait(double targetvalue, int timeout, bool autoTimmeout);
+        public void MoveToAndWait(double targetvalue, int timeout)
+        {
+            if (targetvalue < CustomRangeLo || targetvalue > CustomRangeHi) return;
+            InnerMoveToAndWait(targetvalue, timeout);
+        }
+
+        public abstract void InnerMoveToAndWait(double target, int timeout);
 
         /// <summary>
         /// 移动指定偏移量
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public abstract void MoveStepAndWait(double step, int timeout, bool autoTimmeout);
+        public abstract void MoveStepAndWait(double step, int timeout);
     }
 }

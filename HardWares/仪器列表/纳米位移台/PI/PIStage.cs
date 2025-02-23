@@ -313,8 +313,9 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveTo(double targetvalue)
+        public override void InnerMoveTo(double targetvalue)
         {
+
             PIController c = ParentDevice as PIController;
             c.Send(c.ProcessCmd("MOV", AxisName, ""));
         }
@@ -324,12 +325,10 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void MoveToAndWait(double targetvalue, int timeout, bool autoTimeout)
+        public override void InnerMoveToAndWait(double targetvalue, int timeout)
         {
-            PIController c = ParentDevice as PIController;
-            c.Send(c.ProcessCmd("MOV", AxisName, targetvalue.ToString()));
+            MoveTo(targetvalue);
             int time = 0;
-            if (autoTimeout) timeout = 50;
             if (timeout <= 0) return;
             while (IsMoving && time < timeout)
             {
@@ -343,11 +342,11 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <param name="step"></param>
         /// <param name="timeout"></param>
-        public override void MoveStepAndWait(double step, int timeout, bool autoTimeout)
+        public override void MoveStepAndWait(double step, int timeout)
         {
             double target = Target;
             target += step;
-            MoveToAndWait(target, timeout, autoTimeout);
+            MoveToAndWait(target, timeout);
         }
         #region Reference
         /// <summary>
@@ -504,6 +503,11 @@ namespace HardWares.纳米位移台.PI
                 p.IsStatic = true;
                 result.Add(p);
             }
+
+            result.Add(new Parameter("CustomRangeLo", "自定义位置下限(mm)", CustomRangeLo.GetType(), this, true) { IsReadOnly = false });
+
+            result.Add(new Parameter("CustomRangeHi", "自定义位置上限(mm)", CustomRangeHi.GetType(), this, true) { IsReadOnly = false });
+
             return result;
         }
 

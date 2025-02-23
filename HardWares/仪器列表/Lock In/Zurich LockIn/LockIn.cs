@@ -19,7 +19,13 @@ namespace HardWares.Lock_In.Zurich_LockIn
 
         public override List<Parameter> AvailableParameterNames()
         {
-            return new List<Parameter>();
+            var param = new List<Parameter>();
+            param.Add(new Parameter("P", "P值", P.GetType(), this, true));
+            param.Add(new Parameter("I", "I值", I.GetType(), this, true));
+            param.Add(new Parameter("D", "D值", D.GetType(), this, true));
+            param.Add(new Parameter("SetPoint", "设定值", SetPoint.GetType(), this, true));
+            param.Add(new Parameter("PIDOutput", "PID输出状态", PIDOutput.GetType(), this, true));
+            return param;
         }
 
         public override void ValidateParams()
@@ -85,6 +91,81 @@ namespace HardWares.Lock_In.Zurich_LockIn
             set
             {
                 (Instance as ziDotNET).setDouble(CombinePath(DevID, "pids", "0", "setpoint"), value);
+            }
+        }
+
+        public override bool PIDOutput
+        {
+            get
+            {
+                var value = (Instance as ziDotNET).getInt(CombinePath(DevID, "pids", "0", "enable"));
+                if (value == 0) return true;
+                return false;
+            }
+            set
+            {
+                (Instance as ziDotNET).setInt(CombinePath(DevID, "pids", "0", "enable"), value ? 0 : 1);
+            }
+        }
+
+        public override double DemodX
+        {
+            get
+            {
+                return (Instance as ziDotNET).getDemodSample(CombinePath(DevID, "demods", "0", "sample")).x;
+            }
+        }
+
+        public override double DemodY
+        {
+            get
+            {
+                return (Instance as ziDotNET).getDemodSample(CombinePath(DevID, "demods", "0", "sample")).y;
+            }
+        }
+
+        public override double DemodR
+        {
+            get
+            {
+                var sample = (Instance as ziDotNET).getDemodSample(CombinePath(DevID, "demods", "0", "sample"));
+                return Math.Sqrt(sample.x * sample.x + sample.y * sample.y);
+            }
+        }
+
+        public override double DemodAngle
+        {
+            get
+            {
+                var sample = (Instance as ziDotNET).getDemodSample(CombinePath(DevID, "demods", "0", "sample"));
+                return Math.Atan2(sample.x, sample.y);
+            }
+        }
+
+        public override double PIDValue
+        {
+            get
+            {
+                var sample = (Instance as ziDotNET).getDouble(CombinePath(DevID, "pids", "0", "value"));
+                return sample;
+            }
+        }
+
+        public override double PIDOutputUpperLimit
+        {
+            get
+            {
+                var sample = (Instance as ziDotNET).getDouble(CombinePath(DevID, "pids", "0", "limitupper"));
+                return sample;
+            }
+        }
+
+        public override double PIDOutputLowerLimit
+        {
+            get
+            {
+                var sample = (Instance as ziDotNET).getDouble(CombinePath(DevID, "pids", "0", "limitlower"));
+                return sample;
             }
         }
         #endregion
