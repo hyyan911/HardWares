@@ -25,7 +25,7 @@ namespace HardWares.板卡.DAQmxCounterSignalChannel
         /// <summary>
         /// 输出频率(Hz)
         /// </summary>
-        public double PulseFrequency { get; set; } = 100;
+        public override double PulseFrequency { get; set; } = 100;
 
         /// <summary>
         ///

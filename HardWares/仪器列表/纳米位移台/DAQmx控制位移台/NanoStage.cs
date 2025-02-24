@@ -179,7 +179,7 @@ namespace HardWares.纳米位移台.DAQmxController
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void InnerMoveTo(double targetvalue)
+        internal override void InnerMoveTo(double targetvalue)
         {
             SetVoltage(targetvalue, 10000);
         }
@@ -189,7 +189,7 @@ namespace HardWares.纳米位移台.DAQmxController
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void InnerMoveToAndWait(double targetvalue, int timeout)
+        internal override void InnerMoveToAndWait(double targetvalue, int timeout)
         {
             SetVoltage(targetvalue, timeout);
         }

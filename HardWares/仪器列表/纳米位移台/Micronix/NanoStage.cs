@@ -153,7 +153,7 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void InnerMoveTo(double targetvalue)
+        internal override void InnerMoveTo(double targetvalue)
         {
             NanoController c = ParentDevice as NanoController;
             c.AddMessage(c.ProcessCmd(GetAxisInd(), "MVA", targetvalue.ToString()));
@@ -165,7 +165,7 @@ namespace HardWares.纳米位移台.Micronix
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void InnerMoveToAndWait(double targetvalue, int timeout)
+        internal override void InnerMoveToAndWait(double targetvalue, int timeout)
         {
             MoveTo(targetvalue);
             int time = 0;

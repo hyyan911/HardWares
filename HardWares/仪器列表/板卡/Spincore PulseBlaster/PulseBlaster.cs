@@ -21,7 +21,9 @@ namespace HardWares.板卡.Spincore_PulseBlaster
 
         public override event ParamsChangeEventHandler ParamsChangedEvent;
 
-        private double frequency = 400;
+        override public double PulseFrequency { get; set; } = 500;
+
+        private double frequency = 500;
         /// <summary>
         /// 板卡频率(MHz)
         /// </summary>

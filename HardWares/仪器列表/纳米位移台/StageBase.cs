@@ -61,7 +61,7 @@ namespace HardWares.纳米位移台
             InnerMoveTo(targetvalue);
         }
 
-        public abstract void InnerMoveTo(double target);
+        internal abstract void InnerMoveTo(double target);
 
         /// <summary>
         /// 移动到指定位置并等待移动完成
@@ -74,7 +74,7 @@ namespace HardWares.纳米位移台
             InnerMoveToAndWait(targetvalue, timeout);
         }
 
-        public abstract void InnerMoveToAndWait(double target, int timeout);
+        internal abstract void InnerMoveToAndWait(double target, int timeout);
 
         /// <summary>
         /// 移动指定偏移量

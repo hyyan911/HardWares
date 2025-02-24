@@ -34,5 +34,10 @@ namespace HardWares.板卡
         /// 通道序号列表
         /// </summary>
         public IEnumerable<int> ChannelInds { get; internal set; }
+
+        /// <summary>
+        /// 脉冲频率
+        /// </summary>
+        public abstract double PulseFrequency { get; set; }
     }
 }

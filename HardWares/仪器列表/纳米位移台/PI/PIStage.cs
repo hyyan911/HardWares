@@ -313,7 +313,7 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void InnerMoveTo(double targetvalue)
+        internal override void InnerMoveTo(double targetvalue)
         {
 
             PIController c = ParentDevice as PIController;
@@ -325,7 +325,7 @@ namespace HardWares.纳米位移台.PI
         /// </summary>
         /// <param name="targetvalue"></param>
         /// <returns></returns>
-        public override void InnerMoveToAndWait(double targetvalue, int timeout)
+        internal override void InnerMoveToAndWait(double targetvalue, int timeout)
         {
             MoveTo(targetvalue);
             int time = 0;
