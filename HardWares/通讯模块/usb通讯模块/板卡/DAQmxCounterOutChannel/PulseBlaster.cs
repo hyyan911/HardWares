@@ -66,7 +66,7 @@ namespace HardWares.板卡.DAQmxCounterSignalChannel
 
         bool USBInternalInterface.TestUSBAction()
         {
-            ChannelInds = new List<int>().AsEnumerable();
+            ChannelInds = new List<int>() { 0 }.AsEnumerable();
             return true;
         }
 
