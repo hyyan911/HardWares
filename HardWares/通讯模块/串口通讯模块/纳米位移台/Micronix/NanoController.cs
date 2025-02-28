@@ -79,17 +79,6 @@ namespace HardWares.纳米位移台.Micronix
 
         void COMInternalInterface.ConnectedCOMAction()
         {
-            for (int i = 1; i <= 8; i++)
-            {
-                string result = ThreadSafeQuery(i.ToString() + "VER?\n\r", 500);
-                if (result.Trim() != "")
-                {
-                    NanoStage stage = new NanoStage(result + "_" + i.ToString(), this);
-                    stage.target = stage.Position;
-                    Stages.Add(stage);
-                }
-            }
-
         }
 
         bool COMInternalInterface.IsCOMOpen()
@@ -109,12 +98,19 @@ namespace HardWares.纳米位移台.Micronix
 
         bool COMInternalInterface.TestCOMAction()
         {
-            string result = ThreadSafeQuery("1VER?\n\r2VER?\n\r3VER?\n\r4VER?\n\r5VER?\n\r6VER?\n\r7VER?\n\r8VER?\n\r", 400);
-            if (result.Trim() != "")
+            for (int i = 1; i <= 8; i++)
             {
-                return true;
+                string result = ThreadSafeQuery(i.ToString() + "VER?\n\r", 500);
+                if (result.Trim() == "" || DevNames.Select(x => result.Contains(x)).Count() == 0 || result.Trim() == i.ToString())
+                {
+                    continue;
+                }
+                NanoStage stage = new NanoStage(result + "_" + i.ToString(), this);
+                stage.target = stage.Position;
+                Stages.Add(stage);
             }
-            return false;
+            if (Stages.Count == 0) return false;
+            return true;
         }
     }
 }

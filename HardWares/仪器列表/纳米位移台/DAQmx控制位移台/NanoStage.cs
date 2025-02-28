@@ -42,7 +42,7 @@ namespace HardWares.纳米位移台.DAQmxController
         {
             AxisName = axisName;
             ParentDevice = parent;
-            var filename = "DAQmx LicationLog " + ParentDevice.ProductName;
+            var filename = "DAQmx LocationLog " + AxisName + ".userdat";
             foreach (var item in Path.GetInvalidPathChars())
             {
                 filename = filename.Replace(item.ToString(), "");
@@ -56,6 +56,7 @@ namespace HardWares.纳米位移台.DAQmxController
 
 
         Task AOTask = null;
+        double step = 0.0001;
         /// <summary>
         /// 设置电压,默认步长为0.0001V
         /// </summary>
@@ -68,30 +69,30 @@ namespace HardWares.纳米位移台.DAQmxController
                 AOTask = new Task();
 
                 AOTask.AOChannels.CreateVoltageChannel(VoltageSetChannelName, string.Empty, CustomRangeLo, CustomRangeHi, AOVoltageUnits.Volts);
-                AOTask.Timing.SampleTimingType = SampleTimingType.SampleClock;
                 double det = volt - target;
                 int counts = (int)(Math.Abs(det) / 0.0001);
-
-                double[] listtosend = Enumerable.Range(0, counts).Select(x => target + x * (volt - target) / (counts - 1)).ToArray();
-                if (counts == 0) listtosend = new double[] { volt };
-
-                AOTask.Timing.ConfigureSampleClock("", Velocity / 0.0001, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, listtosend.Length);
-
-                AOTask.Timing.SampleClockRate = Velocity / 0.0001;
+                Queue<double> listtosend = new Queue<double>(Enumerable.Range(0, counts).Select(x => target + x * (volt - target) / (counts - 1)));
+                if (counts == 0) listtosend = new Queue<double>(new List<double>() { volt });
                 var writer = new AnalogSingleChannelWriter(AOTask.Stream);
-                writer.WriteMultiSample(true, listtosend);
-                int time = 0;
-                while (AOTask.Stream.AvailableSamplesPerChannel != 0 && time < timeout)
+                AOTask.Start();
+                double time = 0;
+                double waittime = step / Velocity;
+                while (listtosend.Count() != 0 && time < timeout)
                 {
-                    Thread.Sleep(10);
-                    time += 10;
+                    writer.WriteSingleSample(true, listtosend.Dequeue());
+                    Thread.Sleep((int)(1000 * waittime));
+                    time += 1000 * waittime;
                 }
+
                 if (time >= timeout)
                 {
-                    target = target + (counts - AOTask.Stream.AvailableSamplesPerChannel * (volt - target)) / (counts - 1);
+                    target = target + (counts - listtosend.Count) * (volt - target) / (counts - 1);
                 }
                 else
                     target = volt;
+
+                writer.WriteSingleSample(true, target);
+                Thread.Sleep(100);
                 //保存当前位置到文件
                 FileObject fobj = new FileObject();
                 fobj.Descriptions.Add("CurrentVolt", target.ToString());

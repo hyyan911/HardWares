@@ -49,7 +49,7 @@ namespace 测试项目
 
         APDBase apd = null;
 
-        LockInBase pb = null;
+        NanoControllerBase pb = null;
 
         /// <summary>
         /// 连接
@@ -68,20 +68,24 @@ namespace 测试项目
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            pb.PIDOutput = !pb.PIDOutput;
-            count.Content = pb.DemodR;
+            pb.Stages[0].CustomRangeLo = 0;
+            pb.Stages[0].CustomRangeHi = 10;
+            pb.Stages[0].MoveToAndWait(pb.Stages[0].Target + 1, 12000);
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
+            pb.Stages[0].CustomRangeLo = 0;
+            pb.Stages[0].CustomRangeHi = 10;
+            pb.Stages[0].MoveToAndWait(pb.Stages[0].Target - 1, 12000);
         }
 
         int channel = 5;
         private void ConnectPB(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(LockInBase));
+            ConnectWindow win = new ConnectWindow(typeof(NanoControllerBase));
             win.ShowDialog(this);
-            pb = win.ConnectedDevice as LockInBase;
+            pb = win.ConnectedDevice as NanoControllerBase;
         }
     }
 }
