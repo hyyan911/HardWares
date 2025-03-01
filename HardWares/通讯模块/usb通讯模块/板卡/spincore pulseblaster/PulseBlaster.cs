@@ -13,18 +13,24 @@ namespace HardWares.板卡.Spincore_PulseBlaster
 {
     public partial class PulseBlaster : PulseBlasterBase, WinUSBOuterInterface, USBInternalInterface
     {
+        private bool Closed = false;
+
         public void CloseUSBPort()
         {
-            try
+            if (!Closed)
             {
-                (Instance as SpinAPI).Stop();
+                try
+                {
+                    (Instance as SpinAPI).Stop();
+                }
+                catch (Exception ex) { }
+                try
+                {
+                    (Instance as SpinAPI).Close();
+                }
+                catch (Exception ex) { }
+                Closed = true;
             }
-            catch (Exception ex) { }
-            try
-            {
-                (Instance as SpinAPI).Close();
-            }
-            catch (Exception ex) { }
         }
 
         internal override bool AutoDispose { get; set; } = false;
