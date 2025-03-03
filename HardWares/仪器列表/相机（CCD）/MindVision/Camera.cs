@@ -85,6 +85,10 @@ namespace HardWares.相机.MindVision
             return Encoding.Default;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override List<Parameter> AvailableParameterNames()
         {
             return new List<Parameter>();

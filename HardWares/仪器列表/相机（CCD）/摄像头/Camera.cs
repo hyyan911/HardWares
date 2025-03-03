@@ -86,6 +86,9 @@ namespace HardWares.相机_CCD_.摄像头
             result.Add(new Parameter("FlipType", "图片变换模式", FlipType.GetType(), this, true));
             result.Add(new Parameter("CameraPixelWidthCount", "相机图片宽度", CameraPixelWidthCount.GetType(), this, true) { IsReadOnly = true });
             result.Add(new Parameter("CameraPixelHeightCount", "相机图片高度", CameraPixelWidthCount.GetType(), this, true) { IsReadOnly = true });
+            result.Add(new Parameter("Lightness", "亮度", Lightness.GetType(), this, true));
+            result.Add(new Parameter("Saturation", "饱和度", Saturation.GetType(), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("Contrast", "对比度", Contrast.GetType(), this, true) { IsReadOnly = false });
             return result;
         }
 

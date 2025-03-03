@@ -50,7 +50,7 @@ namespace HardWares.端口基类
         internal virtual bool AutoDispose { get; set; } = true;
 
         /// <summary>
-        /// 参数是否可用（对使用同类型的不同型号设备而言，参数列表可能有所区别。此时需要一个方法来告诉外部调用程序连接的设备哪些参数可用。需要在继承的设备类中重写）
+        /// 获取所有可用参数
         /// </summary>
         /// <returns></returns>
         public abstract List<Parameter> AvailableParameterNames();

@@ -74,6 +74,23 @@ namespace HardWares.相机_CCD_
         /// </summary>
         public abstract int CameraPixelHeightCount { get; }
 
+        #region 图像处理参数
+        /// <summary>
+        /// 对比度
+        /// </summary>
+        public double Contrast { get; set; } = 0;
+
+        /// <summary>
+        /// 亮度
+        /// </summary>
+        public double Lightness { get; set; } = 0;
+
+        /// <summary>
+        /// 饱和度
+        /// </summary>
+        public double Saturation { get; set; } = 0;
+        #endregion
+
 
         private RotateFlipType fliptype = RotateFlipType.RotateNoneFlipNone;
         /// <summary>
