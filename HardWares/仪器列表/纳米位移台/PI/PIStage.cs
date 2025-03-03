@@ -315,9 +315,8 @@ namespace HardWares.纳米位移台.PI
         /// <returns></returns>
         internal override void InnerMoveTo(double targetvalue)
         {
-
             PIController c = ParentDevice as PIController;
-            c.Send(c.ProcessCmd("MOV", AxisName, ""));
+            c.Send(c.ProcessCmd("MOV", AxisName, targetvalue.ToString()));
         }
 
         /// <summary>

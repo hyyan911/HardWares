@@ -18,6 +18,7 @@ using HardWares.端口基类.TCPIP串口;
 using HardWares.端口基类部分;
 using HardWares.端口基类部分.PortHelper;
 using HardWares.端口基类部分.设备信息;
+using HardWares.纳米位移台;
 using LibUsbDotNet;
 using LibUsbDotNet.LibUsb;
 using LibUsbDotNet.Main;
@@ -647,9 +648,34 @@ namespace HardWares.端口基类
         {
             List<Parameter> param = AvailableParameterNames();
             FileObject file = new FileObject();
+
             List<string> paramnames = new List<string>();
             List<string> paramvalues = new List<string>();
-            foreach (var item in param)
+
+            //如果有子设备
+            if (this is NanoControllerBase)
+            {
+                var stages = (this as NanoControllerBase).Stages;
+                foreach (var st in stages)
+                {
+                    GetParamsData(out List<string> elenames, out List<string> elevs, st.AvailableParameterNames());
+                    file.WriteStringData(st.AxisName + "@" + "ParamNames", elenames);
+                    file.WriteStringData(st.AxisName + "@" + "ParamValues", elevs);
+                }
+            }
+
+            GetParamsData(out List<string> devpnames, out List<string> devpvalues, AvailableParameterNames());
+
+            file.WriteStringData("ParamNames", devpnames);
+            file.WriteStringData("ParamValues", devpvalues);
+            return file;
+        }
+
+        private void GetParamsData(out List<string> Pnames, out List<string> Pvalues, List<Parameter> Ps)
+        {
+            List<string> paramnames = new List<string>();
+            List<string> paramvalues = new List<string>();
+            foreach (var item in Ps)
             {
                 if (item.IsReadOnly) continue;
                 var value = item.ReadValue();
@@ -671,9 +697,8 @@ namespace HardWares.端口基类
                     paramvalues.Add(value.ToString());
                 }
             }
-            file.WriteStringData("ParamNames", paramnames);
-            file.WriteStringData("ParamValues", paramvalues);
-            return file;
+            Pnames = paramnames;
+            Pvalues = paramvalues;
         }
 
         /// <summary>
@@ -689,39 +714,54 @@ namespace HardWares.端口基类
                 List<string> paramnames = file.ExtractString("ParamNames");
                 List<string> paramvalues = file.ExtractString("ParamValues");
                 if (param.Count != paramnames.Count) return;
-                foreach (var item in paramnames)
+                SetParamsData(paramnames, paramvalues, param);
+                if (this is NanoControllerBase)
                 {
-                    foreach (var item1 in param)
+                    var stages = (this as NanoControllerBase).Stages;
+                    foreach (var st in stages)
                     {
-                        try
-                        {
-                            if (item1.IsReadOnly) continue;
-                            if (item == item1.ParameterName)
-                            {
-                                if (typeof(Enum).IsAssignableFrom(item1.ParamType))
-                                {
-                                    item1.WriteValue(Enum.Parse(item1.ParamType, paramvalues[paramnames.IndexOf(item)]));
-                                    continue;
-                                }
-                                if (item1.ParamType.IsAssignableFrom(typeof(KeyValuePair<string, List<string>>)))
-                                {
-                                    item1.WriteValue(paramvalues[paramnames.IndexOf(item)]);
-                                    continue;
-                                }
-                                else
-                                {
-                                    item1.WriteValue(Convert.ChangeType(paramvalues[paramnames.IndexOf(item)], item1.ParamType));
-                                    continue;
-                                }
-                            }
-                        }
-                        catch (Exception e) { }
+                        var pnames = file.ExtractString(st.AxisName + "@" + "ParamNames");
+                        var pvalues = file.ExtractString(st.AxisName + "@" + "ParamValues");
+                        SetParamsData(pnames, pvalues, st.AvailableParameterNames());
                     }
                 }
             }
             catch (Exception)
             {
                 return;
+            }
+        }
+
+        private void SetParamsData(List<string> Pnames, List<string> Pvalues, List<Parameter> Ps)
+        {
+            foreach (var item in Pnames)
+            {
+                foreach (var item1 in Ps)
+                {
+                    try
+                    {
+                        if (item1.IsReadOnly) continue;
+                        if (item == item1.ParameterName)
+                        {
+                            if (typeof(Enum).IsAssignableFrom(item1.ParamType))
+                            {
+                                item1.WriteValue(Enum.Parse(item1.ParamType, Pvalues[Pnames.IndexOf(item)]));
+                                continue;
+                            }
+                            if (item1.ParamType.IsAssignableFrom(typeof(KeyValuePair<string, List<string>>)))
+                            {
+                                item1.WriteValue(Pvalues[Pnames.IndexOf(item)]);
+                                continue;
+                            }
+                            else
+                            {
+                                item1.WriteValue(Convert.ChangeType(Pvalues[Pnames.IndexOf(item)], item1.ParamType));
+                                continue;
+                            }
+                        }
+                    }
+                    catch (Exception e) { }
+                }
             }
         }
         #endregion

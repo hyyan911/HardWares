@@ -70,6 +70,7 @@ namespace HardWares.纳米位移台.DAQmxController
         bool USBInternalInterface.TestUSBAction()
         {
             var stage = new NanoStage("DAQmx位移台控制轴" + Instance as string, this);
+            stage.VoltageSetChannelNames = Instance as string;
             if (!File.Exists(stage.LocationLogSavePath))
                 stage.target = 0;
             else
