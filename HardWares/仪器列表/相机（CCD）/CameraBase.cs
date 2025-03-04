@@ -23,29 +23,34 @@ namespace HardWares.相机_CCD_
         /// </summary>
         /// <param name="waittime"></param>
         /// <returns></returns>
-        public BitmapSource GrabFrame(uint waittime)
+        public BitmapSource GrabFrame(uint waittime, out string errcode)
         {
             try
             {
+                string err = "";
                 Bitmap bmap = InnerGrabFrame(waittime);
                 if (bmap == null) source = null;
                 else
                 {
-                    bmap = ProcessImage(bmap, lightness, (float)contrast, (float)saturation);
                     bmap.RotateFlip(FlipType);
+                    bmap = ProcessImage(bmap, lightness, (float)contrast, (float)saturation, out err);
+                    errcode = err;
                     source = CodeHelper.ImageConverter.UpdateWritableBitmap(bmap, source);
                 }
                 if (bmap == null)
                 {
                     ++BrokenFrameCount;
+                    errcode = err;
                     return null;
                 }
+                errcode = "";
                 return source;
             }
             catch (Exception ex)
             {
                 source = null;
                 ++BrokenFrameCount;
+                errcode = ex.Message + ex.StackTrace;
                 return null;
             }
         }
@@ -167,26 +172,35 @@ namespace HardWares.相机_CCD_
         /// <param name="contrast"></param>
         /// <param name="saturation"></param>
         /// <returns></returns>
-        private Bitmap ProcessImage(Bitmap input, int brightness, float contrast, float saturation)
+        private Bitmap ProcessImage(Bitmap input, int brightness, float contrast, float saturation, out string errorcode)
         {
-            Mat mat = BitmapConverter.ToMat(input);//bitmap转为mat
-            input.Dispose();                            //亮度，对比度
-            Mat adjustedImage = new Mat();
-            mat.ConvertTo(adjustedImage, -1, contrast, brightness); //alpha=contrast, beta=brightness，输出adjustedImage
+            try
+            {
+                Mat mat = BitmapConverter.ToMat(input);//bitmap转为mat
+                input.Dispose();                            //亮度，对比度
+                Mat adjustedImage = new Mat();
+                mat.ConvertTo(adjustedImage, -1, contrast, brightness); //alpha=contrast, beta=brightness，输出adjustedImage
 
-            //饱和度
-            // 转换到HSV颜色空间
-            Mat hsvImage = new Mat();
-            Cv2.CvtColor(adjustedImage, hsvImage, ColorConversionCodes.BGR2HSV);//adjustedImage → hsvImage
-            Mat[] hsvChannels = hsvImage.Split();// 分离 HSV 通道
-            hsvChannels[1] *= saturation;// 调整饱和度通道
-            Cv2.Merge(hsvChannels, hsvImage);// 合并 HSV 通道→ hsvImage
-                                             // 转换回 BGR 颜色空间
-            Mat adjustedSat = new Mat();
-            Cv2.CvtColor(hsvImage, adjustedSat, ColorConversionCodes.HSV2BGR);//hsvImage → adjustedSat
-            var map = BitmapConverter.ToBitmap(adjustedSat);
-            adjustedImage.Dispose();
-            return map;
+                //饱和度
+                // 转换到HSV颜色空间
+                Mat hsvImage = new Mat();
+                Cv2.CvtColor(adjustedImage, hsvImage, ColorConversionCodes.BGR2HSV);//adjustedImage → hsvImage
+                Mat[] hsvChannels = hsvImage.Split();// 分离 HSV 通道
+                hsvChannels[1] *= saturation;// 调整饱和度通道
+                Cv2.Merge(hsvChannels, hsvImage);// 合并 HSV 通道→ hsvImage
+                                                 // 转换回 BGR 颜色空间
+                Mat adjustedSat = new Mat();
+                Cv2.CvtColor(hsvImage, adjustedSat, ColorConversionCodes.HSV2BGR);//hsvImage → adjustedSat
+                var map = BitmapConverter.ToBitmap(adjustedSat);
+                adjustedImage.Dispose();
+                errorcode = "";
+                return map;
+            }
+            catch (Exception ex)
+            {
+                errorcode = ex.Message + ex.StackTrace;
+                return null;
+            }
         }
     }
 }

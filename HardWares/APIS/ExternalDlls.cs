@@ -46,6 +46,11 @@ namespace HardWares.APIS
             importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "spinapi64.dll"), Resources.spinapi);
             importer = new DllImporter();
             importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "spinapi.dll"), Resources.spinapi);
+
+            importer = new DllImporter();
+            importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "opencv_videoio_ffmpeg4100_64.dll"), Resources.opencv_videoio_ffmpeg4100_64);
+            importer = new DllImporter();
+            importer.ExtractEmbeddedDlls(Path.Combine(Environment.CurrentDirectory, "OpenCvSharpExtern.dll"), Resources.OpenCvSharpExtern);
         }
     }
 }
