@@ -59,9 +59,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CodeHelper\bin\Debug\CodeHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Controls\Controls\bin\x86\Debug\Controls.dll</HintPath>
+    <Reference Include="Controls">
+      <HintPath>..\..\Control\Controls\bin\x86\Debug\Controls.dll</HintPath>
     </Reference>
     <Reference Include="InTheHand.Net.Bluetooth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea38caa273134499, processorArchitecture=MSIL">
       <HintPath>..\packages\InTheHand.Net.Bluetooth.4.1.44\lib\net462\InTheHand.Net.Bluetooth.dll</HintPath>
