@@ -46,11 +46,6 @@ namespace HardWares.端口基类部分.PortHelper
             {
                 TcpipSession res = (TcpipSession)m.Open(info.IPAddress, AccessModes.None, 1000, out ResourceOpenStatus stat);
                 res.TerminationCharacterEnabled = false;
-                try
-                {
-                    res.LockResource(2000);
-                }
-                catch (Exception ex) { }
                 return res;
             }
         }
@@ -60,7 +55,6 @@ namespace HardWares.端口基类部分.PortHelper
             if ((device as PortObject).Instance == null) return;
             TcpipSession session = (device as PortObject).Instance as TcpipSession;
             session.Clear();
-            session.UnlockResource();
             session.Dispose();
         }
 

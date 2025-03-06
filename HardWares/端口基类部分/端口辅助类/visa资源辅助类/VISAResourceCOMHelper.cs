@@ -37,7 +37,6 @@ namespace HardWares.端口基类部分.PortHelper
             if ((device as PortObject).Instance == null) return;
             SerialSession session = (device as PortObject).Instance as SerialSession;
             session.Clear();
-            session.UnlockResource();
             session.Dispose();
         }
 
@@ -48,11 +47,6 @@ namespace HardWares.端口基类部分.PortHelper
             {
                 SerialSession res = (SerialSession)m.Open(param.COMName, AccessModes.None, 1000, out ResourceOpenStatus stat);
                 res.TerminationCharacterEnabled = false;
-                try
-                {
-                    res.LockResource(2000);
-                }
-                catch (Exception ex) { }
                 return res;
             }
         }

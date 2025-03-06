@@ -713,6 +713,7 @@ namespace HardWares.端口基类
                 List<Parameter> param = AvailableParameterNames();
                 List<string> paramnames = file.ExtractString("ParamNames");
                 List<string> paramvalues = file.ExtractString("ParamValues");
+                if (param.Count != paramnames.Count) return;
                 SetParamsData(paramnames, paramvalues, param);
                 if (this is NanoControllerBase)
                 {

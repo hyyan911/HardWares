@@ -47,7 +47,7 @@ namespace 测试项目
             InitializeComponent();
         }
 
-        APDBase apd = null;
+        PowerSourceBase apd = null;
 
         NanoControllerBase pb = null;
 
@@ -58,9 +58,9 @@ namespace 测试项目
         /// <param name="e"></param>
         private void ConnectAPD(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(CameraBase));
+            ConnectWindow win = new ConnectWindow(typeof(PowerSourceBase));
             win.ShowDialog(this);
-            apd = win.ConnectedDevice as APDBase;
+            apd = win.ConnectedDevice as PowerSourceBase;
             ParameterWindow w = new ParameterWindow(apd, this);
             w.ShowDialog();
         }

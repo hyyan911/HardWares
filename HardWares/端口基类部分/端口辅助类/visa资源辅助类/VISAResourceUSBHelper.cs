@@ -44,11 +44,6 @@ namespace HardWares.端口基类部分.PortHelper
             {
                 UsbSession res = (UsbSession)m.Open(param.USBIdentification, AccessModes.None, 1000, out ResourceOpenStatus stat);
                 res.TerminationCharacterEnabled = false;
-                try
-                {
-                    res.LockResource(2000);
-                }
-                catch (Exception ex) { }
                 return res;
             }
         }
@@ -59,7 +54,6 @@ namespace HardWares.端口基类部分.PortHelper
             UsbSession session = (device as PortObject).Instance as UsbSession;
 
             session.Clear();
-            session.UnlockResource();
             session.Dispose();
         }
 

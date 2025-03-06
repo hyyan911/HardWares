@@ -63,6 +63,7 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             {
                 return countReader.ReadMultiSampleInt32(-1).ToList();
             }
+            var ll = countReader.ReadMultiSampleInt32(-1).ToList();
             return new List<int>();
         }
 
@@ -98,7 +99,7 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
                         CIChannel ch = DaqContinusReceiveTask.CIChannels.CreateCountEdgesChannel(item, string.Empty, CICountEdgesActiveEdge.Rising, 0, CICountEdgesCountDirection.Up);
                         ch.CountEdgesTerminal = APDReceiveChannelName;
                         string connectchannelName = channel == APDTriggerChannels.Channel1 ? CounterOutTriggerChannel1Name : CounterOutTriggerChannel2Name;
-                        DaqContinusReceiveTask.Timing.ConfigureSampleClock(connectchannelName, 1e+7, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, sampleCount == 1 ? 2 : sampleCount);
+                        DaqContinusReceiveTask.Timing.ConfigureSampleClock(connectchannelName, 1e+7, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, sampleCount == 1 ? 2 : sampleCount + 100);
                         ch.DataTransferMechanism = CIDataTransferMechanism.Dma;
                         DaqContinusReceiveTask.Start();
                         this.sampleCount = sampleCount == 1 ? 2 : sampleCount;
