@@ -46,7 +46,7 @@ namespace HardWares.源表.KEITHLEY_2450
         /// <returns></returns>
         public override bool IsCurrentLimited()
         {
-            string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT", "ILIM", "TRIP"), 1000);
+            string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT", "ILIM", "TRIP"), 3000);
             if (value == "1")
             {
                 return true;
@@ -96,7 +96,7 @@ namespace HardWares.源表.KEITHLEY_2450
         {
             get
             {
-                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT", "ILIM"), 1000);
+                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT", "ILIM"), 3000);
                 try
                 {
                     return Convert.ToDouble(value);
@@ -120,13 +120,17 @@ namespace HardWares.源表.KEITHLEY_2450
         {
             get
             {
-                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "OUTP"), 1000);
+                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "OUTP"), 3000);
                 if (value == "1")
                 {
                     return true;
                 }
                 else
                 {
+                    if (value == "")
+                    {
+                        Thread.Sleep(100);
+                    }
                     return false;
                 }
             }
@@ -143,10 +147,15 @@ namespace HardWares.源表.KEITHLEY_2450
         {
             get
             {
-                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT"), 1000);
+                string value = ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "SOUR", "VOLT"), 3000);
                 try
                 {
-                    return Convert.ToDouble(value);
+                    double v = Convert.ToDouble(value);
+                    if (v == 1)
+                    {
+                        Thread.Sleep(100);
+                    }
+                    return v;
                 }
                 catch (Exception ex)
                 {
@@ -155,7 +164,7 @@ namespace HardWares.源表.KEITHLEY_2450
             }
             set
             {
-                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "SOUR", "VOLT"));
+                AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { Math.Round(value, 15).ToString() }, "SOUR", "VOLT"));
             }
         }
 

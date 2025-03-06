@@ -16,9 +16,10 @@ namespace HardWares.端口基类部分.PortHelper
 {
     internal class VISAResourceCOMHelper : VISAResourceHelperBase
     {
-        public VISAResourceCOMHelper(Func<string, string> getProductName)
+        public VISAResourceCOMHelper(Func<string, string> getProductName, char TerminateCharacter)
         {
             GetProductName = getProductName;
+            Terminate = TerminateCharacter;
         }
 
         #region COM部分
@@ -46,7 +47,13 @@ namespace HardWares.端口基类部分.PortHelper
             using (ResourceManager m = new ResourceManager())
             {
                 SerialSession res = (SerialSession)m.Open(param.COMName, AccessModes.None, 1000, out ResourceOpenStatus stat);
-                res.TerminationCharacterEnabled = false;
+                if (Terminate == '\0')
+                    res.TerminationCharacterEnabled = false;
+                else
+                {
+                    res.TerminationCharacter = (byte)Terminate;
+                    res.TerminationCharacterEnabled = true;
+                }
                 return res;
             }
         }

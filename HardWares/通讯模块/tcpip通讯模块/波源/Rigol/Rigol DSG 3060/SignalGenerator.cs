@@ -13,7 +13,7 @@ namespace HardWares.射频源.Rigol_DSG_3060
 {
     public partial class RFSource : TCPIPInternalInterface, TCPIPOuterInterface
     {
-        VISAResourceTCPIPHelper TCPVISA { get; set; } = new VISAResourceTCPIPHelper(GetTCPIPProductName);
+        VISAResourceTCPIPHelper TCPVISA { get; set; } = new VISAResourceTCPIPHelper(GetTCPIPProductName, '\n');
 
         /// <summary>
         /// 获取ProductName

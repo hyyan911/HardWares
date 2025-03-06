@@ -11,7 +11,7 @@ namespace HardWares.源表.KEITHLEY_2450
     public partial class PowerSource : PowerSourceBase, USBInternalInterface, WinUSBOuterInterface
     {
 
-        private VISAResourceUSBHelper VISA = new VISAResourceUSBHelper(GetUSBProductName);
+        private VISAResourceUSBHelper VISA = new VISAResourceUSBHelper(GetUSBProductName, '\n');
 
         private static string GetUSBProductName(string source)
         {

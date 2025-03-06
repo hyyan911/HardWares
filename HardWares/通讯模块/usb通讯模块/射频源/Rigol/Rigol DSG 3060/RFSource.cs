@@ -14,7 +14,7 @@ namespace HardWares.射频源.Rigol_DSG_3060
     public partial class RFSource : USBInternalInterface, WinUSBOuterInterface
     {
 
-        VISAResourceUSBHelper USBVISA = new VISAResourceUSBHelper(GetUSBProductName);
+        VISAResourceUSBHelper USBVISA = new VISAResourceUSBHelper(GetUSBProductName, '\n');
 
         /// <summary>
         /// 获取ProductName

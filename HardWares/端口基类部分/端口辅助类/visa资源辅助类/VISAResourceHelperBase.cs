@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HardWares.端口基类部分.PortHelper
@@ -11,6 +12,8 @@ namespace HardWares.端口基类部分.PortHelper
     internal abstract class VISAResourceHelperBase : PortHelper
     {
         public Func<string, string> GetProductName { get; protected set; } = null;
+
+        protected char Terminate = '\0';
 
         public static string ThreadUnsafeQuery(PortObject obj, string message, int timeout)
         {
@@ -48,9 +51,12 @@ namespace HardWares.端口基类部分.PortHelper
         {
             try
             {
+                ss.Clear();
                 ss.TimeoutMilliseconds = v2;
                 ss.RawIO.Write(v1);
-                return ss.RawIO.ReadString();
+                string res = ss.RawIO.ReadString();
+                ss.Clear();
+                return res;
             }
             catch (Exception ex) { return ""; }
         }
@@ -59,9 +65,11 @@ namespace HardWares.端口基类部分.PortHelper
         {
             try
             {
+                ss.Clear();
                 ss.TimeoutMilliseconds = v2;
                 ss.RawIO.Write(v1);
                 return ss.RawIO.ReadString();
+                ss.Clear();
             }
             catch (Exception ex) { return ""; }
         }
@@ -70,9 +78,11 @@ namespace HardWares.端口基类部分.PortHelper
         {
             try
             {
+                ss.Clear();
                 ss.TimeoutMilliseconds = v2;
                 ss.RawIO.Write(v1);
                 return ss.RawIO.ReadString();
+                ss.Clear();
             }
             catch (Exception ex) { return ""; }
         }

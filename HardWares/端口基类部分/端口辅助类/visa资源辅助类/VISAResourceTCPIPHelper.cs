@@ -16,9 +16,10 @@ namespace HardWares.端口基类部分.PortHelper
 {
     internal class VISAResourceTCPIPHelper : VISAResourceHelperBase
     {
-        public VISAResourceTCPIPHelper(Func<string, string> getProductName)
+        public VISAResourceTCPIPHelper(Func<string, string> getProductName, char TerminateCharacter)
         {
             GetProductName = getProductName;
+            Terminate = TerminateCharacter;
         }
 
         #region TCPIP部分
@@ -45,7 +46,13 @@ namespace HardWares.端口基类部分.PortHelper
             using (ResourceManager m = new ResourceManager())
             {
                 TcpipSession res = (TcpipSession)m.Open(info.IPAddress, AccessModes.None, 1000, out ResourceOpenStatus stat);
-                res.TerminationCharacterEnabled = false;
+                if (Terminate == '\0')
+                    res.TerminationCharacterEnabled = false;
+                else
+                {
+                    res.TerminationCharacter = (byte)Terminate;
+                    res.TerminationCharacterEnabled = true;
+                }
                 return res;
             }
         }
