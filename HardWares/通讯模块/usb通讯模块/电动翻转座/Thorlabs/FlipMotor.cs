@@ -21,7 +21,7 @@ namespace HardWares.仪器列表.电动翻转座
 
         /// <summary>
         /// 获取设备名
-        /// </summary>
+        /// </summary>  
         /// <returns></returns>
         public List<USBDeviceInfo> GetUsbDeviceInfos()
         {

@@ -137,6 +137,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
                 time += 100;
                 det = Math.Abs(Position - targetvalue);
             }
+            (ParentDevice as NanoController).AddMessage("[" + AxisName + "-MovStop]");
         }
 
 
