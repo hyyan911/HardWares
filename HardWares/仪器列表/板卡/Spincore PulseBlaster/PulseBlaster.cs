@@ -52,6 +52,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         internal void BeginProgram()
         {
             (Instance as SpinAPI).Init();
+            (Instance as SpinAPI).SetClock(500);
             (Instance as SpinAPI).StartProgramming(ProgramTarget.PULSE_PROGRAM);
         }
 
@@ -95,8 +96,6 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             foreach (var item in lines)
             {
                 AddCommand(item);
-                if (item == lines.Last())
-                    AddCommand(new EndCommandLine());
             }
             EndProgram();
         }
@@ -105,7 +104,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         {
             int flag = 0;
             OpCode commandtype = OpCode.CONTINUE;
-            int time = 20;
+            int time = 10000;
             List<int> inds = new List<int>();
             if (line is CommandLine)
             {

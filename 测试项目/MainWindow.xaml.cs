@@ -41,10 +41,38 @@ namespace 测试项目
     /// </summary>
     public partial class MainWindow : Window
     {
+        // 旋磁比(Mhz/Gauss)
+        private static double gammaE = 2.803;
+
+        /// <summary>
+        /// 根据谱峰位置计算横向和纵向的磁场大小
+        /// </summary>
+        /// <param name="freq1"></param>
+        /// <param name="freq2"></param>
+        /// <param name="D"></param>
+        /// <param name="Bp"></param>
+        /// <param name="Bv"></param>
+        protected void CalculateB(double freq1, double freq2, out double Bp, out double Bv, out double B)
+        {
+            double D = 2870;
+            double detplus = (freq2 + freq1) / 2;
+            double detminus = Math.Abs(freq2 - freq1);
+            double det1 = 2 * D * (detplus - D) / 3;
+            if (det1 < 0)
+                det1 = 0;
+            Bv = Math.Sqrt(det1) / gammaE;
+            double det2 = Math.Pow(detminus / (2 * gammaE), 2) - Math.Pow(Bv * Bv * gammaE / (2 * D), 2);
+            if (det2 < 0)
+                det2 = 0;
+            Bp = Math.Sqrt(det2);
+            B = Math.Sqrt(Bp * Bp + Bv * Bv);
+        }
 
         public MainWindow()
         {
             InitializeComponent();
+            CalculateB(3050, 2700, out double bp, out double bv, out double b);
+            count.Content = bp.ToString() + "," + bv.ToString();
         }
 
         PowerSourceBase apd = null;
