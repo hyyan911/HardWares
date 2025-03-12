@@ -104,7 +104,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
         {
             int flag = 0;
             OpCode commandtype = OpCode.CONTINUE;
-            int time = 10000;
+            int time = 20;
             List<int> inds = new List<int>();
             if (line is CommandLine)
             {
@@ -126,6 +126,11 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             {
                 instruct = (line as BranchCommandLine).BranchTo;
                 commandtype = OpCode.BRANCH;
+            }
+
+            if (line is TriggerLine)
+            {
+                commandtype = OpCode.WAIT;
             }
             if (line is LoopStartCommandLine)
             {

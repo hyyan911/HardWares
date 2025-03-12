@@ -41,6 +41,13 @@ namespace HardWares.仪器列表.板卡.Spincore_PulseBlaster
     }
 
     /// <summary>
+    /// 等待Trigger语句
+    /// </summary>
+    public class TriggerLine : CommandBase
+    {
+    }
+
+    /// <summary>
     /// 分支语句
     /// </summary>
     public class BranchCommandLine : CommandBase
