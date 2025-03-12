@@ -145,7 +145,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
 
             try
             {
-                (Instance as SpinAPI).PBInstDirect(noperiod | flag, commandtype, instruct, time);
+                var result = (Instance as SpinAPI).PBInst(noperiod | flag, commandtype, instruct, time, TimeUnit.ns);
             }
             catch (Exception)
             {

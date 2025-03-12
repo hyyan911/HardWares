@@ -77,7 +77,7 @@ namespace 测试项目
 
         PowerSourceBase apd = null;
 
-        NanoControllerBase pb = null;
+        PulseBlasterBase pb = null;
 
         /// <summary>
         /// 连接
@@ -96,24 +96,19 @@ namespace 测试项目
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            pb.Stages[0].CustomRangeLo = 0;
-            pb.Stages[0].CustomRangeHi = 10;
-            pb.Stages[0].MoveToAndWait(pb.Stages[0].Target + 1, 12000);
+            pb.Start();
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
         {
-            pb.Stages[0].CustomRangeLo = 0;
-            pb.Stages[0].CustomRangeHi = 10;
-            pb.Stages[0].MoveToAndWait(pb.Stages[0].Target - 1, 12000);
         }
 
         int channel = 5;
         private void ConnectPB(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(NanoControllerBase));
+            ConnectWindow win = new ConnectWindow(typeof(PulseBlasterBase));
             win.ShowDialog(this);
-            pb = win.ConnectedDevice as NanoControllerBase;
+            pb = win.ConnectedDevice as PulseBlasterBase;
         }
     }
 }
