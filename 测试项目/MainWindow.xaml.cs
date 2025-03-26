@@ -96,7 +96,6 @@ namespace 测试项目
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            pb.Start();
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
