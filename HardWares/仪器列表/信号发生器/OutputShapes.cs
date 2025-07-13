@@ -19,6 +19,6 @@ namespace HardWares.射频源
         /// <summary>
         /// 方波
         /// </summary>
-        Square = 1
+        Square = 1,
     }
 }

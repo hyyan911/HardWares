@@ -87,9 +87,15 @@ namespace HardWares.纳米位移台.DAQmxController
                 if (time >= timeout)
                 {
                     target = target + (counts - listtosend.Count) * (volt - target) / (counts - 1);
+                    if (target < CustomRangeLo) target = CustomRangeLo;
+                    if (target > CustomRangeHi) target = CustomRangeHi;
                 }
                 else
+                {
                     target = volt;
+                    if (target < CustomRangeLo) target = CustomRangeLo;
+                    if (target > CustomRangeHi) target = CustomRangeHi;
+                }
 
                 writer.WriteSingleSample(true, target);
                 Thread.Sleep(100);

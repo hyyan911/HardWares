@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HardWares.射频源.Rigol_DSG_3060
 {
-    public partial class RFSource : TCPIPInternalInterface, TCPIPOuterInterface
+    public partial class SignalGenerator : TCPIPInternalInterface, TCPIPOuterInterface
     {
         VISAResourceTCPIPHelper TCPVISA { get; set; } = new VISAResourceTCPIPHelper(GetTCPIPProductName, '\n');
 

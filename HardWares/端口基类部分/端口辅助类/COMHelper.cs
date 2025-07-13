@@ -38,11 +38,12 @@ namespace HardWares.端口基类部分.PortHelper
         /// </summary>
         /// <param name="PortTestFunc">端口检验函数，遍历端口时执行此函数，如果无返回结果或出错则返回空字符串，如果有返回结果则要进行处理，最终返回ProductName(COMDeviceInfo的DeviceName)</param>
         /// <returns></returns>
-        internal static List<COMDeviceInfo> ScanSerialCOMs(Func<SerialPort, string> PortTestFunc)
+        internal static List<COMDeviceInfo> ScanSerialCOMs(Func<SerialPort, string> PortTestFunc, List<int> BaudRatestoScan = null)
         {
             List<COMDeviceInfo> result = new List<COMDeviceInfo>();
             var ports = SerialPort.GetPortNames();
-            foreach (var baud in ScanBaudRates)
+            List<int> scanlist = BaudRatestoScan == null ? ScanBaudRates.ToList() : BaudRatestoScan;
+            foreach (var baud in scanlist)
             {
                 foreach (var portname in ports)
                 {
@@ -79,7 +80,7 @@ namespace HardWares.端口基类部分.PortHelper
 
         public byte[] COMPortRead(PortObject device)
         {
-            int count = (device.Instance as SerialPort).ReadBufferSize;
+            int count = (device.Instance as SerialPort).BytesToRead;
             byte[] result = new byte[count];
             (device.Instance as SerialPort).Read(result, 0, count);
             return result;

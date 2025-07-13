@@ -27,7 +27,7 @@ using HardWares.纳米位移台.低温多场.MC_Newton_N;
 using HardWares.仪器列表.板卡.Spincore_PulseBlaster;
 //using NationalInstruments.DAQmx;
 using HardWares.仪器列表.板卡;
-using HardWares.板卡;
+using HardWares.射频源;
 using HardWares.APD;
 using HardWares.APD.Exclitas_SPCM_AQRH;
 using NationalInstruments.DAQmx;
@@ -75,9 +75,9 @@ namespace 测试项目
             count.Content = bp.ToString() + "," + bv.ToString();
         }
 
-        PowerSourceBase apd = null;
+        RFSourceBase apd = null;
 
-        PulseBlasterBase pb = null;
+        RFSourceBase pb = null;
 
         /// <summary>
         /// 连接
@@ -86,9 +86,9 @@ namespace 测试项目
         /// <param name="e"></param>
         private void ConnectAPD(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(PowerSourceBase));
+            ConnectWindow win = new ConnectWindow(typeof(RFSourceBase));
             win.ShowDialog(this);
-            apd = win.ConnectedDevice as PowerSourceBase;
+            apd = win.ConnectedDevice as RFSourceBase;
             ParameterWindow w = new ParameterWindow(apd, this);
             w.ShowDialog();
         }
@@ -105,9 +105,6 @@ namespace 测试项目
         int channel = 5;
         private void ConnectPB(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(PulseBlasterBase));
-            win.ShowDialog(this);
-            pb = win.ConnectedDevice as PulseBlasterBase;
         }
     }
 }

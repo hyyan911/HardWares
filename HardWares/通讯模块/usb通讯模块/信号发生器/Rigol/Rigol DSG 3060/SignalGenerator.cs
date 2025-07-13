@@ -11,7 +11,7 @@ namespace HardWares.射频源.Rigol_DSG_3060
     /// <summary>
     /// 
     /// </summary>
-    public partial class RFSource : USBInternalInterface, WinUSBOuterInterface
+    public partial class SignalGenerator : USBInternalInterface, WinUSBOuterInterface
     {
 
         VISAResourceUSBHelper USBVISA = new VISAResourceUSBHelper(GetUSBProductName, '\n');
@@ -56,6 +56,10 @@ namespace HardWares.射频源.Rigol_DSG_3060
 
         void USBInternalInterface.ConnectedUSBAction()
         {
+            //添加射频和低频通道
+            Channels.Clear();
+            Channels.Add(new RFSignalChannel() { ParentDevice = this });
+            Channels.Add(new LFSignalChannel() { ParentDevice = this });
         }
 
         bool USBInternalInterface.IsUSBOpen()

@@ -789,8 +789,32 @@ namespace HardWares.端口基类
             }
             return result;
         }
+        internal string ThreadSafeQuery(List<byte> messagetosend, int timeout)
+        {
+            while (!isQuereEnd)
+            {
+                Thread.Sleep(10);
+            }
+            isQuereEnd = false;
+            string result = "";
+            try
+            {
+                result = ThreadUnsafeQuery(messagetosend, timeout);
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                isQuereEnd = true;
+            }
+            return result;
+        }
 
         internal abstract string ThreadUnsafeQuery(string messagetosend, int timeout);
+
+        internal virtual string ThreadUnsafeQuery(List<byte> messagetosend, int timeout)
+        {
+            return ThreadUnsafeQuery(GetCoder().GetString(messagetosend.ToArray()), timeout);
+        }
 
         #endregion
 

@@ -55,16 +55,17 @@ namespace HardWares.纳米位移台
         /// 移动到目标位置
         /// </summary>
         /// <param name="targetvalue"></param>
-        public void MoveTo(double targetvalue)
+        public void MoveTo(double targetvalue, bool JudgeRange = true)
         {
-            if (Target < CustomRangeLo || Target > CustomRangeHi) return;
             if (targetvalue <= CustomRangeLo)
             {
+                if (Target < CustomRangeLo || Target > CustomRangeHi) return;
                 InnerMoveTo(CustomRangeLo);
                 return;
             };
             if (targetvalue >= CustomRangeHi)
             {
+                if (Target < CustomRangeLo || Target > CustomRangeHi) return;
                 InnerMoveTo(CustomRangeHi);
                 return;
             };
@@ -80,14 +81,15 @@ namespace HardWares.纳米位移台
         /// <returns></returns>
         public void MoveToAndWait(double targetvalue, int timeout)
         {
-            if (Target < CustomRangeLo || Target > CustomRangeHi) return;
             if (targetvalue <= CustomRangeLo)
             {
+                if (Target < CustomRangeLo || Target > CustomRangeHi) return;
                 InnerMoveToAndWait(CustomRangeLo, timeout);
                 return;
             };
             if (targetvalue >= CustomRangeHi)
             {
+                if (Target < CustomRangeLo || Target > CustomRangeHi) return;
                 InnerMoveToAndWait(CustomRangeHi, timeout);
                 return;
             };

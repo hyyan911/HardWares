@@ -10,7 +10,7 @@
         <ComboBox Name="Outputchs" Height="47" Width="163" Canvas.Left="105" Canvas.Top="90" />
         <Button Content="PB" Click="ConnectPB" Height="39" Width="122" Canvas.Left="525" Canvas.Top="98" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label x:Name="count" Height="47" Width="178" Canvas.Left="281" Canvas.Top="245" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label Height="47" Width="177" Canvas.Left="82" Canvas.Top="245" Content="计数" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Name="text" Height="47" Width="177" Canvas.Left="82" Canvas.Top="245" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button Content="移动0.1mm" Canvas.Left="153" Canvas.Top="327" Click="LeftMove"/>
         <Button Content="移动0.1mm" Canvas.Left="297" Canvas.Top="327" HorizontalAlignment="Left" VerticalAlignment="Center"  Click="RightMove"/>
         <ComboBox x:Name="Inputchs" Height="47" Width="163" Canvas.Left="324" Canvas.Top="90" />

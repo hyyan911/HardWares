@@ -413,7 +413,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             param.Add(new Parameter("I", "PID参数:I", typeof(double), this, true));
             param.Add(new Parameter("D", "PID参数:D", typeof(double), this, true));
             param.Add(new Parameter("IOType", "IO测量方式", typeof(IOTypes), this, true));
-            param.Add(new Parameter("I", "PID参数:I", typeof(double), this, true));
+            param.Add(new Parameter("SetPoint", "设定温度", typeof(double), this, true));
             param.Add(new Parameter("Ramp", "变温速率", typeof(double), this, true));
             param.Add(new Parameter("PIDMode", "PID模式", typeof(PIDMode), this, true));
             param.Add(new Parameter("Power", "输出功率", typeof(double), this, false));

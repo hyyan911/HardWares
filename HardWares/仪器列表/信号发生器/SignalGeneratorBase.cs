@@ -5,12 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardWares.信号发生器
+namespace HardWares.射频源
 {
     /// <summary>
     /// 
     /// </summary>
     public abstract class SignalGeneratorBase : PortObject
     {
+        /// <summary>
+        /// 通道列表
+        /// </summary>
+        public List<SignalChannelBase> Channels { get; set; } = new List<SignalChannelBase>();
     }
 }
