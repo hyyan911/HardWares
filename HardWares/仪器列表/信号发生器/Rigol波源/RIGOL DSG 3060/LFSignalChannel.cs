@@ -139,6 +139,8 @@ namespace HardWares.射频源.Rigol_DSG_3060
                 ParentDevice.AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value ? "1" : "0" }, "LFO"));
             }
         }
+
+        public override double Offset { get; set; }
         #endregion
     }
 }

@@ -75,9 +75,9 @@ namespace 测试项目
             count.Content = bp.ToString() + "," + bv.ToString();
         }
 
-        RFSourceBase apd = null;
+        LockInBase apd = null;
 
-        RFSourceBase pb = null;
+        SignalGeneratorBase pb = null;
 
         /// <summary>
         /// 连接
@@ -86,16 +86,17 @@ namespace 测试项目
         /// <param name="e"></param>
         private void ConnectAPD(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(RFSourceBase));
+            ConnectWindow win = new ConnectWindow(typeof(LockInBase));
             win.ShowDialog(this);
-            apd = win.ConnectedDevice as RFSourceBase;
-            ParameterWindow w = new ParameterWindow(apd, this);
-            w.ShowDialog();
+            apd = win.ConnectedDevice as LockInBase;
+            //ParameterWindow w = new ParameterWindow(apd.Stages[0], this);
+            //w.ShowDialog();
         }
 
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
+            apd.PIDOutputUpperLimit = 2;
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)

@@ -37,9 +37,12 @@ namespace HardWares.射频源.FY6000
                     ser.Write("UID" + (char)0x0a);
                     Thread.Sleep(200);
                     string id = ser.ReadExisting();
+                    ser.Write("UMO" + (char)0x0a);
+                    Thread.Sleep(200);
+                    model = ser.ReadExisting();
                     if (model.Contains("FY"))
                     {
-                        return model + " " + id;
+                        return model.Replace("\n", "") + " " + id.Replace("\n", "");
                     }
                     return "";
                 }
@@ -56,7 +59,7 @@ namespace HardWares.射频源.FY6000
         {
             //添加射频和低频通道
             Channels.Clear();
-            Channels.Add(new SignalChannel() { ParentDevice = this, ChannelName = "CH1" });
+            Channels.Add(new ModulationChannel() { ParentDevice = this, ChannelName = "CH1" });
             Channels.Add(new SignalChannel() { ParentDevice = this, ChannelName = "CH2" });
         }
 
@@ -77,10 +80,10 @@ namespace HardWares.射频源.FY6000
 
         bool COMInternalInterface.TestCOMAction()
         {
-            var ser = Instance as SerialPort;
-            ser.Write("UMO" + (char)0x0a);
-            Thread.Sleep(500);
-            string model = ser.ReadExisting();
+            (Instance as SerialPort).DiscardInBuffer();
+            (Instance as SerialPort).DiscardOutBuffer();
+            string model = ThreadSafeQuery("UMO\n", 1000);
+            string id = ThreadSafeQuery("UID\n", 1000);
             if (model.Contains("FY"))
             {
                 return true;
@@ -90,7 +93,6 @@ namespace HardWares.射频源.FY6000
 
         void COMInternalInterface.COMInitAction(object PortInstance)
         {
-            (Instance as SerialPort).BaudRate = 115200;
         }
 
         byte[] COMInternalInterface.COMPortRead()

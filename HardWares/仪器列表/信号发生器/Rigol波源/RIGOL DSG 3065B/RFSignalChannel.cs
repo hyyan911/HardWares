@@ -195,6 +195,8 @@ namespace HardWares.射频源.Rigol_DSG_3065B
                 return;
             }
         }
+
+        public override double Offset { get; set; }
         #endregion
     }
 }

@@ -158,6 +158,10 @@ namespace HardWares.Lock_In.Zurich_LockIn
                 var sample = (Instance as ziDotNET).getDouble(CombinePath(DevID, "pids", "0", "limitupper"));
                 return sample;
             }
+            set
+            {
+                (Instance as ziDotNET).setDouble(CombinePath(DevID, "pids", "0", "limitupper"), value);
+            }
         }
 
         public override double PIDOutputLowerLimit
@@ -166,6 +170,10 @@ namespace HardWares.Lock_In.Zurich_LockIn
             {
                 var sample = (Instance as ziDotNET).getDouble(CombinePath(DevID, "pids", "0", "limitlower"));
                 return sample;
+            }
+            set
+            {
+                (Instance as ziDotNET).setDouble(CombinePath(DevID, "pids", "0", "limitlower"), value);
             }
         }
         #endregion

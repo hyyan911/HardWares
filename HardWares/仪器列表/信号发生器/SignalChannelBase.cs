@@ -28,6 +28,11 @@ namespace HardWares.射频源
         public abstract double Amplitude { get; set; }
 
         /// <summary>
+        /// 偏移（V）
+        /// </summary>
+        public abstract double Offset { get; set; }
+
+        /// <summary>
         /// 开关状态
         /// </summary>
         public abstract bool IsOutOpen { get; set; }

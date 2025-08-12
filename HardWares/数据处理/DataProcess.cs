@@ -17,6 +17,9 @@ namespace HardWares.数据处理
             List<List<byte>> result = new List<List<byte>>();
             int start = 0;
             int end = 0;
+
+            List<int> inds = new List<int>();
+
             for (int i = 0; i < source.Count; i++)
             {
                 if (source[i] == '\0')
@@ -31,7 +34,7 @@ namespace HardWares.数据处理
                     result.Add(source.GetRange(start, end - start + 1));
                     //删除原来的数据
                     source.RemoveRange(start, end - start + 1);
-                    i = 0;
+                    i = -1;
                     continue;
                 }
             }

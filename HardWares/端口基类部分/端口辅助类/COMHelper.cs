@@ -116,6 +116,7 @@ namespace HardWares.端口基类部分.PortHelper
 
         public void ReceiveCOMAct(PortObject device, List<string> FilterStr = null)
         {
+            if (device.ReceiveBuffer.Count == 0) return;
             List<List<byte>> retu = DataProcess.ProcessReceivedSerialData(LF, device.ReceiveBuffer, out List<byte> result);
             device.ReceiveBuffer = result;
             if (retu.Count != 0)
@@ -155,7 +156,7 @@ namespace HardWares.端口基类部分.PortHelper
             //去除分隔符
             for (int i = 0; i < device.QueryReturnedData.Count; i++)
             {
-                device.QueryReturnedData[i] = device.QueryReturnedData[0].Replace(LF.ToString(), "");
+                device.QueryReturnedData[i] = device.QueryReturnedData[i].Replace(LF.ToString(), "");
             }
             return device.QueryReturnedData;
         }

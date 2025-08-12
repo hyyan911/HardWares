@@ -22,7 +22,9 @@ namespace HardWares.射频源.FY6000
 
         public override List<Parameter> AvailableParameterNames()
         {
-            return new List<Parameter>();
+            List<Parameter> parameters = new List<Parameter>();
+            parameters.Add(new Parameter("IsInTriggerMode", "内部触发模式", IsInTriggerMode.GetType(), this, true));
+            return parameters;
         }
 
         public override void ValidateParams()
@@ -31,7 +33,8 @@ namespace HardWares.射频源.FY6000
 
         internal override string ThreadUnsafeQuery(string messagetosend, int timeout)
         {
-            return COMHelper.ThreadUnsafeQuery(this, messagetosend, timeout)[0];
+            var res = COMHelper.ThreadUnsafeQuery(this, messagetosend, timeout);
+            return res[0];
         }
 
         internal override Encoding GetCoder()
@@ -53,6 +56,31 @@ namespace HardWares.射频源.FY6000
         }
 
         #region 设备属性
+        /// <summary>
+        /// 是否处于内部触发状态
+        /// </summary>
+        public bool IsInTriggerMode
+        {
+            get
+            {
+                var res = ThreadSafeQuery("RPF\n", 1000);
+                if (res == "3")
+                {
+                    return true;
+                }
+                return false;
+            }
+            set
+            {
+                if (value)
+                {
+                    //触发模式
+                    ThreadSafeQuery("WPF" + "3" + "\n", 1000);
+                    //CH2触发模式
+                    ThreadSafeQuery("WPM" + "0" + "\n", 1000);
+                }
+            }
+        }
         #endregion
     }
 }

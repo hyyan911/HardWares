@@ -15,7 +15,7 @@ namespace HardWares.射频源.FY6000
     /// <summary>
     /// 
     /// </summary>
-    public partial class SignalChannel : SignalChannelBase
+    public partial class ModulationChannel : SignalChannelBase
     {
         public override PortObject ParentDevice { get; internal set; } = null;
 
@@ -28,6 +28,7 @@ namespace HardWares.射频源.FY6000
             res.Add(new Parameter("Amplitude", "幅度（V）", Amplitude.GetType(), this, true));
             res.Add(new Parameter("Offset", "输出偏置（V）", Offset.GetType(), this, true));
             res.Add(new Parameter("WaveShape", "输出波形", WaveShape.GetType(), this, true));
+            res.Add(new Parameter("TriggerPulseCount", "输出脉冲数", TriggerPulseCount.GetType(), this, true));
             res.Add(new Parameter("IsOutOpen", "输出状态", IsOutOpen.GetType(), this, true));
             return res;
         }
@@ -58,6 +59,29 @@ namespace HardWares.射频源.FY6000
         }
 
         /// <summary>
+        /// 输出脉冲数
+        /// </summary>
+        public int TriggerPulseCount
+        {
+            get
+            {
+                try
+                {
+                    var dev = ParentDevice as SignalGenerator;
+                    string value = ParentDevice.ThreadSafeQuery("RPN\n", 2000);
+                    return int.Parse(value);
+                }
+                catch (Exception) { return -1; }
+            }
+            set
+            {
+                var dev = ParentDevice as SignalGenerator;
+                bool trigger = dev.IsInTriggerMode;
+                ParentDevice.ThreadSafeQuery("WPN" + value.ToString() + "\n", 1000);
+                dev.IsInTriggerMode = trigger;
+            }
+        }
+        /// <summary>
         /// 强度(V）
         /// </summary>
         public override double Amplitude
@@ -86,7 +110,7 @@ namespace HardWares.射频源.FY6000
         /// <summary>
         /// 输出上限(V)
         /// </summary>
-        public double AmplitudeLimit { get; set; } = 0;
+        public double AmplitudeLimit { get; set; } = 5.2;
 
         /// <summary>
         /// 射频源输出状态
@@ -175,7 +199,7 @@ namespace HardWares.射频源.FY6000
                 string value = ParentDevice.ThreadSafeQuery(dev.ProcessCmd("R", ChannelName, "W", ""), 2000);
                 if (value == "0") return OutputShapes.Sine;
                 if (value == "1") return OutputShapes.Square;
-                if (value == "36") return OutputShapes.NarrowNegativePulse;
+                if (value == "38") return OutputShapes.NarrowNegativePulse;
                 else { return OutputShapes.Unknown; }
             }
             set
@@ -184,7 +208,7 @@ namespace HardWares.射频源.FY6000
                 string v = "0";
                 if (value == OutputShapes.Sine) v = "0";
                 if (value == OutputShapes.Square) v = "1";
-                if (value == OutputShapes.NarrowNegativePulse) v = "36";
+                if (value == OutputShapes.NarrowNegativePulse) v = "38";
                 var dev = ParentDevice as SignalGenerator;
                 bool trigger = dev.IsInTriggerMode;
                 ParentDevice.ThreadSafeQuery(dev.ProcessCmd("W", ChannelName, "W", v), 1000);

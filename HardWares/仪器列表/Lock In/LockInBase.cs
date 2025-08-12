@@ -64,11 +64,11 @@ namespace HardWares.Lock_In
         /// <summary>
         /// PID输出下限
         /// </summary>
-        public abstract double PIDOutputLowerLimit { get; }
+        public abstract double PIDOutputLowerLimit { get; set; }
 
         /// <summary>
         /// PID输出上限
         /// </summary>
-        public abstract double PIDOutputUpperLimit { get; }
+        public abstract double PIDOutputUpperLimit { get; set; }
     }
 }

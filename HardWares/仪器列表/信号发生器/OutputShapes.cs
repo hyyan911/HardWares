@@ -20,5 +20,9 @@ namespace HardWares.射频源
         /// 方波
         /// </summary>
         Square = 1,
+        /// <summary>
+        /// 窄负半脉冲
+        /// </summary>
+        NarrowNegativePulse = 2,
     }
 }
