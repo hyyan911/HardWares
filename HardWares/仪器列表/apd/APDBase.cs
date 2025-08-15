@@ -25,6 +25,14 @@ namespace HardWares.APD
         /// 结束连续采样
         /// </summary>
         public abstract void EndSample();
+
+        public abstract void ClearBuffer();
+
+        /// <summary>
+        /// 设置采样数
+        /// </summary>
+        /// <param name="samplecount"></param>
+        public abstract void SetSampleCount(int samplecount);
         #endregion
     }
 

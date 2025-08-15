@@ -67,6 +67,33 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             return new List<int>();
         }
 
+        public override void ClearBuffer()
+        {
+            return;
+            //try
+            //{
+            //    DaqContinusReceiveTask.Stop();
+            //    DaqContinusReceiveTask.
+            //    stream.ReadOverwriteMode = ReadOverwriteMode.OverwriteUnreadSamples;
+            //    stream.ReadAllAvailableSamples = true;
+            //    stream.ConfigureInputBuffer(sampleCount);
+            //    countReader = new CounterSingleChannelReader(stream);
+            //    DaqContinusReceiveTask.Start();
+            //}
+            //catch (Exception ex)
+            //{
+            //}
+        }
+
+        /// <summary>
+        /// 设置采样数
+        /// </summary>
+        /// <param name="samplecount"></param>
+        public override void SetSampleCount(int samplecount)
+        {
+            sampleCount = samplecount;
+        }
+
         CounterSingleChannelReader countReader = null;
         DaqStream stream = null;
 
@@ -99,15 +126,16 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
                         CIChannel ch = DaqContinusReceiveTask.CIChannels.CreateCountEdgesChannel(item, string.Empty, CICountEdgesActiveEdge.Rising, 0, CICountEdgesCountDirection.Up);
                         ch.CountEdgesTerminal = APDReceiveChannelName;
                         string connectchannelName = channel == APDTriggerChannels.Channel1 ? CounterOutTriggerChannel1Name : CounterOutTriggerChannel2Name;
-                        DaqContinusReceiveTask.Timing.ConfigureSampleClock(connectchannelName, 1e+7, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, sampleCount == 1 ? 2 : sampleCount * 2);
+                        DaqContinusReceiveTask.Timing.ConfigureSampleClock(connectchannelName, sampleCount * 10, SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, sampleCount == 1 ? 2 : sampleCount * 2);
                         ch.DataTransferMechanism = CIDataTransferMechanism.Dma;
-                        DaqContinusReceiveTask.Start();
                         this.sampleCount = sampleCount == 1 ? 2 : sampleCount;
-                        DaqContinusReceiveTask.Stream.Timeout = 50;
                         stream = DaqContinusReceiveTask.Stream;
+                        stream.Timeout = 100;
                         countReader = new CounterSingleChannelReader(stream);
+                        DaqContinusReceiveTask.Control(TaskAction.Verify);
+                        DaqContinusReceiveTask.Start();
                         IsAPDSampling = true;
-                        Thread.Sleep(15);
+                        Thread.Sleep(200);
                         return;
                     }
                     catch (Exception ex)
@@ -145,13 +173,15 @@ namespace HardWares.APD.Exclitas_SPCM_AQRH
             try
             {
                 DaqContinusReceiveTask?.Stop();
+                GC.Collect();
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
             try
             {
                 DaqContinusReceiveTask?.Dispose();
+                GC.Collect();
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
             #endregion
             return;
         }
