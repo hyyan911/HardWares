@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HardWares.继电器模块
 {
-    internal abstract class SwitchBase : PortObject
+    public abstract class SwitchBase : PortObject
     {
         /// <summary>
         /// 是否打开

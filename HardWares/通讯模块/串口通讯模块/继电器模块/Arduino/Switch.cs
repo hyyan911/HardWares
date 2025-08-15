@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HardWares.继电器模块.Arduino
 {
-    internal partial class Switch : SwitchBase, COMInternalInterface, COMOuterInterface
+    public partial class Switch : SwitchBase, COMInternalInterface, COMOuterInterface
     {
         COMHelper COMHelper = new COMHelper('\n', Encoding.ASCII);
 
@@ -24,12 +24,12 @@ namespace HardWares.继电器模块.Arduino
         {
             return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
               {
-                  ser.Write("TEST\n");
+                  ser.Write("TEST" + "\n");
                   System.Threading.Thread.Sleep(200);
                   string result = ser.ReadExisting();
                   if (result.Contains("Arduino"))
                   {
-                      return result;
+                      return result.Replace("\n", "");
                   }
                   return "";
               }));

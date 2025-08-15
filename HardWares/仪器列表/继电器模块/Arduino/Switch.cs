@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace HardWares.继电器模块.Arduino
 {
-    internal partial class Switch : SwitchBase
+    public partial class Switch : SwitchBase
     {
         public override bool IsOpen
         {
             get
             {
                 var res = ThreadSafeQuery("RSWI\n", 500);
-                if (res.Last() == '0') return false;
-                if (res.Last() == '1') return true;
+                if (res.Replace("\n", "").Last() == '0') return false;
+                if (res.Replace("\n", "").Last() == '1') return true;
                 return false;
             }
             set

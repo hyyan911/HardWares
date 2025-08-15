@@ -33,6 +33,7 @@ using HardWares.APD.Exclitas_SPCM_AQRH;
 using NationalInstruments.DAQmx;
 using HardWares.端口基类部分.设备信息;
 using HardWares.Lock_In;
+using HardWares.继电器模块;
 
 namespace 测试项目
 {
@@ -75,7 +76,7 @@ namespace 测试项目
             count.Content = bp.ToString() + "," + bv.ToString();
         }
 
-        LockInBase apd = null;
+        SwitchBase apd = null;
 
         SignalGeneratorBase pb = null;
 
@@ -86,9 +87,9 @@ namespace 测试项目
         /// <param name="e"></param>
         private void ConnectAPD(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(LockInBase));
+            ConnectWindow win = new ConnectWindow(typeof(SwitchBase));
             win.ShowDialog(this);
-            apd = win.ConnectedDevice as LockInBase;
+            apd = win.ConnectedDevice as SwitchBase;
             //ParameterWindow w = new ParameterWindow(apd.Stages[0], this);
             //w.ShowDialog();
         }
@@ -96,7 +97,8 @@ namespace 测试项目
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            apd.PIDOutputUpperLimit = 2;
+            apd.IsOpen = !apd.IsOpen;
+            count.Content = apd.IsOpen.ToString();
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
