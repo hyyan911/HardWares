@@ -198,6 +198,8 @@
     <Compile Include="仪器列表\纳米位移台\低温多场\MC-Newton.N\NanoStage.cs" />
     <Compile Include="仪器列表\纳米位移台\瓴控旋转台\NanoController.cs" />
     <Compile Include="仪器列表\纳米位移台\瓴控旋转台\NanoStage.cs" />
+    <Compile Include="仪器列表\继电器模块\Arduino\Switch.cs" />
+    <Compile Include="仪器列表\继电器模块\SwitchBase.cs" />
     <Compile Include="数据处理\DataProcess.cs" />
     <Compile Include="数据处理\SCPI指令\SCPIGenerator.cs" />
     <Compile Include="端口基类部分\COM串口\COMOuterInterface.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="通讯模块\串口通讯模块\纳米位移台\瓴控旋转台\NanoController.cs" />
     <Compile Include="通讯模块\串口通讯模块\纳米位移台\Micronix\NanoController.cs" />
     <Compile Include="通讯模块\串口通讯模块\纳米位移台\低温多场\MC-Newton.N\NanoController.cs" />
+    <Compile Include="通讯模块\串口通讯模块\继电器模块\Arduino\Switch.cs" />
     <Compile Include="通讯模块\自定义模块\APD\Exclitas SPCM-AQRH\APD.cs" />
   </ItemGroup>
   <ItemGroup>
