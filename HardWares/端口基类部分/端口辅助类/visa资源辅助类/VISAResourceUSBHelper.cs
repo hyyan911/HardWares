@@ -109,7 +109,7 @@ namespace HardWares.端口基类部分.PortHelper
                             }
                             using (var ss = m.Open(item) as UsbSession)
                             {
-                                string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 200);
+                                string res = VISAThreadUnsafeQuery(ss, "*IDN?\n", 500);
                                 if (res == "") continue;
                                 if (GetProductName == null)
                                 {

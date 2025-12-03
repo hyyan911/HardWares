@@ -58,7 +58,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CodeHelper\bin\Debug\CodeHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Controls">
+    <Reference Include="Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Controls\Controls\bin\x64\Debug\Controls.dll</HintPath>
     </Reference>
     <Reference Include="InTheHand.Net.Bluetooth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea38caa273134499, processorArchitecture=MSIL">
@@ -124,9 +125,8 @@
     <Reference Include="Thorlabs.MotionControl.Tools.WPF.UI">
       <HintPath>Resources\Thorlabs.MotionControl.Tools.WPF.UI.dll</HintPath>
     </Reference>
-    <Reference Include="uc480DotNet, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\hy911\Desktop\DCx_Camera_SDK\Develop\DotNet\signed\uc480DotNet.dll</HintPath>
+    <Reference Include="uc480DotNet">
+      <HintPath>Resources\uc480DotNet.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="Xceed.Wpf.Toolkit">
@@ -181,10 +181,10 @@
     <Compile Include="仪器列表\源表\PowerSourceBase.cs" />
     <Compile Include="仪器列表\电动翻转座\FlipMotorBase.cs" />
     <Compile Include="仪器列表\电动翻转座\Thorlabs\FlipMotor.cs" />
-    <Compile Include="仪器列表\电源\Rigol DP811\PowerChannel.cs" />
-    <Compile Include="仪器列表\电源\PowerChannelBase.cs" />
     <Compile Include="仪器列表\电源\PowerBase.cs" />
+    <Compile Include="仪器列表\电源\PowerChannelBase.cs" />
     <Compile Include="仪器列表\电源\Rigol DP811\Power.cs" />
+    <Compile Include="仪器列表\电源\Rigol DP811\PowerChannel.cs" />
     <Compile Include="仪器列表\相机（CCD）\CameraBase.cs" />
     <Compile Include="仪器列表\相机（CCD）\MindVision\Camera.cs" />
     <Compile Include="仪器列表\相机（CCD）\Thorlabs DCx\Camera.cs" />
@@ -236,9 +236,9 @@
       <DependentUpon>ParameterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="通讯模块\tcpip通讯模块\Zurich LockIn\LockIn.cs" />
-    <Compile Include="通讯模块\tcpip通讯模块\波源\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
+    <Compile Include="通讯模块\tcpip通讯模块\信号发生器\Rigol\Rigol DSG 3060\SignalGenerator.cs" />
     <Compile Include="通讯模块\tcpip通讯模块\纳米位移台\PI\PIController.cs" />
-    <Compile Include="通讯模块\usb通讯模块\电源\Rigol DP811\Power.cs" />
+    <Compile Include="通讯模块\usb通讯模块\电源\Rigol DP800\Power.cs" />
     <Compile Include="通讯模块\串口通讯模块\信号发生器\FY\FY6000\SignalGenerator.cs" />
     <Compile Include="通讯模块\usb通讯模块\信号发生器\Rigol\Rigol DSG 30605B\SignalGenerator.cs" />
     <Compile Include="通讯模块\usb通讯模块\板卡\DAQmxCounterOutChannel\PulseBlaster.cs" />

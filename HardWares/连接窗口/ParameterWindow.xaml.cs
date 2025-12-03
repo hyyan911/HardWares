@@ -251,8 +251,10 @@ namespace HardWares.Windows
             #endregion
             Thread.Sleep(100);
             #region 读取参数
-            foreach (var item in paramsPanel.Children)
+            bool isfirst = false;
+            for (int i = 0; i < paramsPanel.Children.Count; ++i)
             {
+                var item = paramsPanel.Children[i];
                 Grid g = item as Grid;
                 Parameter p = g.Tag as Parameter;
                 if (p.IsReadOnly) continue;
@@ -284,6 +286,11 @@ namespace HardWares.Windows
                 catch (Exception exc)
                 {
                     result += "参数" + p.Description + "未成功读取" + "\n";
+                }
+                if (!isfirst)
+                {
+                    --i;
+                    isfirst = true;
                 }
             }
             #endregion

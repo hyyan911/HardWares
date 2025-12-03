@@ -34,6 +34,7 @@ using NationalInstruments.DAQmx;
 using HardWares.端口基类部分.设备信息;
 using HardWares.Lock_In;
 using HardWares.继电器模块;
+using HardWares.电源;
 
 namespace 测试项目
 {
@@ -76,7 +77,7 @@ namespace 测试项目
             count.Content = bp.ToString() + "," + bv.ToString();
         }
 
-        SwitchBase apd = null;
+        PowerBase apd = null;
 
         SignalGeneratorBase pb = null;
 
@@ -87,18 +88,16 @@ namespace 测试项目
         /// <param name="e"></param>
         private void ConnectAPD(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(SwitchBase));
+            ConnectWindow win = new ConnectWindow(typeof(PowerBase));
             win.ShowDialog(this);
-            apd = win.ConnectedDevice as SwitchBase;
-            //ParameterWindow w = new ParameterWindow(apd.Stages[0], this);
-            //w.ShowDialog();
+            apd = win.ConnectedDevice as PowerBase;
+            ParameterWindow w = new ParameterWindow(apd.Channels[0], this);
+            w.ShowDialog();
         }
 
         Thread t = null;
         private void RightMove(object sender, RoutedEventArgs e)
         {
-            apd.IsOpen = !apd.IsOpen;
-            count.Content = apd.IsOpen.ToString();
         }
 
         private void LeftMove(object sender, RoutedEventArgs e)
