@@ -464,7 +464,7 @@ namespace HardWares.端口基类
         /// 连接
         /// </summary>
         /// <returns></returns>
-        internal virtual bool Connect(DeviceInfoBase info, out Exception exc, bool reconnect = false, bool PortArrangerAvailable = true)
+        internal virtual bool Connect(DeviceInfoBase info, out Exception exc, bool reconnect = false, bool PortArrangerAvailable = true, bool createtestthread = false)
         {
             PortType = info.PortType;
             try
@@ -506,7 +506,8 @@ namespace HardWares.端口基类
                 {
                     Internal_Is_Connected = false;
                     ConnectedAction();
-                    CreateTestThread();
+                    if (createtestthread)
+                        CreateTestThread();
                     ProductName = info.DeviceName;
                     //添加设备到已连接列表
                     DeviceInfos.Add(new KeyValuePair<DeviceInfoBase, PortObject>(info.Copy(), this));

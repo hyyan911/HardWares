@@ -144,10 +144,11 @@ namespace HardWares.端口基类部分.PortHelper
             device.QueryState = false;
             device.PortArranger.AddMessage(command);
             int time = 0;
+            Thread.Sleep(100);
             while (device.QueryState == false && time < timeout)
             {
-                Thread.Sleep(30);
-                time += 30;
+                Thread.Sleep(100);
+                time += 100;
             }
 
             if (device.QueryReturnedData == null) return new List<string>();

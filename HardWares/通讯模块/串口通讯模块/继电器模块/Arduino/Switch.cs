@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HardWares.继电器模块.Arduino
@@ -24,13 +25,15 @@ namespace HardWares.继电器模块.Arduino
         {
             return COMHelper.ScanSerialCOMs(new Func<SerialPort, string>((ser) =>
               {
+                  Thread.Sleep(1500);
                   ser.Write("TEST" + "\n");
-                  System.Threading.Thread.Sleep(200);
+                  System.Threading.Thread.Sleep(1500);
                   string result = ser.ReadExisting();
-                  if (result.Contains("Arduino"))
-                  {
-                      return result.Replace("\n", "");
-                  }
+                  if (result != "")
+                      if (result.Contains("Arduino"))
+                      {
+                          return result.Replace("\n", "");
+                      }
                   return "";
               }));
         }
@@ -75,7 +78,8 @@ namespace HardWares.继电器模块.Arduino
 
         bool COMInternalInterface.TestCOMAction()
         {
-            var result = COMHelper.ThreadUnsafeQuery(this, "TEST\n", 500);
+            Thread.Sleep(3000);
+            var result = COMHelper.ThreadUnsafeQuery(this, "TEST\n", 2000);
             if (result[0].Contains("Arduino Switch"))
             {
                 return true;
