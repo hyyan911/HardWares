@@ -59,6 +59,14 @@ namespace HardWares.电源
             {
                 SelectChannel();
                 ParentDevice.AddMessage(":" + SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "VOLT"));
+                ParentDevice.AddMessage(":" + SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { value.ToString() }, "VOLT"));
+                //等待电压设置完成
+                int t = 0;
+                while (Math.Abs(MeasuredVoltage - value) > 0.1 && t < 5000)
+                {
+                    t += 50;
+                    Thread.Sleep(50);
+                }
             }
         }
 
