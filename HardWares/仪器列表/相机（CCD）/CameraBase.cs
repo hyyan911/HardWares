@@ -51,7 +51,7 @@ namespace HardWares.相机_CCD_
 
             if (EnhancedContrastAlgorithm)
             {
-                mat = ApplySelectiveContrastEnhancement(mat, ContrastTreshold);
+                mat = ApplySelectiveContrastEnhancement(mat,ContrastTreshold);
             }
 
             return BitmapConverter.ToBitmap(mat);
@@ -312,7 +312,6 @@ namespace HardWares.相机_CCD_
         /// </summary>
         public abstract int CameraPixelHeightCount { get; }
 
-
         #region 图像处理参数
         /// <summary>
         /// 对比度
@@ -328,7 +327,6 @@ namespace HardWares.相机_CCD_
         /// 饱和度
         /// </summary>
         public double Saturation { get; set; } = 0;
-
 
 
         /// <summary>
