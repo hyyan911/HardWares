@@ -107,6 +107,10 @@ namespace HardWares.相机_CCD_.Thorlabs_DCx
             result.Add(new Parameter("Lightness", "亮度", Lightness.GetType(), this, true));
             result.Add(new Parameter("Saturation", "饱和度", Saturation.GetType(), this, true) { IsReadOnly = false });
             result.Add(new Parameter("Contrast", "对比度", Contrast.GetType(), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("EnhancedContrastAlgorithm", "选择性局部对比度增强算法", EnhancedContrastAlgorithm.GetType(), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("EnhancedContrastIntensity", "增强系数", EnhancedContrastIntensity.GetType(), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("NoiseFilterIntensity", "去噪强度系数", NoiseFilterIntensity.GetType(), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("ContrastTreshold", "对比度增强阈值", ContrastTreshold.GetType(), this, true) { IsReadOnly = false });
             return result;
         }
 
