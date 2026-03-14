@@ -33,7 +33,7 @@ namespace HardWares.仪器列表.电动翻转座
         {
             try
             {
-                (Instance as FilterFlipper).StopPolling();
+                nE(Instance as FilterFlipper).StopPolling();
                 (Instance as FilterFlipper).Disconnect(true);
             }
             catch (Exception) { }
