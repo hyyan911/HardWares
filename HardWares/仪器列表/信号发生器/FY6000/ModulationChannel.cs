@@ -27,6 +27,7 @@ namespace HardWares.射频源.FY6000
             res.Add(new Parameter("AmplitudeLimit", "幅度上限（V）", AmplitudeLimit.GetType(), this, true));
             res.Add(new Parameter("Amplitude", "幅度（V）", Amplitude.GetType(), this, true));
             res.Add(new Parameter("Offset", "输出偏置（V）", Offset.GetType(), this, true));
+            res.Add(new Parameter("Duty", "占空比（仅方波时有效）", Duty.GetType(), this, true));
             res.Add(new Parameter("WaveShape", "输出波形", WaveShape.GetType(), this, true));
             res.Add(new Parameter("TriggerPulseCount", "输出脉冲数", TriggerPulseCount.GetType(), this, true));
             res.Add(new Parameter("IsOutOpen", "输出状态", IsOutOpen.GetType(), this, true));
@@ -110,7 +111,7 @@ namespace HardWares.射频源.FY6000
         /// <summary>
         /// 输出上限(V)
         /// </summary>
-        public double AmplitudeLimit { get; set; } = 5.2;
+        public double AmplitudeLimit { get; set; } = 3;
 
         /// <summary>
         /// 射频源输出状态
@@ -198,7 +199,7 @@ namespace HardWares.射频源.FY6000
                 var dev = ParentDevice as SignalGenerator;
                 string value = ParentDevice.ThreadSafeQuery(dev.ProcessCmd("R", ChannelName, "W", ""), 2000);
                 if (value == "0") return OutputShapes.Sine;
-                if (value == "1") return OutputShapes.Square;
+                if (value == "2") return OutputShapes.Square;
                 if (value == "38") return OutputShapes.NarrowNegativePulse;
                 else { return OutputShapes.Unknown; }
             }
@@ -207,7 +208,7 @@ namespace HardWares.射频源.FY6000
                 if (value == OutputShapes.Unknown) return;
                 string v = "0";
                 if (value == OutputShapes.Sine) v = "0";
-                if (value == OutputShapes.Square) v = "1";
+                if (value == OutputShapes.Square) v = "2";
                 if (value == OutputShapes.NarrowNegativePulse) v = "38";
                 var dev = ParentDevice as SignalGenerator;
                 bool trigger = dev.IsInTriggerMode;
@@ -216,5 +217,32 @@ namespace HardWares.射频源.FY6000
             }
         }
         #endregion
+
+        /// <summary>
+        /// 占空比
+        /// </summary>
+        public double Duty
+        {
+            get
+            {
+                var dev = ParentDevice as SignalGenerator;
+                string value = ParentDevice.ThreadSafeQuery(dev.ProcessCmd("R", ChannelName, "D", ""), 2000);
+                try
+                {
+                    return double.Parse(value) / 1000.0 / 100.0;
+                }
+                catch (Exception)
+                {
+                    return double.NaN;
+                }
+            }
+            set
+            {
+                var dev = ParentDevice as SignalGenerator;
+                bool trigger = dev.IsInTriggerMode;
+                ParentDevice.ThreadSafeQuery(dev.ProcessCmd("W", ChannelName, "D", Math.Round(value * 100.0, 1).ToString()), 1000);
+                dev.IsInTriggerMode = trigger;
+            }
+        }
     }
 }

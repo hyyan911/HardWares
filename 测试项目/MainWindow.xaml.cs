@@ -77,7 +77,7 @@ namespace 测试项目
             count.Content = bp.ToString() + "," + bv.ToString();
         }
 
-        PowerBase apd = null;
+        SignalGeneratorBase apd = null;
 
         SignalGeneratorBase pb = null;
 
@@ -88,9 +88,9 @@ namespace 测试项目
         /// <param name="e"></param>
         private void ConnectAPD(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(PowerBase));
+            ConnectWindow win = new ConnectWindow(typeof(SignalGeneratorBase));
             win.ShowDialog(this);
-            apd = win.ConnectedDevice as PowerBase;
+            apd = win.ConnectedDevice as SignalGeneratorBase;
             ParameterWindow w = new ParameterWindow(apd.Channels[0], this);
             w.ShowDialog();
         }
