@@ -15,11 +15,6 @@ namespace HardWares.电源
     public abstract class PowerChannelBase : PortElement
     {
         /// <summary>
-        /// 通道名
-        /// </summary>
-        public abstract string ChannelName { get; set; }
-
-        /// <summary>
         /// 电压(V)
         /// </summary>
         public abstract double Voltage { get; set; }

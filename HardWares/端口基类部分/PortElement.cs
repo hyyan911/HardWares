@@ -19,6 +19,11 @@ namespace HardWares
         public abstract PortObject ParentDevice { get; internal set; }
 
         /// <summary>
+        /// 通道名
+        /// </summary>
+        public virtual string ChannelName { get; internal set; } = "";
+
+        /// <summary>
         /// 获取可用参数
         /// </summary>
         /// <returns></returns>

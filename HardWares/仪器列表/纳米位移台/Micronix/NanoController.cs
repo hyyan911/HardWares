@@ -33,11 +33,6 @@ namespace HardWares.纳米位移台.Micronix
 
         internal string[] DevNames = new string[] { "MMC-110" };
 
-        /// <summary>
-        /// 位移台列表
-        /// </summary>
-        public override List<StageBase> Stages { get; set; } = new List<StageBase>();
-
 
         internal override Encoding GetCoder()
         {

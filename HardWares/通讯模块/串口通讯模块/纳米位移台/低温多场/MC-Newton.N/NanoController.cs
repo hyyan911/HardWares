@@ -88,7 +88,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             {
                 NanoStage stage = new NanoStage("1", this);
                 stage.target = stage.Position;
-                Stages.Add(stage);
+                Channels.Add(stage);
                 AddMessage("[1-ServOn]");
             }
             Thread.Sleep(100);
@@ -97,7 +97,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             {
                 NanoStage stage = new NanoStage("2", this);
                 stage.target = stage.Position;
-                Stages.Add(stage);
+                Channels.Add(stage);
                 AddMessage("[2-ServOn]");
             }
             return true;

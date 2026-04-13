@@ -13,11 +13,7 @@ namespace HardWares.电源
     /// <summary>
     /// 电源基类
     /// </summary>
-    public abstract class PowerBase : PortObject
+    public abstract class PowerBase : ElementPortObject
     {
-        /// <summary>
-        /// 通道列表
-        /// </summary>
-        public List<PowerChannelBase> Channels { get; set; } = new List<PowerChannelBase>();
     }
 }

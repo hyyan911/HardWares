@@ -88,11 +88,11 @@ namespace 测试项目
         /// <param name="e"></param>
         private void ConnectAPD(object sender, RoutedEventArgs e)
         {
-            ConnectWindow win = new ConnectWindow(typeof(SignalGeneratorBase));
+            ConnectWindow win = new ConnectWindow(typeof(CameraBase));
             win.ShowDialog(this);
-            apd = win.ConnectedDevice as SignalGeneratorBase;
-            ParameterWindow w = new ParameterWindow(apd.Channels[0], this);
-            w.ShowDialog();
+            //apd = win.ConnectedDevice as SignalGeneratorBase;
+            //ParameterWindow w = new ParameterWindow(apd.Channels[0], this);
+            //w.ShowDialog();
         }
 
         Thread t = null;
@@ -107,6 +107,8 @@ namespace 测试项目
         int channel = 5;
         private void ConnectPB(object sender, RoutedEventArgs e)
         {
+            DeviceFindWindow w = new DeviceFindWindow();
+            var result = w.ShowDialog();
         }
     }
 }

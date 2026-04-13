@@ -11,12 +11,7 @@ namespace HardWares.纳米位移台
     /// <summary>
     /// 纳米位移台
     /// </summary>
-    public abstract class NanoControllerBase : PortObject
+    public abstract class NanoControllerBase : ElementPortObject
     {
-
-        /// <summary>
-        /// 位移台列表
-        /// </summary>
-        public abstract List<StageBase> Stages { get; set; }
     }
 }

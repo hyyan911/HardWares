@@ -29,13 +29,13 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// <summary>
         /// 轴序号
         /// </summary>
-        public override string AxisName
+        public override string ChannelName
         {
             get
             {
                 return name;
             }
-            set
+            internal set
             {
                 return;
             }
@@ -62,7 +62,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             get
             {
                 NanoController c = ParentDevice as NanoController;
-                string result = c.ThreadSafeQuery("[" + AxisName + "-CurPosi?]", 500);
+                string result = c.ThreadSafeQuery("[" + ChannelName + "-CurPosi?]", 500);
                 if (result == "") return double.NaN;
                 return double.Parse(result);
             }
@@ -93,7 +93,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             set
             {
                 NanoController c = ParentDevice as NanoController;
-                string result = c.ThreadSafeQuery("[" + AxisName + "-SetSpeed:" + value.ToString() + "]", 500);
+                string result = c.ThreadSafeQuery("[" + ChannelName + "-SetSpeed:" + value.ToString() + "]", 500);
                 if (result == "") return;
                 velocity = value;
             }
@@ -108,9 +108,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         {
             target = targetvalue;
             NanoController c = ParentDevice as NanoController;
-            string result = c.ThreadSafeQuery("[" + AxisName + "-SetTarg:" + Math.Round(target, 6).ToString() + "]", 500);
+            string result = c.ThreadSafeQuery("[" + ChannelName + "-SetTarg:" + Math.Round(target, 6).ToString() + "]", 500);
             if (result == "") return;
-            c.AddMessage("[" + AxisName + "-MovTarg]");
+            c.AddMessage("[" + ChannelName + "-MovTarg]");
         }
         /// <summary>
         /// 移动到指定位置
@@ -126,9 +126,9 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
             {
                 if (det < 0.1)
                 {
-                    (ParentDevice as NanoController).AddMessage("[" + AxisName + "-MovTarg]");
+                    (ParentDevice as NanoController).AddMessage("[" + ChannelName + "-MovTarg]");
                     Thread.Sleep(100);
-                    (ParentDevice as NanoController).AddMessage("[" + AxisName + "-MovStop]");
+                    (ParentDevice as NanoController).AddMessage("[" + ChannelName + "-MovStop]");
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
                 time += 100;
                 det = Math.Abs(Position - targetvalue);
             }
-            (ParentDevice as NanoController).AddMessage("[" + AxisName + "-MovStop]");
+            (ParentDevice as NanoController).AddMessage("[" + ChannelName + "-MovStop]");
         }
 
 
@@ -166,7 +166,7 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         {
             List<Parameter> result = new List<Parameter>();
 
-            result.Add(new Parameter("AxisName", "轴名称", AxisName.GetType(), this, true) { IsReadOnly = true });
+            result.Add(new Parameter("ChannelName", "轴名称", ChannelName.GetType(), this, true) { IsReadOnly = true });
 
             result.Add(new Parameter("Position", "当前位置", Position.GetType(), this, true) { IsReadOnly = true });
 

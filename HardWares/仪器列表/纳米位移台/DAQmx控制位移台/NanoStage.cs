@@ -28,10 +28,6 @@ namespace HardWares.纳米位移台.DAQmxController
         /// 
         /// </summary>
         public override PortObject ParentDevice { get; internal set; } = null;
-        /// <summary>
-        /// 轴序号
-        /// </summary>
-        public override string AxisName { get; set; } = "";
 
         /// <summary>
         /// 
@@ -40,9 +36,9 @@ namespace HardWares.纳米位移台.DAQmxController
         /// <param name="parent"></param>
         public NanoStage(string axisName, NanoController parent)
         {
-            AxisName = axisName;
+            ChannelName = axisName;
             ParentDevice = parent;
-            var filename = "DAQmx LocationLog " + AxisName + ".userdat";
+            var filename = "DAQmx LocationLog " + ChannelName + ".userdat";
             foreach (var item in Path.GetInvalidPathChars())
             {
                 filename = filename.Replace(item.ToString(), "");

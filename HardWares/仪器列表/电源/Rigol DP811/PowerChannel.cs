@@ -39,7 +39,10 @@ namespace HardWares.电源
         }
 
         #region 通道属性
-        public override string ChannelName { get; set; } = "电源通道";
+        /// <summary>
+        /// 通道名称
+        /// </summary>
+        public override string ChannelName { get;internal set; } = "";
         /// <summary>
         /// 电压设置值
         /// </summary>

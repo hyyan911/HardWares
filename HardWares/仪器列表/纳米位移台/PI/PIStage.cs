@@ -28,13 +28,13 @@ namespace HardWares.纳米位移台.PI
         /// <summary>
         /// 轴序号
         /// </summary>
-        public override string AxisName
+        public override string ChannelName
         {
             get
             {
                 return name;
             }
-            set
+            internal set
             {
                 PIController c = ParentDevice as PIController;
                 c.Send(c.ProcessCmd("SAI", name, value));
@@ -69,7 +69,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("POS?", AxisName, ""), 1000))[0], out double position))
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("POS?", ChannelName, ""), 1000))[0], out double position))
                 {
                     return double.NaN;
                 }
@@ -85,7 +85,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("MOV?", AxisName, ""), 1000))[0], out double position))
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("MOV?", ChannelName, ""), 1000))[0], out double position))
                 {
                     return double.NaN;
                 }
@@ -101,7 +101,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("EAX?", AxisName, ""), 1000))[0];
+                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("EAX?", ChannelName, ""), 1000))[0];
                 if (result.Trim() == "0" || result.Trim() == "")
                 {
                     return false;
@@ -111,7 +111,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("EAX", AxisName, value ? "1" : "0"));
+                c.Send(c.ProcessCmd("EAX", ChannelName, value ? "1" : "0"));
             }
         }
 
@@ -123,7 +123,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("TMN?", AxisName, ""), 1000))[0], out double position))
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("TMN?", ChannelName, ""), 1000))[0], out double position))
                 {
                     return double.NaN;
                 }
@@ -132,7 +132,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("TMN", AxisName, value.ToString()));
+                c.Send(c.ProcessCmd("TMN", ChannelName, value.ToString()));
             }
         }
 
@@ -144,7 +144,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("TMX?", AxisName, ""), 1000))[0], out double position))
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("TMX?", ChannelName, ""), 1000))[0], out double position))
                 {
                     return double.NaN;
                 }
@@ -153,7 +153,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("TMX", AxisName, value.ToString()));
+                c.Send(c.ProcessCmd("TMX", ChannelName, value.ToString()));
             }
         }
 
@@ -165,7 +165,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("CMN?", AxisName, ""), 1000))[0], out double position))
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("CMN?", ChannelName, ""), 1000))[0], out double position))
                 {
                     return double.NaN;
                 }
@@ -174,7 +174,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("CMN", AxisName, value.ToString()));
+                c.Send(c.ProcessCmd("CMN", ChannelName, value.ToString()));
             }
         }
 
@@ -186,7 +186,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("CMX?", AxisName, ""), 1000))[0], out double position))
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("CMX?", ChannelName, ""), 1000))[0], out double position))
                 {
                     return double.NaN;
                 }
@@ -195,7 +195,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("CMX", AxisName, value.ToString()));
+                c.Send(c.ProcessCmd("CMX", ChannelName, value.ToString()));
             }
         }
 
@@ -207,7 +207,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("#5", AxisName, ""), 1000))[0];
+                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("#5", ChannelName, ""), 1000))[0];
                 if (result.Trim() == "0" || result.Trim() == "")
                 {
                     return false;
@@ -224,7 +224,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("SVO?", AxisName, ""), 1000))[0];
+                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("SVO?", ChannelName, ""), 1000))[0];
                 if (result.Trim() == "0" || result.Trim() == "")
                 {
                     return false;
@@ -234,7 +234,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("SVO", AxisName, value ? "1" : "0"));
+                c.Send(c.ProcessCmd("SVO", ChannelName, value ? "1" : "0"));
             }
         }
 
@@ -246,7 +246,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("RON?", AxisName, ""), 1000))[0];
+                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("RON?", ChannelName, ""), 1000))[0];
                 if (result.Trim() == "0")
                 {
                     return ReferenceModes.Custom;
@@ -260,7 +260,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("RON", AxisName, value == ReferenceModes.Custom ? "0" : "1"));
+                c.Send(c.ProcessCmd("RON", ChannelName, value == ReferenceModes.Custom ? "0" : "1"));
             }
         }
 
@@ -272,7 +272,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("FRF?", AxisName, ""), 1000))[0];
+                string result = c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("FRF?", ChannelName, ""), 1000))[0];
                 if (result.Trim() == "0" || result.Trim() == "")
                 {
                     return false;
@@ -289,7 +289,7 @@ namespace HardWares.纳米位移台.PI
             get
             {
                 PIController c = ParentDevice as PIController;
-                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("VEL?", AxisName, ""), 1000))[0], out double position))
+                if (!double.TryParse(c.ProcessQueryResult(c.ThreadSafeQuery(c.ProcessCmd("VEL?", ChannelName, ""), 1000))[0], out double position))
                 {
                     return double.NaN;
                 }
@@ -298,7 +298,7 @@ namespace HardWares.纳米位移台.PI
             set
             {
                 PIController c = ParentDevice as PIController;
-                c.Send(c.ProcessCmd("VEL", AxisName, value.ToString()));
+                c.Send(c.ProcessCmd("VEL", ChannelName, value.ToString()));
             }
         }
 
@@ -316,7 +316,7 @@ namespace HardWares.纳米位移台.PI
         internal override void InnerMoveTo(double targetvalue)
         {
             PIController c = ParentDevice as PIController;
-            c.Send(c.ProcessCmd("MOV", AxisName, targetvalue.ToString()));
+            c.Send(c.ProcessCmd("MOV", ChannelName, targetvalue.ToString()));
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace HardWares.纳米位移台.PI
                 exc = new Exception("只有当ReferenceMode为True时才能使用此方法");
                 return;
             }
-            c.Send(c.ProcessCmd("POS", AxisName, refValue.ToString()));
+            c.Send(c.ProcessCmd("POS", ChannelName, refValue.ToString()));
             exc = null;
         }
 
@@ -374,7 +374,7 @@ namespace HardWares.纳米位移台.PI
         public bool Reference(int timeout)
         {
             PIController c = ParentDevice as PIController;
-            c.Send(c.ProcessCmd("FRF", AxisName, ""));
+            c.Send(c.ProcessCmd("FRF", ChannelName, ""));
             int time = 0;
             while (c.IsControllerReady() == false && time < timeout)
             {
@@ -398,7 +398,7 @@ namespace HardWares.纳米位移台.PI
             List<Parameter> result = new List<Parameter>();
 
             PIController c = ParentDevice as PIController;
-            Parameter p = c.CreateParameterRef("SAI", "SAI?", "AxisName", st.AxisName.GetType(), st);
+            Parameter p = c.CreateParameterRef("SAI", "SAI?", "ChannelName", st.ChannelName.GetType(), st);
             if (p != null)
             {
                 p.Description = "轴名称";

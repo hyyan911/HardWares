@@ -56,11 +56,11 @@ namespace HardWares.纳米位移台.PI
             IsGCS2 = !IsGCS3();
             //获取轴列表
             var retun = ProcessQueryResult(PIAPI2.GetAxisNames((int)Instance));
-            Stages.Clear();
+            Channels.Clear();
             foreach (var item in retun)
             {
                 //添加位移台
-                Stages.Add(new PIStage(item.Trim(), this));
+                Channels.Add(new PIStage(item.Trim(), this));
             }
         }
 

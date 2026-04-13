@@ -30,12 +30,6 @@ namespace HardWares.纳米位移台.瓴控旋转台
         /// </summary>
         public override string ProductIdentifier { get; internal set; } = "LingKong MS Rotator";
 
-        /// <summary>
-        /// 位移台列表
-        /// </summary>
-        public override List<StageBase> Stages { get; set; } = new List<StageBase>();
-
-
         internal override Encoding GetCoder()
         {
             return Encoding.UTF8;

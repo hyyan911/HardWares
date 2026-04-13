@@ -29,13 +29,13 @@ namespace HardWares.纳米位移台.Micronix
         /// <summary>
         /// 轴序号
         /// </summary>
-        public override string AxisName
+        public override string ChannelName
         {
             get
             {
                 return name;
             }
-            set
+            internal set
             {
                 return;
             }
@@ -144,8 +144,8 @@ namespace HardWares.纳米位移台.Micronix
 
         private string GetAxisInd()
         {
-            int ind = AxisName.LastIndexOf('_');
-            return AxisName.Substring(ind + 1, AxisName.Length - ind - 1);
+            int ind = ChannelName.LastIndexOf('_');
+            return ChannelName.Substring(ind + 1, ChannelName.Length - ind - 1);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace HardWares.纳米位移台.Micronix
         {
             List<Parameter> result = new List<Parameter>();
 
-            result.Add(new Parameter("AxisName", "轴名称", AxisName.GetType(), this, true) { IsReadOnly = true });
+            result.Add(new Parameter("ChannelName", "轴名称", ChannelName.GetType(), this, true) { IsReadOnly = true });
 
             result.Add(new Parameter("Position", "当前位置", Position.GetType(), this, true) { IsReadOnly = true });
 

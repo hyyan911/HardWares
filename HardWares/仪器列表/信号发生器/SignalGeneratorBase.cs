@@ -10,11 +10,7 @@ namespace HardWares.射频源
     /// <summary>
     /// 
     /// </summary>
-    public abstract class SignalGeneratorBase : PortObject
+    public abstract class SignalGeneratorBase : ElementPortObject
     {
-        /// <summary>
-        /// 通道列表
-        /// </summary>
-        public List<SignalChannelBase> Channels { get; set; } = new List<SignalChannelBase>();
     }
 }

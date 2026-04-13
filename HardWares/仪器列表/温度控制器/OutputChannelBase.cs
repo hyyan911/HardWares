@@ -23,15 +23,9 @@ namespace HardWares.温度控制器
         public OutputChannelBase(string name, TemperatureControllerBase parent, string unit)
         {
             ParentDevice = parent;
-            Name = name;
+            ChannelName = name;
             Unit = unit;
         }
-
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name { get; internal set; }
-
 
         /// <summary>
         /// 单位

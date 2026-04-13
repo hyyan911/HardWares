@@ -107,9 +107,9 @@ namespace HardWares.纳米位移台.Micronix
                 }
                 NanoStage stage = new NanoStage(result + "_" + i.ToString(), this);
                 stage.target = stage.Position;
-                Stages.Add(stage);
+                Channels.Add(stage);
             }
-            if (Stages.Count == 0) return false;
+            if (Channels.Count == 0) return false;
             return true;
         }
     }

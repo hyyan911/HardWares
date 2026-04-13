@@ -61,17 +61,17 @@ namespace HardWares.温度控制器.SRS_PTC10
             {
                 if (units[i].Trim() == "W" || units[i].Trim() == "mW")
                 {
-                    OutputChannels.Add(new OutputChannel(names[i].Trim(), this, units[i].Trim()));
+                    Channels.Add(new OutputChannel(names[i].Trim(), this, units[i].Trim()));
                 }
                 else
                 {
                     if (units[i].Trim() == "ê")
                     {
-                        SensorChannels.Add(new SensorChannel(names[i].Trim(), this, "Ω"));
+                        Channels.Add(new SensorChannel(names[i].Trim(), this, "Ω"));
                     }
                     else
                     {
-                        SensorChannels.Add(new SensorChannel(names[i].Trim(), this, units[i].Trim()));
+                        Channels.Add(new SensorChannel(names[i].Trim(), this, units[i].Trim()));
                     }
                 }
             }

@@ -109,7 +109,7 @@ namespace HardWares.纳米位移台.瓴控旋转台
                 ProductName = "LingKong MS " + driver + " " + name;
                 NanoStage stage = new NanoStage("0", this);
                 stage.target = stage.Position;
-                Stages.Add(stage);
+                Channels.Add(stage);
                 return true;
             }
             return false;

@@ -115,11 +115,11 @@ namespace HardWares.纳米位移台.PI
             {
                 unit = ProcessQueryResult(ThreadSafeQuery(ProcessCmd("PUN?", "", ""), 300))[0];
             }
-            Stages.Clear();
+            Channels.Clear();
             foreach (var item in retun)
             {
                 //添加位移台
-                Stages.Add(new PIStage(item.Trim(), this));
+                Channels.Add(new PIStage(item.Trim(), this));
             }
         }
 

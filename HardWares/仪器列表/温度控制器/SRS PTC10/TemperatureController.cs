@@ -27,15 +27,6 @@ namespace HardWares.温度控制器.SRS_PTC10
         public override string ProductIdentifier { get; internal set; } = "SRS PTC10";
 
         #region 设备参数
-        /// <summary>
-        /// 温度传感器通道
-        /// </summary>
-        public override List<SensorChannelBase> SensorChannels { get; internal set; } = new List<SensorChannelBase>();
-
-        /// <summary>
-        /// 输出通道
-        /// </summary>
-        public override List<OutputChannelBase> OutputChannels { get; internal set; } = new List<OutputChannelBase>();
 
         /// <summary>
         /// 开关状态
@@ -164,6 +155,8 @@ namespace HardWares.温度控制器.SRS_PTC10
         public SensorChannel(string name, TemperatureController parent, string unit) : base(name, parent, unit)
         {
             ParentDevice = parent;
+            ChannelName = name;
+            Unit = unit;
         }
 
         /// <summary>
@@ -174,7 +167,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".value?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".value?", ""), 1000);
                 double value = 0;
                 if (!double.TryParse(result, out value))
                     return double.NaN;
@@ -191,7 +184,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".sensor?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".sensor?", ""), 1000);
                 if (result == "RTD")
                 {
                     return SensorType.RTD;
@@ -235,39 +228,39 @@ namespace HardWares.温度控制器.SRS_PTC10
                 TemperatureController control = ParentDevice as TemperatureController;
                 if (value == SensorType.RTD)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "RTD"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "RTD"));
                 }
                 if (value == SensorType.Thermistors)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "Thermistor"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "Thermistor"));
                 }
                 if (value == SensorType.Diode)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "Diode"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "Diode"));
                 }
                 if (value == SensorType.ROX)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "ROX"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "ROX"));
                 }
                 if (value == SensorType.Thermocouple_E)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "E"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "E"));
                 }
                 if (value == SensorType.Thermocouple_J)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "J"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "J"));
                 }
                 if (value == SensorType.Thermocouple_K)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "K"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "K"));
                 }
                 if (value == SensorType.Thermocouple_N)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "N"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "N"));
                 }
                 if (value == SensorType.Thermocouple_T)
                 {
-                    control.Send(control.ProcessCommand(Name, ".sensor", "T"));
+                    control.Send(control.ProcessCommand(ChannelName, ".sensor", "T"));
                 }
             }
         }
@@ -280,7 +273,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".cal.A?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".cal.A?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -288,7 +281,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".cal.A", DataProcess.ToDecimalString(value)));
+                control.Send(control.ProcessCommand(ChannelName, ".cal.A", DataProcess.ToDecimalString(value)));
             }
         }
         /// <summary>
@@ -300,7 +293,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".cal.B?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".cal.B?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -308,7 +301,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".cal.B", DataProcess.ToDecimalString(value)));
+                control.Send(control.ProcessCommand(ChannelName, ".cal.B", DataProcess.ToDecimalString(value)));
             }
         }
         /// <summary>
@@ -320,7 +313,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".cal.C?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".cal.C?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -328,7 +321,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".cal.C", DataProcess.ToDecimalString(value)));
+                control.Send(control.ProcessCommand(ChannelName, ".cal.C", DataProcess.ToDecimalString(value)));
             }
         }
         /// <summary>
@@ -340,7 +333,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".cal.R0?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".cal.R0?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -348,7 +341,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".cal.R0", DataProcess.ToDecimalString(value)));
+                control.Send(control.ProcessCommand(ChannelName, ".cal.R0", DataProcess.ToDecimalString(value)));
             }
         }
 
@@ -380,6 +373,8 @@ namespace HardWares.温度控制器.SRS_PTC10
         public OutputChannel(string name, TemperatureController parent, string unit) : base(name, parent, unit)
         {
             ParentDevice = parent;
+            ChannelName = name;
+            Unit = unit;
         }
 
 
@@ -392,7 +387,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".value?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".value?", ""), 1000);
                 double value = 0;
                 if (!double.TryParse(result, out value))
                     return double.NaN;
@@ -418,7 +413,6 @@ namespace HardWares.温度控制器.SRS_PTC10
             param.Add(new Parameter("PIDMode", "PID模式", typeof(PIDMode), this, true));
             param.Add(new Parameter("Power", "输出功率", typeof(double), this, false));
             param.Add(new Parameter("Ramp_T", "当前设定温度", typeof(double), this, false));
-
             return param;
         }
 
@@ -431,7 +425,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = ParentDevice.ThreadSafeQuery(control.ProcessCommand(Name, ".Low lmt?", ""), 1000);
+                string result = ParentDevice.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".Low lmt?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -439,7 +433,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".Low lmt", value.ToString()));
+                control.Send(control.ProcessCommand(ChannelName, ".Low lmt", value.ToString()));
             }
         }
 
@@ -452,7 +446,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".Hi lmt?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".Hi lmt?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -460,7 +454,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".Hi lmt", value.ToString()));
+                control.Send(control.ProcessCommand(ChannelName, ".Hi lmt", value.ToString()));
             }
         }
 
@@ -473,7 +467,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".IO type?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".IO type?", ""), 1000);
                 if (result == "Input")
                 {
                     return IOTypes.Input;
@@ -493,15 +487,15 @@ namespace HardWares.温度控制器.SRS_PTC10
                 TemperatureController control = ParentDevice as TemperatureController;
                 if (value == IOTypes.Input)
                 {
-                    control.Send(control.ProcessCommand(Name, ".IO type", "Input"));
+                    control.Send(control.ProcessCommand(ChannelName, ".IO type", "Input"));
                 }
                 if (value == IOTypes.Measure_Out)
                 {
-                    control.Send(control.ProcessCommand(Name, ".IO type", "Meas out"));
+                    control.Send(control.ProcessCommand(ChannelName, ".IO type", "Meas out"));
                 }
                 if (value == IOTypes.Set_Out)
                 {
-                    control.Send(control.ProcessCommand(Name, ".IO type", "Set out"));
+                    control.Send(control.ProcessCommand(ChannelName, ".IO type", "Set out"));
                 }
             }
         }
@@ -515,7 +509,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.P?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.P?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -523,7 +517,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".PID.P", value.ToString()));
+                control.Send(control.ProcessCommand(ChannelName, ".PID.P", value.ToString()));
             }
         }
 
@@ -536,7 +530,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.I?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.I?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -544,7 +538,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".PID.I", value.ToString()));
+                control.Send(control.ProcessCommand(ChannelName, ".PID.I", value.ToString()));
             }
         }
 
@@ -557,7 +551,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.D?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.D?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -565,7 +559,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".PID.D", value.ToString()));
+                control.Send(control.ProcessCommand(ChannelName, ".PID.D", value.ToString()));
             }
         }
 
@@ -578,7 +572,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.Setpoint?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.Setpoint?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -586,7 +580,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".PID.Setpoint", value.ToString()));
+                control.Send(control.ProcessCommand(ChannelName, ".PID.Setpoint", value.ToString()));
             }
         }
 
@@ -599,13 +593,13 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.Input?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.Input?", ""), 1000);
                 return result;
             }
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".PID.Input", value));
+                control.Send(control.ProcessCommand(ChannelName, ".PID.Input", value));
             }
         }
 
@@ -618,7 +612,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.Ramp?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.Ramp?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -626,7 +620,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             set
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                control.Send(control.ProcessCommand(Name, ".PID.Ramp", value.ToString()));
+                control.Send(control.ProcessCommand(ChannelName, ".PID.Ramp", value.ToString()));
             }
         }
 
@@ -638,7 +632,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.RampT?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.RampT?", ""), 1000);
                 double value = 0;
                 double.TryParse(result, out value);
                 return value;
@@ -654,7 +648,7 @@ namespace HardWares.温度控制器.SRS_PTC10
             get
             {
                 TemperatureController control = ParentDevice as TemperatureController;
-                string result = control.ThreadSafeQuery(control.ProcessCommand(Name, ".PID.Mode?", ""), 1000);
+                string result = control.ThreadSafeQuery(control.ProcessCommand(ChannelName, ".PID.Mode?", ""), 1000);
                 if (result == "Off")
                 {
                     return PIDMode.Off;
@@ -674,15 +668,15 @@ namespace HardWares.温度控制器.SRS_PTC10
                 TemperatureController control = ParentDevice as TemperatureController;
                 if (value == PIDMode.On)
                 {
-                    control.Send(control.ProcessCommand(Name, ".PID.Mode", "On"));
+                    control.Send(control.ProcessCommand(ChannelName, ".PID.Mode", "On"));
                 }
                 if (value == PIDMode.Off)
                 {
-                    control.Send(control.ProcessCommand(Name, ".PID.Mode", "Off"));
+                    control.Send(control.ProcessCommand(ChannelName, ".PID.Mode", "Off"));
                 }
                 if (value == PIDMode.Follow)
                 {
-                    control.Send(control.ProcessCommand(Name, ".PID.Mode", "Follow"));
+                    control.Send(control.ProcessCommand(ChannelName, ".PID.Mode", "Follow"));
                 }
             }
         }

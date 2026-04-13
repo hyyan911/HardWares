@@ -11,18 +11,8 @@ namespace HardWares.温度控制器
     /// <summary>
     /// 温度控制器基类
     /// </summary>
-    public abstract class TemperatureControllerBase : PortObject
+    public abstract class TemperatureControllerBase : ElementPortObject
     {
-        /// <summary>
-        /// 温度传感器通道
-        /// </summary>
-        public abstract List<SensorChannelBase> SensorChannels { get; internal set; }
-
-        /// <summary>
-        /// 输出通道
-        /// </summary>
-        public abstract List<OutputChannelBase> OutputChannels { get; internal set; }
-
         /// <summary>
         /// 开关状态
         /// </summary>

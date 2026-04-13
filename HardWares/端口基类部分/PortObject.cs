@@ -413,6 +413,33 @@ namespace HardWares.端口基类
         #endregion
 
 
+        #region 设备获取和判断连接状态
+        /// <summary>
+        /// 检测设备是否连接
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsDeviceConnected(PortObject dev)
+        {
+            if (dev == null) return false;
+            if (DeviceInfos.Where((x) => x.Value == dev).Count() == 0) return false;
+            return true;
+        }
+
+        /// <summary>
+        /// 寻找已连接设备,找不到返回null
+        /// </summary>
+        /// <returns></returns>
+        public static PortObject FindDevice(string productIdentifier, string productName)
+        {
+            var result = DeviceInfos.Where((x) => x.Value.ProductName == productName && x.Value.ProductIdentifier == productIdentifier);
+            if (result.Count() == 0) return null;
+            else
+            {
+                return result.ElementAt(0).Value;
+            }
+        }
+        #endregion
+
         private void CreateTestThread()
         {
             //连接测试线程
@@ -654,14 +681,14 @@ namespace HardWares.端口基类
             List<string> paramvalues = new List<string>();
 
             //如果有子设备
-            if (this is NanoControllerBase)
+            if (this is ElementPortObject)
             {
-                var stages = (this as NanoControllerBase).Stages;
-                foreach (var st in stages)
+                var channels = (this as ElementPortObject).Channels;
+                foreach (var st in channels)
                 {
                     GetParamsData(out List<string> elenames, out List<string> elevs, st.AvailableParameterNames());
-                    file.WriteStringData(st.AxisName + "@" + "ParamNames", elenames);
-                    file.WriteStringData(st.AxisName + "@" + "ParamValues", elevs);
+                    file.WriteStringData(st.ChannelName + "@" + "ParamNames", elenames);
+                    file.WriteStringData(st.ChannelName + "@" + "ParamValues", elevs);
                 }
             }
 
@@ -716,13 +743,13 @@ namespace HardWares.端口基类
                 List<string> paramvalues = file.ExtractString("ParamValues");
                 if (param.Where((x) => x.IsReadOnly == false).Count() != paramnames.Count) return;
                 SetParamsData(paramnames, paramvalues, param);
-                if (this is NanoControllerBase)
+                if (this is ElementPortObject)
                 {
-                    var stages = (this as NanoControllerBase).Stages;
+                    var stages = (this as ElementPortObject).Channels;
                     foreach (var st in stages)
                     {
-                        var pnames = file.ExtractString(st.AxisName + "@" + "ParamNames");
-                        var pvalues = file.ExtractString(st.AxisName + "@" + "ParamValues");
+                        var pnames = file.ExtractString(st.ChannelName + "@" + "ParamNames");
+                        var pvalues = file.ExtractString(st.ChannelName + "@" + "ParamValues");
                         SetParamsData(pnames, pvalues, st.AvailableParameterNames());
                     }
                 }

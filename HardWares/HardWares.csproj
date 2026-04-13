@@ -60,7 +60,7 @@
     </Reference>
     <Reference Include="Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Controls\Controls\bin\x64\Debug\Controls.dll</HintPath>
+      <HintPath>..\..\Controls\Controls\bin\x86\Debug\Controls.dll</HintPath>
     </Reference>
     <Reference Include="InTheHand.Net.Bluetooth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea38caa273134499, processorArchitecture=MSIL">
       <HintPath>..\packages\InTheHand.Net.Bluetooth.4.1.44\lib\net462\InTheHand.Net.Bluetooth.dll</HintPath>
@@ -250,6 +250,7 @@
     <Compile Include="端口基类部分\Parameter.cs" />
     <Compile Include="端口基类部分\PortDispatcher.cs" />
     <Compile Include="端口基类部分\PortElement.cs" />
+    <Compile Include="端口基类部分\ElementPortObject.cs" />
     <Compile Include="端口基类部分\PortObject.cs" />
     <Compile Include="端口基类部分\PortType.cs" />
     <Compile Include="端口基类部分\TCPIP串口\TCPIPInternalInterface.cs" />
@@ -271,6 +272,9 @@
     <Compile Include="端口基类部分\设备信息类\TCPIPDeviceInfo.cs" />
     <Compile Include="连接窗口\ConnectWindow.xaml.cs">
       <DependentUpon>ConnectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="连接窗口\DeviceFindWindow.xaml.cs">
+      <DependentUpon>DeviceFindWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="连接窗口\ParameterWindow.xaml.cs">
       <DependentUpon>ParameterWindow.xaml</DependentUpon>
@@ -358,6 +362,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="连接窗口\ConnectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="连接窗口\DeviceFindWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

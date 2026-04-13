@@ -14,12 +14,6 @@ namespace HardWares.温度控制器
     /// </summary>
     public abstract class SensorChannelBase : PortElement
     {
-
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name { get; internal set; }
-
         /// <summary>
         /// 单位
         /// </summary>
@@ -39,7 +33,7 @@ namespace HardWares.温度控制器
         public SensorChannelBase(string name, TemperatureControllerBase parent, string unit)
         {
             ParentDevice = parent;
-            Name = name;
+            ChannelName = name;
             Unit = unit;
         }
     }

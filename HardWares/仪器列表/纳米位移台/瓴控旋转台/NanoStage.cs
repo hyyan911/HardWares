@@ -29,13 +29,13 @@ namespace HardWares.纳米位移台.瓴控旋转台
         /// <summary>
         /// 轴序号
         /// </summary>
-        public override string AxisName
+        public override string ChannelName
         {
             get
             {
                 return name;
             }
-            set
+            internal set
             {
                 return;
             }
@@ -157,7 +157,7 @@ namespace HardWares.纳米位移台.瓴控旋转台
         {
             List<Parameter> result = new List<Parameter>();
 
-            result.Add(new Parameter("AxisName", "轴名称", AxisName.GetType(), this, true) { IsReadOnly = true });
+            result.Add(new Parameter("ChannelName", "轴名称", ChannelName.GetType(), this, true) { IsReadOnly = true });
 
             result.Add(new Parameter("Position", "当前角度", Position.GetType(), this, true) { IsReadOnly = true });
 

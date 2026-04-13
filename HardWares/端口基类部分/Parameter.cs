@@ -14,7 +14,7 @@ namespace HardWares.端口基类部分
         /// <summary>
         /// 参数名
         /// </summary>
-        internal string ParameterName { get; set; } = "";
+        public string ParameterName { get; internal set; } = "";
 
         /// <summary>
         /// 描述

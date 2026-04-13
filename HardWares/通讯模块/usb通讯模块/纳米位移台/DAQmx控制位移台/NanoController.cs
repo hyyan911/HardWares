@@ -43,7 +43,7 @@ namespace HardWares.纳米位移台.DAQmxController
 
         void USBInternalInterface.CloseUSBPort()
         {
-            foreach (var item in Stages)
+            foreach (var item in Channels)
             {
                 (item as NanoStage).DisposeTask();
             }
@@ -78,7 +78,7 @@ namespace HardWares.纳米位移台.DAQmxController
                 FileObject obj = FileObject.ReadFromFile(stage.LocationLogSavePath);
                 stage.target = double.Parse(obj.Descriptions.First().Value);
             }
-            Stages.Add(stage);
+            Channels.Add(stage);
             return true;
         }
 

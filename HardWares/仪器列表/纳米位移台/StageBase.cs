@@ -17,11 +17,6 @@ namespace HardWares.纳米位移台
     public abstract class StageBase : PortElement
     {
         /// <summary>
-        /// 轴名称
-        /// </summary>
-        public abstract string AxisName { get; set; }
-
-        /// <summary>
         /// 当前位置
         /// </summary>
         public abstract double Position { get; }

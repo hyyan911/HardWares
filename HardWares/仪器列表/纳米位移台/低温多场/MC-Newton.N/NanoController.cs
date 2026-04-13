@@ -30,12 +30,6 @@ namespace HardWares.纳米位移台.低温多场.MC_Newton_N
         /// </summary>
         public override string ProductIdentifier { get; internal set; } = "MC.Newton.N";
 
-        /// <summary>
-        /// 位移台列表
-        /// </summary>
-        public override List<StageBase> Stages { get; set; } = new List<StageBase>();
-
-
         internal override Encoding GetCoder()
         {
             return Encoding.UTF8;
