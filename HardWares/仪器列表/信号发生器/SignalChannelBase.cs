@@ -13,11 +13,6 @@ namespace HardWares.射频源
     public abstract class SignalChannelBase : PortElement
     {
         /// <summary>
-        /// 通道名
-        /// </summary>
-        public virtual string ChannelName { get; set; } = "";
-
-        /// <summary>
         /// 波源频率(MHz)
         /// </summary>
         public abstract double Frequency { get; set; }

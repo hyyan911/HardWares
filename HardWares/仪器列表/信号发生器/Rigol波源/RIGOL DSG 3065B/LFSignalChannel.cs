@@ -19,7 +19,7 @@ namespace HardWares.射频源.Rigol_DSG_3065B
     {
         public override PortObject ParentDevice { get; internal set; } = null;
 
-        public override string ChannelName { get; set; } = "低频输出通道";
+        public override string ChannelName { get; internal set; } = "低频输出通道";
 
         public override List<Parameter> AvailableParameterNames()
         {
