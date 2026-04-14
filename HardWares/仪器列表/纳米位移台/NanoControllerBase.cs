@@ -13,5 +13,9 @@ namespace HardWares.纳米位移台
     /// </summary>
     public abstract class NanoControllerBase : ElementPortObject
     {
+        /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "纳米位移台";
     }
 }

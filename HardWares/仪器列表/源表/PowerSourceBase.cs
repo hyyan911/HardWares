@@ -15,6 +15,11 @@ namespace HardWares.源表
     /// </summary>
     public abstract class PowerSourceBase : PortObject
     {
+        /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "源表";
+
         internal abstract double InternalTargetVoltage { get; set; }
         /// <summary>
         /// 设置电压

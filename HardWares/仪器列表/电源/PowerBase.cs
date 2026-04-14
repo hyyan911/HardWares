@@ -15,5 +15,9 @@ namespace HardWares.电源
     /// </summary>
     public abstract class PowerBase : ElementPortObject
     {
+        /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "电源";
     }
 }

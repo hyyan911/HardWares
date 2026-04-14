@@ -13,6 +13,11 @@ namespace HardWares.Lock_In
     public abstract class LockInBase : PortObject
     {
         /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "锁相放大器";
+
+        /// <summary>
         /// P值
         /// </summary>
         public abstract double P { get; set; }

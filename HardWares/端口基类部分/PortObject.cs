@@ -143,6 +143,11 @@ namespace HardWares.端口基类
         public abstract string ProductIdentifier { get; internal set; }
 
         /// <summary>
+        /// 产品种类
+        /// </summary>
+        public abstract string ProductType { get; internal set; }
+
+        /// <summary>
         /// 收发线程
         /// </summary>
         internal PortDispatcher PortArranger { get; set; } = null;

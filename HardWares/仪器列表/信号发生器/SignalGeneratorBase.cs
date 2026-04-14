@@ -12,5 +12,9 @@ namespace HardWares.射频源
     /// </summary>
     public abstract class SignalGeneratorBase : ElementPortObject
     {
+        /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "信号发生器";
     }
 }

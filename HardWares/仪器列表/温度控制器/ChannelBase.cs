@@ -9,10 +9,41 @@ using System.Threading.Tasks;
 
 namespace HardWares.温度控制器
 {
+    public abstract class TemperatureChannelBase : PortElement
+    {
+        /// <summary>
+        /// 单位
+        /// </summary>
+        public string Unit { get; internal set; }
+    }
+
+    /// <summary>
+    /// 温度传感器通道
+    /// </summary>
+    public abstract class SensorChannelBase : TemperatureChannelBase
+    {
+        /// <summary>
+        /// 温度
+        /// </summary>
+        public abstract double Temperature { get; }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="parent"></param>
+        public SensorChannelBase(string name, TemperatureControllerBase parent, string unit)
+        {
+            ParentDevice = parent;
+            ChannelName = name;
+            Unit = unit;
+        }
+    }
+
     /// <summary>
     /// 温控输出通道
     /// </summary>
-    public abstract class OutputChannelBase : PortElement
+    public abstract class OutputChannelBase : TemperatureChannelBase
     {
 
         /// <summary>
@@ -26,12 +57,6 @@ namespace HardWares.温度控制器
             ChannelName = name;
             Unit = unit;
         }
-
-        /// <summary>
-        /// 单位
-        /// </summary>
-        public string Unit { get; internal set; }
-
 
         /// <summary>
         /// 输出功率(W)

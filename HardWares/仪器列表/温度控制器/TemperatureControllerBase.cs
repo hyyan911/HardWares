@@ -14,6 +14,11 @@ namespace HardWares.温度控制器
     public abstract class TemperatureControllerBase : ElementPortObject
     {
         /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "温度控制器";
+
+        /// <summary>
         /// 开关状态
         /// </summary>
         public abstract bool OutputEnable { get; set; }

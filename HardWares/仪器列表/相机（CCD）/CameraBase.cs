@@ -15,6 +15,11 @@ namespace HardWares.相机_CCD_
 {
     public abstract class CameraBase : PortObject
     {
+        /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "相机";
+
         protected object cameralockobj = new object();
 
         WriteableBitmap source = null;

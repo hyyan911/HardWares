@@ -9,6 +9,11 @@ namespace HardWares.APD
 {
     public abstract class APDBase : PortObject
     {
+        /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "APD";
+
         #region 连续计数部分
 
         /// <summary>

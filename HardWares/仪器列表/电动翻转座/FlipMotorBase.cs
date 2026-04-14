@@ -13,6 +13,11 @@ namespace HardWares.仪器列表.电动翻转座
     public abstract class FlipMotorBase : PortObject
     {
         /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "电动翻转座";
+
+        /// <summary>
         /// 翻转座开关
         /// </summary>
         public abstract bool Switch { get; set; }

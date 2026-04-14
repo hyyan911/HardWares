@@ -13,6 +13,10 @@ namespace HardWares.板卡
     /// </summary>
     public abstract class PulseBlasterBase : PortObject
     {
+        /// <summary>
+        /// 设备种类
+        /// </summary>
+        public override string ProductType { get; internal set; } = "板卡";
 
         /// <summary>
         /// 开始输出信号
