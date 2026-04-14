@@ -131,7 +131,10 @@ namespace HardWares.温度控制器.SRS_PTC10
         /// <exception cref="NotImplementedException"></exception>
         public override List<Parameter> AvailableParameterNames()
         {
-            return new List<Parameter>();
+            return new List<Parameter>()
+            {
+                new Parameter("OutputEnable","开关状态",OutputEnable.GetType(),this,true)
+            };
         }
 
         internal override Encoding GetCoder()
