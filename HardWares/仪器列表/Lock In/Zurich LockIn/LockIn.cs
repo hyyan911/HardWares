@@ -25,6 +25,7 @@ namespace HardWares.Lock_In.Zurich_LockIn
             param.Add(new Parameter("D", "D值", D.GetType(), this, true));
             param.Add(new Parameter("SetPoint", "设定值", SetPoint.GetType(), this, true));
             param.Add(new Parameter("PIDOutput", "PID输出状态", PIDOutput.GetType(), this, true));
+            param.Add(new Parameter("SourceOutput", "驱动信号输出状态", SourceOutput.GetType(), this, true));
             return param;
         }
 
@@ -91,6 +92,23 @@ namespace HardWares.Lock_In.Zurich_LockIn
             set
             {
                 (Instance as ziDotNET).setDouble(CombinePath(DevID, "pids", "0", "setpoint"), value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool SourceOutput
+        {
+            get
+            {
+                var value = (Instance as ziDotNET).getInt(CombinePath(DevID, "sigouts", "0", "on"));
+                if (value == 0) return false;
+                return true;
+            }
+            set
+            {
+                (Instance as ziDotNET).setInt(CombinePath(DevID, "sigouts", "0", "on"), value ? 1 : 0);
             }
         }
 

@@ -25,8 +25,11 @@ namespace HardWares.源表.KEITHLEY_2450
             List<Parameter> result = new List<Parameter>();
             result.Add(new Parameter("CurrentLimit", "电流限流值", typeof(double), this, true) { IsReadOnly = false });
             result.Add(new Parameter("Output", "输出状态", typeof(bool), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("VoltageRampGap", "变电压间隔(ms)", typeof(int), this, true) { IsReadOnly = false });
+            result.Add(new Parameter("VoltageRampStep", "变电压步长", typeof(double), this, true) { IsReadOnly = false });
             result.Add(new Parameter("TargetVoltage", "设置电压", typeof(double), this, true) { IsReadOnly = false });
             return result;
+            
         }
 
         public override void ValidateParams()
@@ -165,6 +168,7 @@ namespace HardWares.源表.KEITHLEY_2450
             set
             {
                 AddMessage(SCPIGenerator.GenerateSCPICommannd(false, new bool[] { true }, new string[] { Math.Round(value, 15).ToString() }, "SOUR", "VOLT"));
+                ThreadSafeQuery(SCPIGenerator.GenerateSCPICommannd(true, new bool[] { }, new string[] { }, "MEAS", "VOLT"), 1000);
             }
         }
 

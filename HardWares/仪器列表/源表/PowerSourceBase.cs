@@ -69,16 +69,22 @@ namespace HardWares.源表
 
             if (double.IsNaN(curvolt) == true) return;
 
-            int sgn = (value - curvolt) < 0 ? -1 : 1;
-
-            double volt = curvolt;
-            while (sgn * (volt - value) < 0)
+            int count = (int)(Math.Abs(value - curvolt) / VoltageRampStep);
+            List<double> voltlist = new List<double>();
+            if (count == 0)
             {
-                InternalTargetVoltage = volt;
-                volt += sgn * VoltageRampStep;
+                voltlist = new List<double>() { value };
+            }
+            else
+            {
+                voltlist = Enumerable.Range(0, count).Select(x => curvolt + (value - curvolt) * (x + 1) / count).ToList();
+            }
+            voltlist.Add(value);
+            foreach (var item in voltlist)
+            {
+                InternalTargetVoltage = item;
                 Thread.Sleep(VoltageRampGap);
             }
-            InternalTargetVoltage = value;
         }
 
         /// <summary>
