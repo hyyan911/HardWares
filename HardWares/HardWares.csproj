@@ -76,6 +76,7 @@
     <Reference Include="MVSDK">
       <HintPath>Resources\MVSDK.dll</HintPath>
     </Reference>
+    <Reference Include="NationalInstruments.Common, Version=19.0.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298" />
     <Reference Include="NationalInstruments.DAQmx, Version=20.0.45.49152, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\NationalInstruments.DAQmx.dll</HintPath>

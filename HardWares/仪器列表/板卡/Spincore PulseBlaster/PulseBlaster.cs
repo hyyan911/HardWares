@@ -57,22 +57,22 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             (Instance as SpinAPI).Init();
             (Instance as SpinAPI).SetClock(500);
             (Instance as SpinAPI).StartProgramming(ProgramTarget.PULSE_PROGRAM);
-            Thread.Sleep(50);
+            //Thread.Sleep(50);
             AddCommand(new CommandLine(new List<int>(), 100));
             AddCommand(new EndCommandLine());
-            Thread.Sleep(150);
+            //Thread.Sleep(50);
             (Instance as SpinAPI).StopProgramming();
             (Instance as SpinAPI).Close();
 
-            (Instance as SpinAPI).Init();
-            (Instance as SpinAPI).SetClock(500);
-            (Instance as SpinAPI).StartProgramming(ProgramTarget.PULSE_PROGRAM);
-            Thread.Sleep(50);
-            AddCommand(new CommandLine(new List<int>(), 100));
-            AddCommand(new EndCommandLine());
-            Thread.Sleep(50);
-            (Instance as SpinAPI).StopProgramming();
-            (Instance as SpinAPI).Close();
+            //(Instance as SpinAPI).Init();
+            //(Instance as SpinAPI).SetClock(500);
+            //(Instance as SpinAPI).StartProgramming(ProgramTarget.PULSE_PROGRAM);
+            //Thread.Sleep(50);
+            //AddCommand(new CommandLine(new List<int>(), 100));
+            //AddCommand(new EndCommandLine());
+            //Thread.Sleep(50);
+            //(Instance as SpinAPI).StopProgramming();
+            //(Instance as SpinAPI).Close();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             (Instance as SpinAPI).Init();
             (Instance as SpinAPI).Stop();
             (Instance as SpinAPI).Start();
-            Thread.Sleep(100);
+            //Thread.Sleep(50);
             (Instance as SpinAPI).Close();
         }
 
@@ -96,13 +96,13 @@ namespace HardWares.板卡.Spincore_PulseBlaster
             (Instance as SpinAPI).Init();
             (Instance as SpinAPI).SetClock(500);
             (Instance as SpinAPI).StartProgramming(ProgramTarget.PULSE_PROGRAM);
-            Thread.Sleep(50);
+            //Thread.Sleep(20);
             foreach (var item in lines)
             {
                 AddCommand(item);
             }
             AddCommand(new EndCommandLine());
-            Thread.Sleep(50);
+            //Thread.Sleep(20);
             (Instance as SpinAPI).StopProgramming();
             (Instance as SpinAPI).Close();
         }

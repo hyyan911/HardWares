@@ -29,7 +29,7 @@ namespace HardWares.射频源.FY6000
             res.Add(new Parameter("Offset", "输出偏置（V）", Offset.GetType(), this, true));
             res.Add(new Parameter("Duty", "占空比（仅方波时有效）", Duty.GetType(), this, true));
             res.Add(new Parameter("WaveShape", "输出波形", WaveShape.GetType(), this, true));
-            res.Add(new Parameter("TriggerPulseCount", "输出脉冲数", TriggerPulseCount.GetType(), this, true));
+            //res.Add(new Parameter("TriggerPulseCount", "输出脉冲数", TriggerPulseCount.GetType(), this, true));
             res.Add(new Parameter("IsOutOpen", "输出状态", IsOutOpen.GetType(), this, true));
             return res;
         }
